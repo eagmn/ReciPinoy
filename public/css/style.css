@@ -2953,6 +2953,14 @@ transform: scale(1.1);
     }
 }
 
+@media (max-width:991px){
+
+   html{
+      font-size: 55%;
+   }
+
+}
+
 @media only screen and (max-width:950px){
    .select-box {
       width: 140px;
@@ -3251,9 +3259,29 @@ transform: scale(1.1);
 
 }
 
+@media (max-width:450px){
+
+   html{
+      font-size: 50%;
+   }
+
+   .title{
+      font-size: 3rem;
+   }
+
+   .header .flex .logo{
+      font-size: 2rem;
+   }
+
+   .products .box-container{
+      grid-template-columns: 1fr;
+   }
+
+}
+
 @media only screen and (max-width: 428px){
    html{
-      font-size: 55%;
+      font-size: 45%;
    }
    
    .urv-add-mp{
@@ -3268,7 +3296,7 @@ transform: scale(1.1);
 
 @media only screen and (max-width: 396px){ 
    html{
-      font-size: 49%;
+      font-size: 40%;
    }
    
    .select-box1 {
