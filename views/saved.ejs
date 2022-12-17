@@ -60,19 +60,15 @@
                                             <a href="/saved/<%= saved.rec_id%>"><%= saved.rec_name %></a>
                                         </div>
                                         <% if (saved.rec_rate) { %>
+                                            
                                             <div class="savedRate">
-                                                <% let savedRating = saved.rec_rate/saved.rec_rateCount; %> 
-                                                <% savedRating = Math.round(savedRating);%> 
+                                                <% let rating = saved.rec_rate/saved.rec_rateCount; %> 
+                                                <% rating = Math.round(rating)%> 
+                                                <%= rating%>
                                                 <div class="saved-rate">
-                                                    <%= savedRating%>
                                                     <span class="str"></span>
                                                 </div>
                                             </div>
-                                            <!-- <div class="rating" style="display:flex; font-size: 20px; margin-left: 15px;">
-                                                <%# let rating = saved.rec_rate/saved.rec_rateCount; %> 
-                                                <%# rating = Math.round(rating)%> 
-                                                <%#= rating%>
-                                                <span class="str"></span> -->
                                         <% } else { %>
                                                 <span class="star-rate">This recipe hasn't been rated.</span>
                                             <% } %>

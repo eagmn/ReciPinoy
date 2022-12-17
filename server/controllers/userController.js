@@ -1204,18 +1204,6 @@ res.status(500).json({ message: error.message});
 exports.userRateRec = (req, res) =>{
     try {
         session = req.session;
-        function updateSave(conn, rate, count, id) {
-            conn.query('UPDATE saved SET rec_rate = ?, rec_rateCount = ? WHERE rec_id = ?', [rate, count, id], (err, row) => {
-                if(err){
-                    console.log(err);
-                    conn.release();
-                }
-                else{
-                    return;
-                }
-            })
-            
-        }
         if(session.userId){
             pool.getConnection((err, conn)=>{
                 if(err){
@@ -1243,7 +1231,6 @@ exports.userRateRec = (req, res) =>{
                                 else{
                                     let rate = req.body.userRate;
                                     let recCount = req.body.ratingCount
-                                    console.log('count', recCount);
                                     if(recCount === null){
                                         recCount = 0;
                                     }
@@ -1255,10 +1242,33 @@ exports.userRateRec = (req, res) =>{
                                             conn.release();
                                         }
                                         else{
-                                            updateSave(conn, rate, count, id);
-                                            conn.release();
-                                            req.flash('msg', 'Recipe successfully rated!');
-                                            res.redirect('/recipes/' + id);
+                                            console.log('scount',count);
+                                            conn.query('SELECT * FROM saved WHERE rec_id =?', [id], (err, save) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    conn.release();
+                                                } else {
+                                                    let row = save[0];
+                                                    if (row) {
+                                                        conn.query('UPDATE saved SET rec_rate = ?, rec_rateCount = ? WHERE rec_id = ?', [rate, count, id], (err, row) => {
+                                                            if(err){
+                                                                console.log(err);
+                                                                conn.release();
+                                                            }
+                                                            else{
+                                                                conn.release();
+                                                                req.flash('msg', 'Recipe successfully rated!');
+                                                                res.redirect('/recipes/' + id);
+                                                            }
+                                                        })
+                                                    }
+                                                    else{
+                                                        conn.release();
+                                                        req.flash('msg', 'Recipe successfully rated!');
+                                                        res.redirect('/recipes/' + id);
+                                                    }
+                                                }
+                                            })
                                         }
                                     })
                                 }
@@ -1298,7 +1308,8 @@ exports.userSaveRec = (req, res) =>{
                 let mealTime = req.body.recMealtime;
                 let img = req.body.recImg;
                 let rate = req.body.recRate;
-                // console.log(rec_id);
+                let rateCount = req.body.recRateCount;
+                console.log(rateCount);
                 if(err){
                     console.log(err);
                     conn.release();
@@ -1322,7 +1333,7 @@ exports.userSaveRec = (req, res) =>{
                                 }
                                 else{
                                     // console.log(rec_id);
-                                    conn.query('INSERT INTO saved(user_id, rec_id, rec_name, rec_desc, rec_process, rec_categ, rec_time, rec_serving, rec_src, rec_vid, rec_cal, rec_mealTime, rec_img, rec_rate) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [userid, id, name, desc, pr, categ, time, serving, src, vid, cal, mealTime, img, rate], (err, row) => {
+                                    conn.query('INSERT INTO saved(user_id, rec_id, rec_name, rec_desc, rec_process, rec_categ, rec_time, rec_serving, rec_src, rec_vid, rec_cal, rec_mealTime, rec_img, rec_rate, rec_rateCount) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?)', [userid, id, name, desc, pr, categ, time, serving, src, vid, cal, mealTime, img, rate, rateCount], (err, row) => {
                                         if(err){
                                             console.log(err);
                                             conn.release();
