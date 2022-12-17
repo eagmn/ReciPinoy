@@ -123,7 +123,7 @@
 
                 <!-- recipe ingredients-->
                 <% let counter = 0; %> 
-                <label for="recIng" class="addRecLbl">Ingredients: </label>
+                <label for="recIng" class="addRecLbl">Ingredients </label>
                 
                 <!-- title of each column -->
                 <div class="ing-edit">
@@ -198,6 +198,7 @@
             $('#insval').val(JSON.stringify(insv));
 
         }
+
         function add() {
             console.log('add button clicked....');
             let newIngNum = parseInt($('#ingNum').val()) + 1;
@@ -207,10 +208,7 @@
             let unitInp = '<input type="text" name="ingUnitInp[]" id="ingUnitInp'+ newIngNum +' "placeholder="Unit" maxlength="10" class="s_ingredientbox">';
             let insInp = '<input type="text" name="ingInsInp[]" id="ingInsInp'+ newIngNum+' "placeholder="Instruction" maxlength="500" class="ingredientbox">';
 
-            $('#ingInps').append(quantInp);
-            $('#ingInps').append(unitInp);
-            $('#ingInps').append(ingInp);
-            $('#ingInps').append(insInp);
+            $('#ingInps').append('<div class="user-edit">' + quantInp + unitInp + ingInp + insInp + '</div>');
 
             $('#ingNum').val(newIngNum);    
         }

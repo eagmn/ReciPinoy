@@ -911,10 +911,14 @@ section{
    width: min(90%, 110rem);
 }
 
-.edit-cont{
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
+.add-recipes form{
+   margin:0 auto;
+   /* max-width: 100rem; */
+   /* background-color: var(--white); */
+   border-radius: .5rem;
+   /* box-shadow: var(--box-shadow); */
+   /* border:var(--border); */
+   padding:2rem;
 }
 
 .title-edit{
@@ -925,19 +929,14 @@ section{
    text-align: center;
 }
 
-
-.add-recipes form{
-   margin:0 auto;
-   max-width: 100rem;
-   background-color: var(--white);
-   border-radius: .5rem;
-   box-shadow: var(--box-shadow);
-   border:var(--border);
-   padding:2rem;
+.edit-cont{
+   display: flex;
+   flex-direction: row;
 }
 
 .add-recipes form .addRecLbl{
-   margin: 1.2em 1em 1em 0;
+   flex-grow: 3;
+   margin: 1.2em 0 1.2em 0;
    font-size: 1.8rem;
    font-weight: bold;
    color:var(--black);
@@ -947,6 +946,7 @@ section{
 
 /* variety of box */
 .add-recipes form .box{
+   flex-shrink: 2;
    background-color: var(--light-bg);
    border:var(--border);
    width: 80%;
@@ -974,11 +974,10 @@ section{
 .ing-edit{
    display: flex;
    flex-direction: row;
-   justify-content: space-evenly;
-   align-items: center;
 }
 
 .ingLbl{
+   flex-grow: 1;
    margin: 1.2em 0 1em;
    font-size: 1.8rem;
    font-weight: bold;
@@ -999,37 +998,54 @@ section{
 .user-edit{
    display: flex;
    flex-direction: row;
-   justify-content: space-evenly;
-   align-items: center;
+}
+
+/* for add another ingredient js */
+/* .savedEdit{
+   display: flex;
+   flex-direction: row;
+} */
+
+
+.s_ingredientbox, .ingredientbox{
+   /* flex-grow: 1; */
+   background-color: var(--light-bg);
+   border:var(--border);
+   padding: .5rem;
+   font-size: 1.7rem;
+   color:var(--black);
+   border-radius: .5rem;
+   margin: 1rem 1rem 1rem 1rem;
 }
 
 .s_ingredientbox{
-   background-color: var(--light-bg);
-   border:var(--border);
-   width: 12%;
-   padding: .5rem;
-   font-size: 1.7rem;
-   color:var(--black);
-   border-radius: .5rem;
-   margin: 1rem 0;
+   width: 30%  !important;
 }
 
 .ingredientbox{
+   width: 60% !important;
+}
+
+/* .ingredientbox, .ingbox{
+   flex-grow: 2;
    background-color: var(--light-bg);
    border:var(--border);
-   width: 25%;
    padding: .5rem;
    font-size: 1.7rem;
    color:var(--black);
    border-radius: .5rem;
-   margin: 1rem 0;
-}
+   margin: 1rem 1rem 1rem 1rem;
+} */
+
+/* .s-ingbox, .ingbox{
+   margin: 1rem 1rem 1rem 1rem !important;
+} */
 
 /* add another ingredient button */
 .plus-ing{
    display: block;
-   font-size: 1rem;
-   margin: 1rem 0 0 5rem;
+   font-size: 1.6rem;
+   margin-top: 1rem;
    padding:1rem 1.2rem;
    cursor: pointer;
    background-color: var(--green);
@@ -1766,10 +1782,6 @@ textarea{
 
 /* prev & next buttons */
 .owl-nav{
-   top:0; 
-   left:0; 
-   right:0;
-   z-index: 1000;
    font-size: 6em;
 }
 
@@ -1929,7 +1941,7 @@ textarea{
 
 .gl-name {
    float: left;
-   margin: 10px 10px 0;
+   margin: 10px 10px;
    font-size: 2.5rem;
    font-weight: normal;
    text-transform: uppercase;
@@ -1950,7 +1962,6 @@ textarea{
 .del-all{
    background-color: #fff;
    font-size: 1.7em;
-   margin-top: 0.6em;
 }
 
 .newItem{
@@ -2883,7 +2894,7 @@ hr {
 
 @media only screen and (max-width:768px){
    html{
-      font-size: 70%;
+      font-size: 60%;
    }
 
    .userMealPlan, .userSaved, .add-recipes, .recipeResults, .userRecipeView, .grocery-cont , .user-details{
@@ -3009,6 +3020,22 @@ hr {
       font-size: 1.4rem;
    }
 
+   .add-recipes form{
+      padding: 1rem;
+   }
+
+   .add-recipes form .addRecLbl{
+      font-size: 1.5rem;
+   }
+
+   .add-recipes form .box, .add-recipes form .textareabox{
+      width: 73%;
+   }
+
+   .s_ingredientbox, .ingredientbox{
+      margin: 0.5rem 0.2rem;
+   }
+
 }
 
 @media only screen and (max-width: 670px){ 
@@ -3057,7 +3084,7 @@ hr {
 @media only screen and (max-width:500px) {
    
    html{
-      font-size: 50%;
+      font-size: 55%;
    }
 
    .title{
@@ -3124,9 +3151,17 @@ hr {
       font-size: 1.2em;
    }
 
+   .add-recipes form .box, .add-recipes form .textareabox{
+      width: 68%;
+   }
+
 }
 
 @media only screen and (max-width: 428px){
+   html{
+      font-size: 55%;
+   }
+   
    .urv-add-mp{
       margin: 1em 1.9em 1em;
    }
@@ -3138,6 +3173,10 @@ hr {
 
 
 @media only screen and (max-width: 396px){ 
+   html{
+      font-size: 49%;
+   }
+   
    .select-box1 {
       font-size: 14px;
    }
