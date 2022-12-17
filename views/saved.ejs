@@ -39,39 +39,47 @@
                     <option value="oldest">oldest</option>
                 </select>-->
                     <% save.forEach( saved => { %>
-                        <div class="saved-card">
+                        <!-- <div class="saved-card"> -->
                             <div class="each-card">
-                                <div class="saved-image">
+                                <div class="img-clr">
+                                    <a href="/saved/delete/<%= saved.rec_id %>" class="btnDel"></a>
                                     <img src="/images/<%= saved.rec_img%>" alt="<%= saved.rec_name %> Image" class="saved-img">
                                 </div>
-                                <div class="details">
-                                    <div class="food-title">
-                                        <a style="font-size: 25px; text-decoration: none; margin-left: 15px;" href="/saved/<%= saved.rec_id%>"><%= saved.rec_name %></a>
+
+                                    <div class="details">
+                                        <div class="saved-hdr">
+                                            <!-- category -->
+                                            <span class="saved-categ"><%= saved.rec_categ %></span>
+                                            <!-- <div class="saved-buttons"> -->
+                                                <a href="/saved/edit/<%= saved.rec_id %>" class="btnEdit"></a>
+                                                <!-- <a href="/saved/delete/<%= saved.rec_id %>" class="btnDel"></a> -->
+                                            <!-- </div> -->
+                                        </div>
+
+                                        <div class="food-title">
+                                            <a href="/saved/<%= saved.rec_id%>"><%= saved.rec_name %></a>
+                                        </div>
+                                        <% if (saved.rec_rate) { %>
+                                            <div class="savedRate">
+                                                <% let savedRating = saved.rec_rate/saved.rec_rateCount; %> 
+                                                <% savedRating = Math.round(savedRating);%> 
+                                                <div class="saved-rate">
+                                                    <%= savedRating%>
+                                                    <span class="str"></span>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="rating" style="display:flex; font-size: 20px; margin-left: 15px;">
+                                                <%# let rating = saved.rec_rate/saved.rec_rateCount; %> 
+                                                <%# rating = Math.round(rating)%> 
+                                                <%#= rating%>
+                                                <span class="str"></span> -->
+                                        <% } else { %>
+                                                <span class="star-rate">This recipe hasn't been rated.</span>
+                                            <% } %>
+                                            <!-- </div> -->
                                     </div>
-                                    <% if (saved.rec_rate) { %>
-                                        <div class="star-rate">
-                                            <% let savedRating = saved.rec_rate/saved.rec_rateCount; %> 
-                                            <% savedRating = Math.round(savedRating);%> 
-                                            <%= savedRating%>
-                                            <span class="str"></span>
-                                        </div>
-                                        <!-- <div class="rating" style="display:flex; font-size: 20px; margin-left: 15px;">
-                                            <%# let rating = saved.rec_rate/saved.rec_rateCount; %> 
-                                            <%# rating = Math.round(rating)%> 
-                                            <%#= rating%>
-                                            <span class="str"></span> -->
-                                    <% } else { %>
-                                            <span>This recipe hasn't been rated.</span>
-                                        <% } %>
-                                        <!-- </div> -->
-                                        <div class="saved-buttons">
-                                            <button class="saved-button"><a href="/saved/<%= saved.rec_id%>" class="recview-btn">View Recipe</a></button>
-                                            <button class="saved-button"><a href="/saved/edit/<%= saved.rec_id %>" class="recedit-btn">Edit</a></button>
-                                            <button class="saved-button"><a href="/saved/delete/<%= saved.rec_id %>" class="recdelete-btn">Delete</a></button>
-                                        </div>
-                                </div>
                             </div>   
-                        </div>
+                        <!-- </div> -->
                     <% }) %>
         </form>  
     </div> 
