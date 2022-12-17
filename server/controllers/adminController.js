@@ -8,7 +8,6 @@ exports.adminPage = (req, res) => {
     try{
         session = req.session;
         if(session.adminId){
-            // res.render('adminHome', { title: 'Admin HomePage', id: session.adminName});
             res.redirect('/admin/home');
         }
         else{
@@ -27,6 +26,7 @@ exports.getAdminData = (req, res) => {
         pool.getConnection((err, conn) => {
             if(err){
                 console.log(err);
+                conn.release();
             }
             else{
                 let admin = new User.AdminLogin;
@@ -81,17 +81,20 @@ exports.adminHome = (req, res) => {
             pool.getConnection((err, conn) => {
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT COUNT(*) AS rec_count FROM rec', (err, rec) =>{
                         if(err){
                             console.log(err);
+                            conn.release();
                         }
                         else{
                             let r = rec[0].rec_count;
                             conn.query('SELECT COUNT(*) AS user_count FROM users', (err, user) =>{
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let u = user[0].user_count;
@@ -138,11 +141,13 @@ exports.adminRecipes = (req, res) => {
             pool.getConnection((err, conn) => {
                 if(err){
                     console.log('error in adminrecipes...\n');
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT * FROM rec', (err, recs) => {
                         if(err){
                             console.log('cannot fetch recipes in db...\n');
+                            conn.release();
                         }
                         else{
                             let recIngs = [];
@@ -257,6 +262,7 @@ exports.submitRecipe = (req, res) => {
                             }
                             else{
                                 let msg = req.flash('msg');
+                                conn.release();
                                 res.render('adminCreateRecipe', {title: 'Create Recipe', ing: rows, msg});
                             }
                             conn.query('INSERT INTO rec(rec_name, rec_desc, rec_process, rec_categ, rec_time, rec_serving, rec_src, rec_vid, rec_cal, rec_mealTime, rec_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [rec.getRecName(), rec.getRecDesc(), rec.getRecPrc(), rec.getRecCateg(), rec.getRecTime(), rec.getRecSrv(), rec.getRecSrc(), rec.getRecVid(), rec.getRecCal(), mString, recImgName], (err, result) => {
@@ -316,6 +322,7 @@ exports.submitRecipe = (req, res) => {
                                                 conn.query('SELECT * FROM ing WHERE ing_name = ?', [ingName], (err, rows) =>{
                                                     if(err){
                                                         console.log(err, '\n');
+                                                        conn.release();
                                                     }
                                                     else if(rows[0]){
                                                         let ii = rows[0].ing_id;
@@ -354,9 +361,11 @@ exports.submitRecipe = (req, res) => {
                                     updateIng().then(() => {
                                         console.log(newIngArr + ' before if');
                                         if(newIngArr.length > 0){
+                                            conn.release();
                                             res.render('updateIng', {ings: newIngArr});
                                         }
                                         else{
+                                            conn.release();
                                             req.flash('msg', 'New recipe added!');
                                             res.redirect('/admin/recipes'); 
                                         }
@@ -404,17 +413,21 @@ exports.updateIng = (req,res) =>{
             pool.getConnection((err, conn) =>{
                 if (err) {
                     console.log(err);
+                    conn.release();
                 } else {
                     conn.query('UPDATE `ing` SET `ing_restrict`= ?,`ing_allergy`= ? WHERE ing_name = ?', [restrict, allergy, name], (err, row) =>{
                         if (err) {
                             console.log(err);
+                            conn.release();
                         } else {
+                            conn.release();
                             console.log('ing updated!');
                         }
                     })
                 }
             })
         }
+        // conn.release();
         req.flash('msg', 'New recipe added!');
         res.redirect('/admin/recipes'); 
 
@@ -430,14 +443,17 @@ exports.adminRecipeCreate = (req, res) => {
             pool.getConnection((err, conn) => {
                 if(err){
                     console.log(err, '\n');
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT * FROM ing', (err, rows) =>{
                         if(err){
                             console.log(err, '\n');
+                            conn.release();
                         }
                         else{
                             let msg = req.flash('msg');
+                            conn.release();
                             res.render('adminCreateRecipe', {title: 'Create Recipe', ing: rows, msg});
                         }
                     })
@@ -468,8 +484,9 @@ exports.adminRecipeDelete = (req, res) => {
                     if(err){
                         // console.log('not deleted');
                         req.flash('msg', 'recipe deletion failed!')
-                        res.redirect('/admin/recipes'); 
                         conn.release();
+                        res.redirect('/admin/recipes'); 
+                        // conn.release();
                     }
                     else{
                         conn.release();
@@ -515,8 +532,9 @@ exports.adminRecipeEdit = (req, res) => {
                                     conn.release();  
                                 }
                                 else{
+                                    conn.release();
                                     res.render('adminEditRecipe', {title: 'Edit Recipe', rec: row, ing: ingRow});
-                                    conn.release();  
+                                    // conn.release();  
                                 }
                             })
                            
@@ -544,6 +562,7 @@ try {
         pool.getConnection((err, conn)=>{
             if(err){
                 console.log(err, '\n');
+                conn.release();
             }
             else{
                 let rId = req.params.id;
@@ -577,16 +596,19 @@ try {
                         }
                         else{
                             let msg = req.flash('msg');
+                            conn.release();
                             res.render('adminCreateRecipe', {title: 'Create Recipe', ing: rows, msg});
                         }
                         conn.query('UPDATE `rec` SET `rec_name`= ?,`rec_desc`= ?,`rec_process`= ?,`rec_categ`= ?,`rec_time`= ? ,`rec_serving`= ?,`rec_src`= ?,`rec_vid`= ?,`rec_cal`= ?,`rec_mealTime`= ?,`rec_image`= ? WHERE rec_id = ?', [rec.getRecName(), rec.getRecDesc(), rec.getRecPrc(), rec.getRecCateg(), rec.getRecTime(), rec.getRecSrv(), rec.getRecSrc(), rec.getRecVid(), rec.getRecCal(), mString, recImgName, rId], (err, recs) => {
                             if(err){
                                 console.log(err, '\n');
+                                conn.release();
                             }
                             else{
                                 conn.query('DELETE FROM recing WHERE recId = ?', [rId], (err, row) =>{
                                     if(err){
                                         console.log(err, '\n');
+                                        conn.release();
                                     }
                                     else{ 
 
@@ -602,6 +624,7 @@ try {
                                         conn.query('INSERT INTO ing(ing_name) VALUES (?)', [ingName],(err, ins) =>{
                                             if(err){
                                                 console.log(err, '\n');
+                                                conn.release();
                                             } else{
                                                 let ii = ins.insertId;
                                                 resolve(ii);
@@ -639,6 +662,7 @@ try {
                                     conn.query('SELECT * FROM ing WHERE ing_name = ?', [ingName], (err, rows) =>{
                                         if(err){
                                             console.log(err, '\n');
+                                            conn.release();
                                         }
                                         else if(rows[0]){
                                             let ii = rows[0].ing_id;
@@ -657,7 +681,7 @@ try {
                                         }
                                     })
                                 }
-                                
+                                conn.release();
                                 res.redirect('/admin/recipes');
                                     }
                                 })
@@ -678,12 +702,14 @@ exports.adminSearch = (req, res) => {
             pool.getConnection((err, conn) =>{
                 if(err){
                     console.log(err, '\n');
+                    conn.release();
                 }
                 else{
                     let search = req.body.searchInp;
                     conn.query('SELECT * FROM rec WHERE rec_name LIKE ?', ['%' + search + '%'], (err, result) => {
                         if(err){
                             console.log(err, '\n');
+                            conn.release();
                         }
                         else if(result){
                             let recIngs = [];
@@ -733,6 +759,7 @@ exports.adminSearch = (req, res) => {
                             getAllRecIng(result);
                         }
                         else{
+                            conn.release();
                             res.render('adminSearchResults', {title: 'Search Results', recs: result});
                         }   
                     })
@@ -757,12 +784,14 @@ exports.adminRecipeView = (req,res) => {
             pool.getConnection((err, conn) => {
                 if(err){
                     console.log('error in adminrecipes...\n');
+                    conn.release();
                 }
                 else{
                     let rId = req.params.id;
                     conn.query('SELECT * FROM rec WHERE rec_id = ?',[rId], (err, recs) => {
                         if(err){
                             console.log('cannot fetch recipes in db...\n');
+                            conn.release();
                         }
                         else{
                             let recIngs = [];
@@ -833,13 +862,16 @@ exports.adminUsers = (req, res) => {
             pool.getConnection((err, conn) => {
                 if(err){
                     console.log(err, '\n');
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT * FROM users', (err, users) =>{
                         if(err){
                             console.log(err, '\n');
+                            conn.release();
                         }
                         else{
+                            conn.release();
                             res.render('adminUsers', { title: 'Users', users: users});
                         }
                     })
@@ -880,6 +912,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_time IN (40, 45,47,48,49,50,55,56,57,58,59, "1 hr%")  ORDER BY rec_time ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         console.log(mealTime);
                         session = req.session;
@@ -897,6 +930,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_time LIKE "1 h%" ORDER BY rec_time ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         console.log(mealTime);
                         session = req.session;
@@ -914,6 +948,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_time > "1 h%" ORDER BY rec_time ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         console.log(mealTime);
                         session = req.session;
@@ -933,6 +968,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 100 AND 400 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         console.log(calorie);
                         session = req.session;
@@ -950,6 +986,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 401 AND 800 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         console.log(calorie);
                         session = req.session;
@@ -967,6 +1004,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 801 AND 1200 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         console.log(calorie);
                         session = req.session;
@@ -984,6 +1022,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_cal > 1201 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         console.log(calorie);
                         session = req.session;
@@ -1019,6 +1058,7 @@ exports.getFilter = (req,res) => {
                     conn.query('SELECT * FROM rec WHERE rec_mealTime LIKE ? OR rec_categ LIKE ? OR rec_time LIKE ?', ['%' +req.body.recDishInp + '%', req.body.recCateg, '%' +req.body.recTimeInp + '%'], (err, filter) =>{
                         if(err){
                             console.log(err);
+                            conn.release();
                         }else{
                             console.log(dishType);
                             console.log(categoryRec);
