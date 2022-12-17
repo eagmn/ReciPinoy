@@ -199,6 +199,12 @@ section{
 # User Header
 --------------------------------------------------------------*/
 
+.navbar{
+   position: relative;
+   min-height: 27px;
+   margin-bottom: 0 !important;
+}
+
 .header{
    position: sticky;
    top:0; left:0; right:0;
