@@ -37,16 +37,17 @@ exports.indexPage = (req, res) =>{
             pool.getConnection((err, conn) =>{
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT * FROM rec ORDER BY rec_id DESC LIMIT 12', (err, recs) => {
                         if(err){
                             console.log(err);
+                            conn.release();
                         }
                         else{
                             let name = session.userName;
-                            // let msg = req.flash('msg');
-                            // res.render('index', { title: 'Home Page', msg, recs: recs, id: ''});
+                            conn.release();
                             res.render('userHome', {title: name +'\'s Homepage', recs: recs, id: session.userName});
                         }
                     })
@@ -59,14 +60,18 @@ exports.indexPage = (req, res) =>{
             pool.getConnection((err, conn) =>{
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT * FROM rec ORDER BY rec_id DESC LIMIT 12', (err, recs) => {
                         if(err){
                             console.log(err);
+                            conn.release();
+
                         }
                         else{
                             let msg = req.flash('msg');
+                            conn.release();
                             res.render('index', { title: 'Home Page', msg, recs: recs, id: ''});
                         }
                     })
@@ -92,6 +97,8 @@ exports.getRegData = (req,res) => {
        
             if(err){
                 console.log(err);
+                conn.release();
+
             }
             else{
                 console.log('Connected to db in controllers...\n');
@@ -105,10 +112,12 @@ exports.getRegData = (req,res) => {
                 glPassword = user.getUserPassword();
                 let rePassword = req.body.regRePasswordInp;
                 if(user.getUserPassword().length < 8){
+                    conn.release();
                     req.flash('msg', 'Short passwords are easy to guess. Make one with at least 8 characters!');
                     res.redirect('/register'); 
                 }
                 if(user.getUserPassword() !== rePassword){
+                    conn.release();
                     req.flash('msg', 'Passwords does not match!');
                     res.redirect('/register');    
                 }
@@ -137,8 +146,10 @@ exports.getRegData = (req,res) => {
                             transporter.sendMail(mailOptions, (error, info) => {
                                 if (error) {
                                     console.log(error);
+                                    conn.release();
                                 }
 
+                                conn.release();
                                 res.redirect('/verify');
                             });
 
@@ -244,16 +255,17 @@ exports.userHome = (req,res) => {
             pool.getConnection((err, conn) =>{
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT * FROM rec ORDER BY rec_id DESC LIMIT 12', (err, recs) => {
                         if(err){
                             console.log(err);
+                            conn.release();
                         }
                         else{
                             let name = session.userName;
-                            // let msg = req.flash('msg');
-                            // res.render('index', { title: 'Home Page', msg, recs: recs, id: ''});
+                            conn.release();
                             res.render('userHome', {title: name +'\'s Homepage', recs: recs, id: session.userName});
         
                         }
@@ -283,8 +295,6 @@ exports.userVerified = async(req,res) => {
     try{  
         if (req.body.otpInp == otp) {
             console.log('Successfully Registered!\n');
-            //let user = new User();
-            //console.log(user.getUserEmail());
             bcrypt.genSalt(10, async (err, salt) => {
                 await bcrypt.hash(glPassword, salt, (err, hash) =>{
                     const hashed = hash;
@@ -342,6 +352,7 @@ exports.userSendPwdEmail = (req, res) => {
                         res.redirect('/');
                     }
                     else if(user.length == 0){
+                        conn.release();
                         req.flash('msg', 'Email not found!');
                         res.redirect('/forgot-password');
                     }
@@ -408,11 +419,13 @@ exports.userUpdatePwd = (req, res) =>{
             pool.getConnection((err, conn) =>{
                 if(err){
                     console.log(err, '\n');
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT * FROM users WHERE user_token = ?', [token], (err, user) => {
                         if(err){
                             console.log(err, '\n');
+                            conn.release();
                         }
                         else{
                             bcrypt.genSalt(10, async (err, salt) => {
@@ -448,12 +461,14 @@ exports.userSearch = (req, res) => {
         pool.getConnection((err, conn) =>{
             if(err){
                 console.log(err, '\n');
+                conn.release();
             }
             else{
                 let search = req.body.searchInp;
                 conn.query('SELECT * FROM rec WHERE rec_name LIKE ?', ['%' + search + '%'], (err, result) => {
                     if(err){
                         console.log(err, '\n');
+                        conn.release();
                     }
                     else{
                         let isSaved = false;
@@ -463,6 +478,7 @@ exports.userSearch = (req, res) => {
                             conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let getSaved = rated[0].user_Saved;
@@ -473,11 +489,13 @@ exports.userSearch = (req, res) => {
                                             console.log('isSaved');
                                         }
                                     }
+                                    conn.release();
                                     res.render('userSearchResults', {title: 'Search Results', recs: result, id: session.userName, isSaved: isSaved});
                                 }
                             }) 
                         }
                         else{
+                            conn.release();
                             res.render('userSearchResults', {title: 'Search Results', recs: result, id: '', isSaved: ''});
                         }
                         
@@ -501,6 +519,7 @@ exports.userRecipeView = (req, res) => {
                 conn.query('SELECT * FROM rec WHERE rec_id = ?',[rId], (err, recs) => {
                     if(err){
                         console.log('cannot fetch recipes in db...\n');
+                        conn.release();
                     }
                     else{
                         let regexQuant = /[+-]?\d+(\.\d+)?/g;
@@ -587,6 +606,7 @@ exports.userRecipeView = (req, res) => {
                                 conn.query('SELECT user_ratedRecs, user_Saved, user_mealPlan FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                     if(err){
                                         console.log(err);
+                                        conn.release();
                                     }
                                     else{
                                         let getRated = rated[0].user_ratedRecs;
@@ -612,6 +632,7 @@ exports.userRecipeView = (req, res) => {
                                                 console.log('isMeal');
                                             }
                                         }
+                                        conn.release();
                                         res.render('userRecipeView', { recs: recs, recIngs: recIngs, ins: insArr, quantArr: quantArr, msg, id: session.userName, isRated: isRated, isSaved: isSaved, isMeal: isMeal});
                                     }
                                 })
@@ -619,6 +640,7 @@ exports.userRecipeView = (req, res) => {
 
                             }
                             else{
+                                conn.release();
                                 res.render('userRecipeView', { recs: recs, recIngs: recIngs, ins: insArr, quantArr: quantArr, msg, id: '', isRated: isRated, isSaved: '', isMeal: ''});
                             }
                             
@@ -643,14 +665,16 @@ exports.UnsavedButton = (req, res) =>{
                 conn.query('DELETE FROM saved where rec_id =?', [id], (err, result) => {
                     if(err){
                         console.log('not deleted');
-                        res.redirect('/recipes/' + id); 
                         conn.release();
+                        res.redirect('/recipes/' + id); 
+                        // conn.release();
                     }
                     else{
                         conn.query('DELETE FROM saved_recing WHERE rec_id =?', [id]);
                         conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, saved) => {
                             if(err){
                                 console.log(err);
+                                conn.release();
                             }
                             else{
                                 let getSaved = saved[0].user_Saved;
@@ -688,6 +712,7 @@ try {
 pool.getConnection((err, conn) => {
     if(err){
         console.log(err);
+        conn.release();
     }
     else{
         let recomm = new Recipe.Recomm();
@@ -803,6 +828,7 @@ pool.getConnection((err, conn) => {
                         resolve(id);
                     }
                     else{
+                        conn.release();
                         req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
                         res.redirect('/recommend');
                     }
@@ -889,6 +915,7 @@ pool.getConnection((err, conn) => {
             console.log('before session if');
             console.log(finalRids);
             if (finalRids.length == 0) {
+                conn.release();
                 req.flash('msg', "No recipes found given the inclusion and exclusion of ingredients, and user's food restrictions and allergies!");
                 res.redirect('/recommend');
             }
@@ -982,6 +1009,7 @@ pool.getConnection((err, conn) => {
                             resolve(id);
                         }
                         else{
+                            conn.release();
                             req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
                             res.redirect('/recommend');
                         }
@@ -1003,6 +1031,7 @@ pool.getConnection((err, conn) => {
                             resolve();
                         }
                         else{
+                            conn.release();
                             req.flash('msg', 'No recipes found given the inclusion and exclusion of ingredients!');
                             res.redirect('/recommend');
                         }  
@@ -1082,6 +1111,7 @@ pool.getConnection((err, conn) => {
                 console.log('before session if in exings');
                 console.log(finalRids);
                 if (finalRids.length == 0) {
+                    conn.release();
                     req.flash('msg', "No recipes found given the inclusion and exclusion of ingredients!");
                     res.redirect('/recommend');
                 }
@@ -1178,6 +1208,7 @@ exports.userRateRec = (req, res) =>{
             conn.query('UPDATE saved SET rec_rate = ?, rec_rateCount = ? WHERE rec_id = ?', [rate, count, id], (err, row) => {
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     return;
@@ -1189,12 +1220,14 @@ exports.userRateRec = (req, res) =>{
             pool.getConnection((err, conn)=>{
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     let id = req.params.id;
                     conn.query('SELECT user_ratedRecs FROM users WHERE user_id = ?', [session.userId], (err, rated) =>{
                         if (err) {
-                            console.log(err);   
+                            console.log(err);  
+                            conn.release(); 
                         } else {
                             let getRated = rated[0].user_ratedRecs;
                             if(getRated === null){
@@ -1205,6 +1238,7 @@ exports.userRateRec = (req, res) =>{
                             conn.query('UPDATE users SET user_ratedRecs = ? WHERE user_id = ?', [getRated, session.userId], (err, row) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let rate = req.body.userRate;
@@ -1218,6 +1252,7 @@ exports.userRateRec = (req, res) =>{
                                     conn.query('UPDATE rec SET rec_rate = ?, rec_rateCount = ? WHERE rec_id = ?', [rate, count, id], (err, row) => {
                                         if(err){
                                             console.log(err);
+                                            conn.release();
                                         }
                                         else{
                                             updateSave(conn, rate, count, id);
@@ -1266,11 +1301,13 @@ exports.userSaveRec = (req, res) =>{
                 // console.log(rec_id);
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, saved) =>{
                         if (err) {
                             console.log(err);   
+                            conn.release();
                         } else {
                             let getSaved = saved[0].user_Saved;
                             if(getSaved === null){
@@ -1281,18 +1318,22 @@ exports.userSaveRec = (req, res) =>{
                             conn.query('UPDATE users SET user_Saved = ? WHERE user_id = ?', [getSaved, session.userId], (err, row) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     // console.log(rec_id);
                                     conn.query('INSERT INTO saved(user_id, rec_id, rec_name, rec_desc, rec_process, rec_categ, rec_time, rec_serving, rec_src, rec_vid, rec_cal, rec_mealTime, rec_img, rec_rate) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [userid, id, name, desc, pr, categ, time, serving, src, vid, cal, mealTime, img, rate], (err, row) => {
                                         if(err){
                                             console.log(err);
+                                            conn.release();
                                         }
                                          else{
                                             conn.query('INSERT IGNORE INTO saved_recing(rec_id, ingId, ingQuant, ingUnit, ingIns) SELECT recId, ingId, ingQuant, ingUnit, ingIns FROM recing WHERE recId = ?', [id], (err, row) => {
                                                 if(err){
                                                     console.log(err);
+                                                    conn.release();
                                                 } else{
+                                                    conn.release();
                                                     req.flash('msg', 'Recipe successfully saved!');
                                                     res.redirect('/recipes/' + id); 
                                                 }
@@ -1325,8 +1366,10 @@ exports.userSavedRecipes = (req, res) =>{
         function getRec(conn, name) {
             conn.query('SELECT * FROM saved', (err, save) => {
                 if (err) {
-                    console.log(err);   
+                    console.log(err);  
+                    conn.release(); 
                 } else {
+                    conn.release();
                     res.render('saved', { title: 'Recipes', save: save, id: name});
                 }
             })
@@ -1335,6 +1378,7 @@ exports.userSavedRecipes = (req, res) =>{
             pool.getConnection((err, conn)=>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }
                     else{
                         getRec(conn, session.userName);
@@ -1354,12 +1398,14 @@ exports.userSavedRView = (req, res) => {
         pool.getConnection((err, conn) => {
             if(err){
                 console.log('error in user recipes...\n');
+                conn.release();
             }
             else{
                 let rId = req.params.id;
                 conn.query('SELECT * FROM saved WHERE rec_id = ?',[rId], (err, save) => {
                     if(err){
                         console.log('cannot fetch recipes in db...\n');
+                        conn.release();
                     }
                     else{
                         let regexQuant = /[+-]?\d+(\.\d+)?/g;
@@ -1378,6 +1424,7 @@ exports.userSavedRView = (req, res) => {
                                 conn.query(qStr, [id], (err, ings) => {
                                     if(err){
                                         console.log(err, '\n');
+                                        conn.release();
                                     }
                                     else{
                                         ings.forEach(ing => {
@@ -1446,6 +1493,7 @@ exports.userSavedRView = (req, res) => {
                                 conn.query('SELECT user_ratedRecs, user_Saved, user_mealPlan FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                     if(err){
                                         console.log(err);
+                                        conn.release();
                                     }
                                     else{
                                         let getRated = rated[0].user_ratedRecs;
@@ -1463,6 +1511,7 @@ exports.userSavedRView = (req, res) => {
                                                 console.log('isMeal');
                                             }
                                         }
+                                        conn.release();
                                         res.render('userSavedRView', { save: save, recIngs: recIngs, ins: insArr, quantArr: quantArr, msg, id: session.userName, isRated: isRated, isSaved: isSaved, isMeal: isMeal});
                                     }
                                 })
@@ -1470,6 +1519,7 @@ exports.userSavedRView = (req, res) => {
 
                             }
                             else{
+                                conn.release();
                                 res.render('userSavedRView', { save: save, recIngs: recIngs, ins: insArr, quantArr: quantArr, msg, id: '', isRated: isRated, isSaved: '', isMeal: ''});
                             }
                             
@@ -1527,6 +1577,7 @@ exports.userSavedSubEdit = (req,res) => {
         pool.getConnection((err, conn)=>{
             if(err){
                 console.log(err, '\n');
+                conn.release();
             }
             else{
                 let rId = req.params.id;
@@ -1552,11 +1603,13 @@ exports.userSavedSubEdit = (req,res) => {
                 conn.query('UPDATE `saved` SET `rec_name`= ?,`rec_desc`= ?,`rec_process`= ?,`rec_categ`= ?,`rec_time`= ? ,`rec_serving`= ?,`rec_src`= ?,`rec_vid`= ?,`rec_cal`= ?,`rec_mealTime`= ? WHERE rec_id = ?', [rec.getRecName(), rec.getRecDesc(), rec.getRecPrc(), rec.getRecCateg(), rec.getRecTime(), rec.getRecSrv(), rec.getRecSrc(), rec.getRecVid(), rec.getRecCal(), mString, rId], (err, save) => {
                     if(err){
                         console.log(err, '\n');
+                        conn.release();
                     }
                     else{
                         conn.query('DELETE FROM saved_recing WHERE rec_id = ?', [rId], (err, row) =>{
                             if(err){
                                 console.log(err, '\n');
+                                conn.release();
                             }
                             else{ 
 
@@ -1572,6 +1625,7 @@ exports.userSavedSubEdit = (req,res) => {
                                 conn.query('INSERT INTO ing(ing_name) VALUES (?)', [ingName],(err, ins) =>{
                                     if(err){
                                         console.log(err, '\n');
+                                        conn.release();
                                     } else{
                                         let ii = ins.insertId;
                                         resolve(ii);
@@ -1609,6 +1663,7 @@ exports.userSavedSubEdit = (req,res) => {
                             conn.query('SELECT * FROM ing WHERE ing_name = ?', [ingName], (err, rows) =>{
                                 if(err){
                                     console.log(err, '\n');
+                                    conn.release();
                                 }
                                 else if(rows[0]){
                                     let ii = rows[0].ing_id;
@@ -1627,7 +1682,7 @@ exports.userSavedSubEdit = (req,res) => {
                                 }
                             })
                         }
-                        
+                        conn.release();
                         res.redirect('/saved');
                             }
                         })
@@ -1649,8 +1704,8 @@ exports.userSavedDelete = (req, res) => {
                 conn.query('DELETE FROM saved where rec_id =?', [id], (err, result) => {
                     if(err){
                         console.log('not deleted');
-                        res.redirect('/saved'); 
                         conn.release();
+                        res.redirect('/saved'); 
                     }
                     else{
                         conn.query('DELETE FROM saved_recing WHERE rec_id =?', [id]);
@@ -1658,6 +1713,7 @@ exports.userSavedDelete = (req, res) => {
                         conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, saved) => {
                             if(err){
                                 console.log(err);
+                                conn.release();
                             }
                             else{
                                 let getSaved = saved[0].user_Saved;
@@ -1695,7 +1751,9 @@ exports.userRecipes = (req, res) =>{
             conn.query('SELECT * FROM rec', (err, recs) => {
                 if (err) {
                     console.log(err);   
+                    conn.release();
                 } else {
+                    conn.release();
                     res.render('userRecipes', { title: 'Recipes', recs: recs, id: name});
                 }
             })
@@ -1725,7 +1783,8 @@ exports.userSortRecipes = (req, res) =>{
             if (alphabet === 'a-z') {
                 conn.query('SELECT * FROM rec ORDER BY rec_name', (err, recs) =>{
                     if (err) {
-                        console.log(err);   
+                        console.log(err);  
+                        conn.release(); 
                     } else {
                         conn.release();
                         res.render('userRecipes', { title: 'Recipes', recs: recs, id: name});
@@ -1734,7 +1793,8 @@ exports.userSortRecipes = (req, res) =>{
             } else {
                 conn.query('SELECT * FROM rec ORDER BY rec_name DESC', (err, recs) =>{
                     if (err) {
-                        console.log(err);   
+                        console.log(err);  
+                        conn.release(); 
                     } else {
                         conn.release();
                         res.render('userRecipes', { title: 'Recipes', recs: recs, id: name});
@@ -1747,6 +1807,7 @@ exports.userSortRecipes = (req, res) =>{
                 conn.query('SELECT * FROM rec ORDER BY rec_rate DESC', (err, recs) =>{
                     if (err) {
                         console.log(err);   
+                        conn.release();
                     } else {
                         conn.release();
                         res.render('userRecipes', { title: 'Recipes', recs: recs, id: name});
@@ -1755,7 +1816,8 @@ exports.userSortRecipes = (req, res) =>{
             } else {
                 conn.query('SELECT * FROM rec ORDER BY rec_rate', (err, recs) =>{
                     if (err) {
-                        console.log(err);   
+                        console.log(err); 
+                        conn.release();  
                     } else {
                         conn.release();
                         res.render('userRecipes', { title: 'Recipes', recs: recs, id: name});
@@ -1766,6 +1828,7 @@ exports.userSortRecipes = (req, res) =>{
         pool.getConnection((err, conn) => {
             if (err) {
                 console.log(err);
+                conn.release();
             } else{
                 let alphabet = req.body.alphabet;
                 let rating = req.body.rating;
@@ -1816,11 +1879,13 @@ exports.userRecommAC = (req,res) =>{
         pool.getConnection((err, conn) =>{
             if(err){
                 console.log(err);
+                conn.release();
             }
             else{
                 conn.query('SELECT ing_name FROM ing WHERE ing_name LIKE ? ORDER BY ing_name LIMIT 5',[req.body.ing + '%'], (err, ings) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }
                     else{
                         conn.release();
@@ -1849,11 +1914,13 @@ exports.profilePage = (req,res) => {
             pool.getConnection((err, conn) => {
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT * FROM users WHERE user_id = ?', [session.userId], (err, user) => {
                         if(err){
                             console.log(err);
+                            conn.release();
                         } else {
                             conn.release();
                             let msg = req.flash('msg');
@@ -1875,6 +1942,7 @@ exports.updateProfile = (req,res) => {
             pool.getConnection((err, conn) => {
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     let user = new User.User();
@@ -1910,6 +1978,7 @@ exports.updateProfile = (req,res) => {
                     conn.query('UPDATE `users` SET `user_name`= ? ,`user_allergy`= ?,`user_restrict`= ? WHERE user_id = ?', [user.getUserName(), aStr, rStr, session.userId], (err, user) => {
                         if(err){
                             console.log(err);
+                            conn.release();
                         } else {
                             conn.release();
                             req.flash('msg', 'Profile successfully updated!');
@@ -1933,10 +2002,12 @@ exports.groceryPage = (req, res) => {
                     pool.getConnection((err, conn) => {
                         if (err) {
                             console.log(err);
+                            conn.release();
                         } else {
                             conn.query('SELECT user_grocery FROM users WHERE user_id = ?', [session.userId], (err, rows) => {
                                 if (err) {
-                                    console.log(err);       
+                                    console.log(err);    
+                                    conn.release();   
                                 } 
                                 else {
                                     let gListStr = rows[0].user_grocery;
@@ -1992,10 +2063,12 @@ exports.addGrocery = (req,res) => {
             pool.getConnection((err, conn) => {
                 if (err) {
                     console.log(err);
+                    conn.release();
                 } else {
                     conn.query('SELECT user_grocery FROM users WHERE user_id = ?', [session.userId], (err, row) =>{
                         if (err) {
                             console.log(err);
+                            conn.release();
                         } else {
                             let listStr = row[0].user_grocery;
                             if(listStr){
@@ -2011,6 +2084,7 @@ exports.addGrocery = (req,res) => {
                         conn.query('UPDATE `users` SET `user_grocery`= ? WHERE user_id = ?', [str, session.userId], (err, row) =>{
                             if (err) {
                                 console.log(err);
+                                conn.release();
                             } else {
                                 conn.release();
                                 req.flash('msg', 'Ingredients added to your Grocery List!');
@@ -2038,6 +2112,7 @@ exports.addItem = (req, res) => {
             pool.getConnection((err, conn) => {
                 if (err) {
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     if(req.body.itemVal){
@@ -2056,6 +2131,7 @@ exports.addItem = (req, res) => {
                         conn.query('UPDATE `users` SET `user_grocery`= ? WHERE user_id = ?', [newListStr, session.userId], (err, row) =>{
                             if (err) {
                                 console.log(err);
+                                conn.release();
                             } else {
                                 conn.release();
                                 res.redirect('/grocery-list');
@@ -2067,6 +2143,7 @@ exports.addItem = (req, res) => {
                         conn.query('UPDATE `users` SET `user_grocery`= ? WHERE user_id = ?', [null, session.userId], (err, row) =>{
                             if (err) {
                                 console.log(err);
+                                conn.release();
                             } else {
                                 conn.release();
                                 res.redirect('/grocery-list');
@@ -2094,6 +2171,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_time IN (0,15, 16, 17, 18 ,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30)  ORDER BY rec_time ASC LIMIT 35;', [mealTime],(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         let isSaved = false;
                         let recid = filter.rec_id;
@@ -2103,6 +2181,7 @@ exports.getFilter = (req,res) => {
                             conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let getSaved = rated[0].user_Saved;
@@ -2128,6 +2207,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_time IN (40, 41, 42, 43, 44,45,47,48,49,50,55,56,57,58,59, "1 hr%")  ORDER BY rec_time ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         let isSaved = false;
                         let recid = filter.rec_id;
@@ -2137,6 +2217,7 @@ exports.getFilter = (req,res) => {
                             conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let getSaved = rated[0].user_Saved;
@@ -2162,6 +2243,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_time LIKE "1 h%" ORDER BY rec_time ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         let isSaved = false;
                         let recid = filter.rec_id;
@@ -2171,6 +2253,7 @@ exports.getFilter = (req,res) => {
                             conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let getSaved = rated[0].user_Saved;
@@ -2196,6 +2279,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_time >= "1 hour and 3% minutes" ORDER BY rec_time ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         let isSaved = false;
                         let recid = filter.rec_id;
@@ -2205,6 +2289,7 @@ exports.getFilter = (req,res) => {
                             conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let getSaved = rated[0].user_Saved;
@@ -2232,6 +2317,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 100 AND 400 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         let isSaved = false;
                         let recid = filter.rec_id;
@@ -2241,6 +2327,7 @@ exports.getFilter = (req,res) => {
                             conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let getSaved = rated[0].user_Saved;
@@ -2266,6 +2353,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 401 AND 800 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         let isSaved = false;
                         let recid = filter.rec_id;
@@ -2275,6 +2363,7 @@ exports.getFilter = (req,res) => {
                             conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let getSaved = rated[0].user_Saved;
@@ -2300,6 +2389,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 801 AND 1200 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         let isSaved = false;
                         let recid = filter.rec_id;
@@ -2309,6 +2399,7 @@ exports.getFilter = (req,res) => {
                             conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let getSaved = rated[0].user_Saved;
@@ -2334,6 +2425,7 @@ exports.getFilter = (req,res) => {
                 conn.query('SELECT * FROM rec WHERE rec_cal > 1201 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }else{
                         let isSaved = false;
                         let recid = filter.rec_id;
@@ -2343,6 +2435,7 @@ exports.getFilter = (req,res) => {
                             conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let getSaved = rated[0].user_Saved;
@@ -2386,6 +2479,7 @@ exports.getFilter = (req,res) => {
                     conn.query('SELECT * FROM rec WHERE rec_mealTime LIKE ? OR rec_categ LIKE ? OR rec_time LIKE ? OR rec_cal LIKE ?', ['%' +req.body.recDishInp + '%', '%' + req.body.recCateg + '%', '%' +req.body.recTimeInp + '%', '%' + req.body.recCal + '%'], (err, filter) =>{
                         if(err){
                             console.log(err);
+                            conn.release();
                         }else{
                             console.log(dishType);
                             console.log(categoryRec);
@@ -2398,6 +2492,7 @@ exports.getFilter = (req,res) => {
                                 conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                     if(err){
                                         console.log(err);
+                                        conn.release();
                                     }
                                     else{
                                         let getSaved = rated[0].user_Saved;
@@ -2443,12 +2538,14 @@ exports.mealPlan = (req, res) =>{
             pool.getConnection((err, conn)=>{
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     let id = req.body.recID;
                     conn.query('SELECT user_mealPlan FROM users WHERE user_id = ?', [session.userId], (err, mealPlan) =>{
                         if (err) {
                             console.log(err);   
+                            conn.release();
                         } else {
                             let getmeal = mealPlan[0].user_mealPlan;
                             if(getmeal === null){
@@ -2459,6 +2556,7 @@ exports.mealPlan = (req, res) =>{
                             conn.query('UPDATE users SET user_mealPlan = ? WHERE user_id = ?', [getmeal, session.userId], (err, row) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     let dateTime = req.body.datetimes;
@@ -2490,13 +2588,15 @@ exports.mealPlan = (req, res) =>{
                                     conn.query('INSERT INTO mealPlan(user_id, rec_id, month, day, time, sDay, weekCount, dateTime, dayMonth) VALUE(?,?,?,?,?,?,?,?,?)', [req.session.userId, id, month, day, time, sDay, week, dateTime, dayMonth], (err, row) => {
                                     if(err){
                                         console.log(err);
+                                        conn.release();
                                     }
                                     else{
+                                        conn.release();
                                         req.flash('msg', 'Recipe successfully saved to your Meal Plan!');
                                         res.redirect('/recipes/' + id); 
                                     }
                                     })
-                                    conn.release();
+                                    // conn.release();
                                 }
                             })
 
@@ -2534,8 +2634,10 @@ exports.mealPlanRec = (req, res) =>{
             let gy = 'SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ?'
             conn.query(gy,[dateC], (err, mealPlan) => {
                 if (err) {
-                    console.log(err);   
+                    console.log(err);  
+                    conn.release(); 
                 } else {
+                    conn.release();
                     res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: name});
                 }
             })
@@ -2563,12 +2665,14 @@ exports.mealPlanRecView = (req, res) => {
         pool.getConnection((err, conn) => {
             if(err){
                 console.log('error in user recipes...\n');
+                conn.release();
             }
             else{
                 let rId = req.params.id;
                 conn.query('SELECT * FROM rec WHERE rec_id = ?',[rId], (err, recs) => {
                     if(err){
                         console.log('cannot fetch recipes in db...\n');
+                        conn.release();
                     }
                     else{
                         let regexQuant = /[+-]?\d+(\.\d+)?/g;
@@ -2654,6 +2758,7 @@ exports.mealPlanRecView = (req, res) => {
                                 conn.query('SELECT user_ratedRecs, user_Saved, user_mealPlan FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                     if(err){
                                         console.log(err);
+                                        conn.release();
                                     }
                                     else{
                                         let getRated = rated[0].user_ratedRecs;
@@ -2671,6 +2776,7 @@ exports.mealPlanRecView = (req, res) => {
                                                 console.log('isSaved');
                                             }
                                         }
+                                        conn.release();
                                         res.render('mealPlanRecView', { recs: recs, recIngs: recIngs, ins: insArr, quantArr: quantArr, msg, id: session.userName, isRated: isRated, isSaved: isSaved});
                                     }
                                 })
@@ -2678,6 +2784,7 @@ exports.mealPlanRecView = (req, res) => {
 
                             }
                             else{
+                                conn.release();
                                 res.render('mealPlanRecView', { recs: recs, recIngs: recIngs, ins: insArr, quantArr: quantArr, msg, id: '', isRated: isRated, isSaved: ''});
                             }
                             
@@ -2702,14 +2809,16 @@ exports.mealPlanRecDelete = (req, res) => {
                 conn.query('DELETE FROM mealPlan where rec_id =?', [id], (err, result) => {
                     if(err){
                         console.log('not deleted');
-                        res.redirect('/mealplan'); 
                         conn.release();
+                        res.redirect('/mealplan'); 
+                        // conn.release();
                     }
                     else{
                         //conn.query('DELETE user_mealPlan FROM user WHERE rec_id LIKE ?', [id]);
                         conn.query('SELECT user_mealPlan FROM users WHERE user_id = ?', [session.userId], (err, mealPlan) => {
                             if(err){
                                 console.log(err);
+                                conn.release();
                             }
                             else{
                                 let getmeal = mealPlan[0].user_mealPlan;
@@ -2760,8 +2869,10 @@ exports.mealPlanCurrentBut = (req, res) => {
             let gy = 'SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ?'
             conn.query(gy,[dateC], (err, mealPlan) => {
                 if (err) {
-                    console.log(err);   
+                    console.log(err);  
+                    conn.release(); 
                 } else {
+                    conn.release();
                     res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: name});
                 }
             })
@@ -2770,6 +2881,7 @@ exports.mealPlanCurrentBut = (req, res) => {
             pool.getConnection((err, conn)=>{
                     if(err){
                         console.log(err);
+                        conn.release();
                     }
                     else{
                         getRec(conn, session.userName);
@@ -2819,7 +2931,9 @@ exports.mealPlanPastBut = (req, res) => {
                 conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ? ORDER BY dateTime', [dateC, dateD], (err, mealPlan) => {
                     if(err){
                         console.log(err);  
+                        conn.release();
                     }else{
+                        conn.release();
                         res.render('mealPlan', { title: 'PastWeek', mealPlan: mealPlan, id: session.userName});
                     }
                 });
@@ -2853,7 +2967,9 @@ exports.mealPlanNextBut = (req, res) => {
                 conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? ORDER BY mealPlan.dateTime', [dateC], (err, mealPlan) => {
                     if(err){
                         console.log(err);  
+                        conn.release();
                     }else{
+                        conn.release();
                         res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: session.userName});
                     }
                 })
@@ -2882,12 +2998,14 @@ exports.mealPlanEditButton = (req, res) => {
             pool.getConnection((err, conn)=>{
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     let id = req.body.recID;
                     conn.query('SELECT * FROM mealPlan WHERE rec_id = ?', [id], (err, row) => {
                         if(err){
                             console.log(err);
+                            conn.release();
                         }
                         else{
                             let dateTime = req.body.datetimes;
@@ -2919,13 +3037,15 @@ exports.mealPlanEditButton = (req, res) => {
                             conn.query('UPDATE mealPlan SET user_id = ?, rec_id = ?, month = ?, day = ?, time = ?, sDay = ?, weekCount = ?, dateTime = ?, dayMonth = ? WHERE rec_id =?', [req.session.userId, id, month, day, time, sDay, week, dateTime, dayMonth, id], (err, row) => {
                             if(err){
                                 console.log(err);
+                                conn.release();
                             }
                             else{
+                                conn.release();
                                 req.flash('msg', 'Successfully rescheduled the Meal Plan!');
                                 res.redirect('/mealPlan/' + id); 
                             }
                             })
-                            conn.release();
+                            // conn.release();
                         }
                     })
                 }
@@ -2950,14 +3070,16 @@ exports.userSearchSaveUnsaved = (req, res) =>{
                 conn.query('DELETE FROM saved where rec_id =?', [id], (err, result) => {
                     if(err){
                         console.log('not deleted');
-                        res.redirect('/recipes/' + id); 
                         conn.release();
+                        res.redirect('/recipes/' + id); 
+                        // conn.release();
                     }
                     else{
                         conn.query('DELETE FROM saved_recing WHERE rec_id =?', [id]);
                         conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, saved) => {
                             if(err){
                                 console.log(err);
+                                conn.release();
                             }
                             else{
                                 let getSaved = saved[0].user_Saved;
@@ -3011,11 +3133,13 @@ exports.userSearchSave = (req, res) =>{
                 // console.log(rec_id);
                 if(err){
                     console.log(err);
+                    conn.release();
                 }
                 else{
                     conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, saved) =>{
                         if (err) {
                             console.log(err);   
+                            conn.release();
                         } else {
                             let getSaved = saved[0].user_Saved;
                             if(getSaved === null){
@@ -3026,18 +3150,22 @@ exports.userSearchSave = (req, res) =>{
                             conn.query('UPDATE users SET user_Saved = ? WHERE user_id = ?', [getSaved, session.userId], (err, row) => {
                                 if(err){
                                     console.log(err);
+                                    conn.release();
                                 }
                                 else{
                                     // console.log(rec_id);
                                     conn.query('INSERT INTO saved(user_id, rec_id, rec_name, rec_desc, rec_process, rec_categ, rec_time, rec_serving, rec_src, rec_vid, rec_cal, rec_mealTime, rec_img, rec_rate) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [userid, id, name, desc, pr, categ, time, serving, src, vid, cal, mealTime, img, rate], (err, row) => {
                                         if(err){
                                             console.log(err);
+                                            conn.release();
                                         }
                                          else{
                                             conn.query('INSERT IGNORE INTO saved_recing(rec_id, ingId, ingQuant, ingUnit, ingIns) SELECT recId, ingId, ingQuant, ingUnit, ingIns FROM recing WHERE recId = ?', [id], (err, row) => {
                                                 if(err){
                                                     console.log(err);
+                                                    conn.release();
                                                 } else{
+                                                    conn.release();
                                                     req.flash('msg', 'Recipe successfully saved!');
                                                     res.redirect('/search'); 
                                                 }
