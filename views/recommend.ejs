@@ -177,11 +177,24 @@
         }
         
         function exclude() {
+            let checkStr = [];
+            $('#ingCont').each(function(){
+                $(this).find('li').each(function(){
+                    let current = $(this);
+                    if(current.children().size() > 0){
+                        let ingStr = $(this).text();
+                        let newStr = ingStr.replace(/X/g, '');
+                        newStr = newStr.trim();
+                        checkStr.push(newStr.toLowerCase());
+                    }
+                });
+            });
+
             let ingstr = $("#exIng").val();
             console.log("exIng: ", ingstr);
             let exIngArr = [];
             
-                jQuery('li[name="exIngLi[]"]').each(function() {
+            jQuery('li[name="exIngLi[]"]').each(function() {
                 let str = $(this).text();
                 let newStr = str.replace(/X/g, '');
                 exIngArr.push(newStr.trim());
@@ -190,6 +203,10 @@
 
             if(exIngArr.includes(ingstr)){
                 alert("ingredient is already entered!");
+                $("#exIng").val('');
+            }
+            else if(checkStr.includes(ingstr)){
+                alert("ingredient is entered as an inclusion!");
                 $("#exIng").val('');
             }
             else{
