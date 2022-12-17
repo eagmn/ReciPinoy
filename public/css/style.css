@@ -804,57 +804,66 @@ section{
 
 .saved-title{
    display: block;
-   text-align: center;
-   margin: 2rem 1.5rem 1rem;
+   flex-grow: 1;
+   text-align: left;
+   margin: 2rem 3rem;
    color:var(--black);
    font-size: 2.5rem;
    font-weight: normal;
    text-transform: uppercase;
 }
 
-.green-line{
-   border-top: 2px solid var(--green);
+.saved-line{
+   border-top: 1px solid var(--green);
    display: block;
    height: 1px;
    content: " ";
    width: 100%; /* full-width ;)*/
    top: 1.2em;
-   margin: 0 0 1em;
+   margin-bottom: 2em;
    /* opacity: 0.1; */
 }
 
-
-
 .saved-container{
-   /* display: flex;
-   align-items: center;
-   flex-direction: column; */
-   display: grid;
-   gap: 3em;
+   display: flex;
+   /* align-items: center; */
+   flex-direction: column;
    margin-top: 5em;
+   /* display: grid;
+   gap: 3em;
+   margin-top: 5em; */
 }
+
+/* .saved-card{
+   display: flex;
+   flex-direction: row;
+} */
 
 .each-card {
    display: flex;
    flex-direction: row;
-   width: 80%;
-   margin:auto;
+   /* width: 80%; */
+   margin: 2em auto;
    /* border-radius:25px; */
-   box-shadow: 0px 0px 15px 0px rgb(217, 217, 217);
+   box-shadow: 0px 0px 10px 0px rgb(217, 217, 217);
    /* padding: 1.5em; */
 }
 
+.saved-image{
+   flex-grow: 0.5;
+}
 
 .saved-img{
-   width: 90%;
-   height: 100%;
+   width: 50%;
+   /* height: 70%; */
    /* border-radius:25px; */
    object-fit: cover;
 }
 
-.detail{
-   margin-left: 10px;
-   width: 70%;
+.details{
+   flex-grow: 2;
+   /* margin-left: 10px;
+   width: 70%; */
 }
 
 .food-title{

@@ -28,16 +28,16 @@
 
         <span class="saved-title">My Saved Recipes</span>
 
-        <!-- <span class="green-line"></span> -->
+        <!-- border line -->
+        <span class="saved-line"></span>
 
-        <form action="/saved" method="get">
+        <form action="/saved" method="get" class="saved-container">
             <!--<div id="sortResults">
                 <select name="recent" id="recent" onchange="this.form.submit()">
                     <option value="" disabled selected>sort to newest</option>
                     <option value="newest">newest</option>
                     <option value="oldest">oldest</option>
                 </select>-->
-                <div class="saved-container">
                     <% save.forEach( saved => { %>
                         <div class="saved-card">
                             <div class="each-card">
@@ -63,7 +63,7 @@
                                     <% } else { %>
                                             <span>This recipe hasn't been rated.</span>
                                         <% } %>
-                                        </div>
+                                        <!-- </div> -->
                                         <div class="saved-buttons">
                                             <button class="saved-button"><a href="/saved/<%= saved.rec_id%>" class="recview-btn">View Recipe</a></button>
                                             <button class="saved-button"><a href="/saved/edit/<%= saved.rec_id %>" class="recedit-btn">Edit</a></button>
@@ -73,7 +73,6 @@
                             </div>   
                         </div>
                     <% }) %>
-                </div>
         </form>  
     </div> 
 
