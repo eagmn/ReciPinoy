@@ -2136,7 +2136,8 @@ hr {
    /* background-color: red; */
 }
 
-.parentContainer .searchandadd .search {
+.parentContainer .searchandadd .searchA,
+.parentContainer .searchandadd .searchX {
    background: yellow;
    width: 75%;
    position: relative;
@@ -2184,7 +2185,8 @@ hr {
    background: #DC3545;
 }
 
-.search input {
+.searchA input,
+.searchX input {
    height: 50px;
    width: 100%;
    border-radius: 5px;
@@ -2195,11 +2197,19 @@ hr {
    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
  }
 
- .search.active input {
-   border-radius: 5px 5px 0 0;
- }
+ .searchA input:focus{
+   border-color: var(--green);
+   outline: none;
+   box-shadow: var(--green) 0px 0px 0px 2px;
+}
 
- .search .icon {
+.searchX input:focus{
+   border-color: var(--green);
+   outline: none;
+   box-shadow: var(--red) 0px 0px 0px 2px;
+}
+
+ .searchA .icon {
    position: absolute;
    right: 0px;
    top: 0px;
@@ -2209,7 +2219,7 @@ hr {
    cursor: pointer;
  }
 
- .search .iconExclude {
+ .searchX .iconExclude {
    position: absolute;
    right: 0px;
    top: 0px;
@@ -2262,6 +2272,7 @@ hr {
    width: fit-content;
    padding-right: 10px;
    padding-left: 12px;
+   cursor: pointer;
 }
 
 #getRecommBtn{
