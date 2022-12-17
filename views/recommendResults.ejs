@@ -22,7 +22,7 @@
     <%- include('./partials/userNav'); %>
 
     <div class ="recipeResults">
-        <a class="back-btn" onclick="history.back()"><span class="rec-back">>> Back</span></a>
+        <a class="back-btn" onclick="history.back()"><span class="rec-back">Back</span></a>
         <br>
 
         <!-- title -->
@@ -259,13 +259,16 @@
                                 else{
                                     xv.push(exIngstr.toLowerCase());
                                 }
-                            }
-                            else{
-                                xv.push(exIngstr.toLowerCase());
-                                tempExIng.push(exIngstr.toLowerCase());
-                                let newIngNum = parseInt($('#exIngNum').val()) + 1;
-                                $('#exIngNum').val(newIngNum); 
-                            }
+                        }
+                        else if(tempIng.includes(exIngstr)){
+                            alert("ingredient is entered as an inclusion!");
+                        }
+                        else{
+                            xv.push(exIngstr.toLowerCase());
+                            tempExIng.push(exIngstr.toLowerCase());
+                            let newIngNum = parseInt($('#exIngNum').val()) + 1;
+                            $('#exIngNum').val(newIngNum); 
+                        }
                     }
             });
 
