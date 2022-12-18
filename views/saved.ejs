@@ -61,13 +61,11 @@
                                         </div>
                                         <% if (saved.rec_rate) { %>
                                             
-                                            <div class="savedRate">
+                                            <div class="saved-rate">
                                                 <% let rating = saved.rec_rate/saved.rec_rateCount; %> 
                                                 <% rating = Math.round(rating)%> 
                                                 <%= rating%>
-                                                <div class="saved-rate">
-                                                    <span class="str"></span>
-                                                </div>
+                                                <span class="str"></span>
                                             </div>
                                         <% } else { %>
                                                 <span class="star-rate">This recipe hasn't been rated.</span>
