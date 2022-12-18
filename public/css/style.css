@@ -3064,6 +3064,22 @@ transform: scale(1.1);
       flex-wrap: wrap;
    }
 
+   .addedIngBox, .excludedIngBox{
+      width: 60%;
+   }
+
+   .parentContainer .searchandadd .searchA, .parentContainer .searchandadd .searchX{
+      width: 70%;
+   }
+
+   .addedIngBoxRes, .excludedIngBoxRes{
+      width: 60%;
+   }
+
+   .parentContainerRes .searchandaddRes .searchResA, .parentContainerRes .searchandaddRes .searchResX{
+      width: 70%;
+   }
+
 }
 
 @media only screen and (max-width:830px){
@@ -3223,6 +3239,42 @@ transform: scale(1.1);
       margin: 0.5rem 0.2rem;
    }
 
+   .addedIngBox, .excludedIngBox{
+      width: 75%;
+   }
+
+   .parentContainer .searchandadd .searchA, .parentContainer .searchandadd .searchX{
+      width: 60%;
+      height: 45px;
+      font-size: 16px;
+   }
+
+   .parentContainerRes .searchandaddRes .searchResA, .parentContainerRes .searchandaddRes .searchResX{
+      width: 60%;
+      height: 45px;
+      font-size: 16px;
+   }
+
+   .searchA .icon{
+      font-size: 28px;
+      margin-top: -8px;
+   }
+
+   .searchX .iconExclude{
+      font-size: 28px;
+      margin-top: -8px;
+   }
+
+   .searchResA .iconRes{
+      font-size: 28px;
+      margin-top: -8px;
+   }
+
+   .searchResX .iconExcludeRes{
+      font-size: 28px;
+      margin-top: -8px;
+   }
+
 }
 
 @media only screen and (max-width: 670px){ 
@@ -3243,6 +3295,32 @@ transform: scale(1.1);
    .saved-container {
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
+   }
+}
+
+@media only screen and (max-width: 620px){ 
+   .parentContainer .searchandadd{
+      flex-direction: column;
+   }
+
+   .parentContainer .searchandadd .addIngBtn, .parentContainer .searchandadd .excludeIngBtn{
+      margin-top: 18px;
+   }
+
+   .parentContainer .searchandadd .searchA, .parentContainer .searchandadd .searchX{
+      width: 90%;
+   }
+
+   .parentContainerRes .searchandaddRes{
+      flex-direction: column;
+   }
+
+   .parentContainerRes .searchandaddRes .addIngBtnRes, .parentContainerRes .searchandaddRes .excludeIngBtnRes{
+      margin-top: 18px;
+   }
+
+   .parentContainerRes .searchandaddRes .searchResA, .parentContainerRes .searchandaddRes .searchResX{
+      width: 90%;
    }
 }
 
@@ -3345,6 +3423,10 @@ transform: scale(1.1);
    .flex-btn{
       flex-flow: column;
       gap:0;
+   }
+
+   .addedIngBox, .excludedIngBox{
+      width: 85%;
    }
 }
    
