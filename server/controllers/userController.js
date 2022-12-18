@@ -1384,7 +1384,7 @@ exports.userSavedRecipes = (req, res) =>{
                     conn.release();
                 }
                 else{
-                    conn.query('SELECT * FROM saved', (err, save) => {
+                    conn.query('SELECT * FROM saved WHERE user_id = ?',[session.userId], (err, save) => {
                         if (err) {
                             console.log(err);  
                             conn.release(); 
@@ -1397,7 +1397,7 @@ exports.userSavedRecipes = (req, res) =>{
                 }})
         }
         else{
-            req.flash('msg', 'You need to login to view saved recipes!')
+            req.flash('msg', 'You need to login to view Saved Recipes!')
             res.redirect('/login');
         }
         
@@ -2050,7 +2050,7 @@ exports.groceryPage = (req, res) => {
             renderPage();
         }
         else{
-            req.flash('msg', 'You need to log in first!');
+            req.flash('msg', 'You need to login to view Grocery Lists!');
             res.redirect('/login');
         }
     } catch (error) {
@@ -2644,8 +2644,8 @@ exports.mealPlanRec = (req, res) =>{
         function getRec(conn, name) {
             let date = new Date();
             let dateC = date.getWeek();
-            let gy = 'SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ?'
-            conn.query(gy,[dateC], (err, mealPlan) => {
+            let gy = 'SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =?'
+            conn.query(gy,[dateC, session.userId], (err, mealPlan) => {
                 if (err) {
                     console.log(err);  
                     conn.release(); 
@@ -2819,7 +2819,7 @@ exports.mealPlanRecDelete = (req, res) => {
         if(session.userId){
             pool.getConnection((err, conn) => {
                 let id = req.params.id;
-                conn.query('DELETE FROM mealPlan where rec_id =?', [id], (err, result) => {
+                conn.query('DELETE FROM mealPlan where rec_id =? AND user_id =?', [id, seseion.userId], (err, result) => {
                     if(err){
                         console.log('not deleted');
                         conn.release();
@@ -2879,8 +2879,8 @@ exports.mealPlanCurrentBut = (req, res) => {
         function getRec(conn, name) {
             let date = new Date();
             let dateC = date.getWeek();
-            let gy = 'SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ?'
-            conn.query(gy,[dateC], (err, mealPlan) => {
+            let gy = 'SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =?'
+            conn.query(gy,[dateC, session.userId], (err, mealPlan) => {
                 if (err) {
                     console.log(err);  
                     conn.release(); 
@@ -2900,7 +2900,7 @@ exports.mealPlanCurrentBut = (req, res) => {
                         getRec(conn, session.userName);
                     }})
         }else{
-            req.flash('msg', 'You need to login to view mealplan!')
+            req.flash('msg', 'You need to login to view Meal Plan!')
             res.redirect('/login');
         }
         
@@ -2941,7 +2941,7 @@ exports.mealPlanPastBut = (req, res) => {
                 console.log(dateC);
                 console.log(dateD);
                 // SELECT * FROM mealPlan where weekCount = ? ORDER BY dateTime
-                conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ? ORDER BY dateTime', [dateC, dateD], (err, mealPlan) => {
+                conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ?  AND user_id = ? ORDER BY dateTime', [dateC, dateD, session.userId], (err, mealPlan) => {
                     if(err){
                         console.log(err);  
                         conn.release();
@@ -2977,7 +2977,7 @@ exports.mealPlanNextBut = (req, res) => {
                 let date = new Date();
                 let dateC = date.getWeek() + 1;
                 console.log(dateC);
-                conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? ORDER BY mealPlan.dateTime', [dateC], (err, mealPlan) => {
+                conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id = ? ORDER BY mealPlan.dateTime', [dateC, session.userId], (err, mealPlan) => {
                     if(err){
                         console.log(err);  
                         conn.release();

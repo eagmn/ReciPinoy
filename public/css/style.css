@@ -2715,7 +2715,8 @@ transform: scale(1.1);
 }
 
 .profbuttons{
-   margin-left: 35vh;
+   display: block;
+   text-align: center;
 }
 
 .profbuttons .btn{
@@ -2892,6 +2893,7 @@ transform: scale(1.1);
 
 .daterangepicker{
    position: fixed !important;
+   top: 25% !important;
 }
 /* end of modal css */
 
@@ -3042,7 +3044,9 @@ html{
 }
 
 .header .flex .navbar{
-   position: absolute;
+   position: absolute !important;
+   display: block !important;
+   padding: 0 !important;
    top:99%; left: 0; right: 0;
    border-top: var(--border);
    border-bottom: var(--border);
@@ -3139,6 +3143,13 @@ html{
    .saved-container {
       grid-template-columns: repeat(2, 2fr);
       gap: 20px;
+   }
+
+   .flex-container {
+      flex-direction: column;
+      align-items: flex-start;
+      align-content: center;
+      flex-wrap: wrap;
    }
 
 }
