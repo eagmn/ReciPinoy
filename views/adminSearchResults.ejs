@@ -22,54 +22,197 @@
     
     <h1 class="heading">Search Results</h1>
 
-    <section>
-        <div class="getFilter">
-            <h1>Filter: </h1>
-            <br><br>
-            <form action="/admin/recipes/search/filter" method="post">
-                <label for="recDish" class="addRecLabel">Dish Type:</label>
-                <input type="radio" id="recDishInp" name="recDishInp" value="Breakfast" onchange="this.form.submit()" >
-                    <label for="mtBreakfast" class="addRecLabel">Breakfast</label>
-                <input type="radio" id="recDishInp" name="recDishInp" value="Lunch" onchange="this.form.submit()">
-                    <label for="mtLunch" class="addRecLabel">Lunch</label>
-                <input type="radio" id="recDishInp" name="recDishInp" value="Meryenda" onchange="this.form.submit()">
-                    <label for="mtMeryenda" class="addRecLabel">Meryenda</label>
-                <input type="radio" id="recDishInp" name="recDishInp" value="Dinner" onchange="this.form.submit()">
-                    <label for="mtDinner" class="addRecLabel">Dinner</label>
-                    <br><br>
-            <label for="recCategory" class="addRecLabel">Category: </label>
-                <input type="radio" id="recCateg" name="recCateg" value="Luzon" onchange="this.form.submit()">
-                    <label for="recCLuzon" class="addRecLabel">Luzon</label>
-                <input type="radio" id="recCateg" name="recCateg" value="Visayan" onchange="this.form.submit()">
-                    <label for="recCVisayas" class="addRecLabel">Visayan</label>
-                <input type="radio" id="recCateg" name="recCateg" value="Mindanaoan" onchange="this.form.submit()">
-                    <label for="recCMindanao" class="addRecLabel">Mindanaoan</label>
-                <input type="radio" id="recCateg" name="recCateg" value="Popular" onchange="this.form.submit()">
-                    <label for="recCPopular" class="addRecLabel">Popular</label>
-                    <br><br>
-            <label for="recTime" class="addRecLabel">Cooking Time: </label>
-                <input type="radio" id="recTimeInp" name="recTimeInp" value="30" onchange="this.form.submit()">
-                    <label for="t30" class="addRecLabel">30 minutes</label>
-                <input type="radio" id="recTimeInp" name="recTimeInp" value="31" onchange="this.form.submit()">
-                    <label for="t1hr" class="addRecLabel">Between 30 minutes and 1 hour</label>
-                <input type="radio" id="recTimeInp" name="recTimeInp" value="1 hr and 30 minutes" onchange="this.form.submit()">
-                    <label for="t130" class="addRecLabel">Between 1 hour and 1 hr 30 minutes</label>
-                <input type="radio" id="recTimeInp" name="recTimeInp" value="1 hr and 31 minutes" onchange="this.form.submit()">
-                    <label for="t131" class="addRecLabel">More than 1 hour and 30 minutes </label>
-                    <br><br>
-            <label for="recTime" class="addRecLabel">Preferred Calorie: </label>
-                <input type="radio" id="recCal" name="recCal" value="400" onchange="this.form.submit()">
-                    <label for="C400" class="addRecLabel">Below 400 calories</label>
-                <input type="radio" id="recCal" name="recCal" value="800" onchange="this.form.submit()">
-                    <label for="C401" class="addRecLabel">401 - 800 calories</label>
-                <input type="radio" id="recCal" name="recCal" value="801" onchange="this.form.submit()">
-                    <label for="C801" class="addRecLabel">801- 1200</label>
-                <input type="radio" id="recCal" name="recCal" value="1201" onchange="this.form.submit()">
-                    <label for="C1201" class="addRecLabel">More than 1200 calories </label>
-                    <br><br>
-               </form> 
-        </div>
-    </section>
+    <!-- search filter -->
+    <div class="getFilter">
+        <!-- <span class="filter-title">Filter: </span> -->
+        <form action="/admin/recipes/search/filter" method="post" class="filter-cont">
+
+            <!-- dish type -->
+            <div class="select-box">
+                <div class="select-box__current" tabindex="1">
+                  <div class="select-box__value">
+                    <label class="select-box__input-text">Dish Type</label>
+                    <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+                  </div>
+                </div>
+                
+                  <ul class="select-box__list">
+                    <li>
+                      <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio" name="recDishInp" id="recDishInp" value="Breakfast">
+                        Breakfast</label>
+                    </li>
+                    <li>
+                      <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio" name="recDishInp" id="recDishInp" value="Lunch"> Lunch</label>
+                    </li>
+                    <li>
+                      <label class="select-box__option"  aria-hidden="aria-hidden">
+                          <input class="select-box__input" type="radio" name="recDishInp" id="recDishInp" value="Meryenda">
+                          Meryenda
+                      </label>
+                    </li>
+                    <li>
+                      <label class="select-box__option" aria-hidden="aria-hidden">
+                          <input class="select-box__input" type="radio" name="recDishInp" id="recDishInp" value="Dinner">
+                          Dinner
+                      </label>
+                    </li>
+                  </ul>
+                
+            </div>
+           
+            <!-- category -->
+            <div class="select-box">
+                <div class="select-box__current" tabindex="1">
+                  <div class="select-box__value">
+                    <label class="select-box__input-text">Category</label>
+                    <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+                  </div>
+                </div>
+                <ul class="select-box__list">
+                  <li>
+                    <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio" name="recCateg" id="recCateg" value="Luzon">
+                        Luzon
+                    </label>
+                  </li>
+                  <li>
+                    <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio" name="recCateg" id="recCateg" value="Visayan">
+                        Visayas
+                    </label>
+                  </li>
+                  <li>
+                    <label class="select-box__option"  aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio" name="recCateg" id="recCateg" value="Mindanaoan">
+                        Mindanao
+                    </label>
+                  </li>
+                  <li>
+                    <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio" name="recCateg" id="recCateg" value="Popular">
+                        Popular
+                    </label>
+                  </li>
+                </ul>
+            </div>
+
+
+            <!-- cooking time -->
+            <div class="select-box">
+                <div class="select-box__current" tabindex="1">
+                  <div class="select-box__value">
+                    <label class="select-box__input-text">Cooking Time</label>
+                    <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+                  </div>
+                </div>
+                <ul class="select-box__list">
+                  <li>
+                    <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio"  name="recTimeInp" id="recTimeInp" value="30">
+                        Less than 30 minutes
+                    </label>
+                  </li>
+                  <li>
+                    <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio" name="recTimeInp" id="recTimeInp" value="31">
+                        Between 30 minutes to 1 hour
+                    </label>
+                  </li>
+                  <li>
+                    <label class="select-box__option"  aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio"  name="recTimeInp" id="recTimeInp" value="1 hr and 30 minutes">
+                        Between 1 hour to 1 hour and 30 minutes
+                    </label>
+                  </li>
+                  <li>
+                    <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio"  name="recTimeInp" id="recTimeInp" value="1 hr and 31 minutes">
+                        More than 1 hour and 30 minutes
+                    </label>
+                  </li>
+                </ul>
+            </div>
+
+
+            <!-- preferred calorie -->
+            <div class="select-box">
+                <div class="select-box__current" tabindex="1">
+                  <div class="select-box__value">
+                    <label class="select-box__input-text">Calorie</label>
+                    <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+                  </div>
+                </div>
+                <ul class="select-box__list">
+                  <li>
+                    <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio"  name="recCal" id="recCal" value="400">
+                        Less than 400kCal
+                    </label>
+                  </li>
+                  <li>
+                    <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio"  name="recCal" id="recCal" value="800">
+                        Between 401 kCal to 800 kCal
+                    </label>
+                  </li>
+                  <li>
+                    <label class="select-box__option"  aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio"  name="recCal" id="recCal" value="801">
+                        Between 801 kCal to 1200 kCal
+                    </label>
+                  </li>
+                  <li>
+                    <label class="select-box__option" aria-hidden="aria-hidden">
+                        <input class="select-box__input" type="radio" name="recCal" id="recCal" value="1201">
+                        More than 1200 kCal
+                    </label>
+                  </li>
+                </ul>
+            </div>
+            <button type="submit" class="btn-lang">
+              <span class="fil-icon"></span>
+              <span class="fil-btn">Filter</span></button>
+
+
+
+                <!-- <select name="recDishInp" id="recDishInp" class="categ-opt" onchange="this.form.submit()">
+                    <option value="" disabled selected>Dish Type</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Meryenda">Meryenda</option>
+                    <option value="Dinner">Dinner</option>
+                </select>
+
+               
+                <select name="recCateg" id="recCateg" class="categ-opt" onchange="this.form.submit()">
+                    <option value="" disabled selected>Category</option>
+                    <option value="Luzon">Luzon</option>
+                    <option value="Visayas">Visayas</option>
+                    <option value="Mindanao">Mindanao</option>
+                    <option value="Popular">Popular</option>
+                </select>
+
+                
+                <select name="recTimeInp" id="recTimeInp" class="categ-opt" onchange="this.form.submit()">
+                    <option value="" disabled selected>Cooking Time</option>
+                    <option value="30">Less than 30 minutes</option>
+                    <option value="31">Between 30 minutes to 1 hour</option>
+                    <option value="1 hr and 30 minutes">Between 1 hour to 1 hour and 30 minutes</option>
+                    <option value="1 hr and 31 minutes">More than 2 hours</option>
+                </select>
+
+                
+                <select name="recCal" id="recCal" class="categ-opt" onchange="this.form.submit()">
+                    <option value="" disabled selected>Calorie</option>
+                    <option value="400">Less than 400 calories</option>
+                    <option value="800">Between 401 calories to 800 calories</option>
+                    <option value="801">Between 801 calories to 1200 calories</option>
+                    <option value="1201">More than 1200 calories</option>
+                </select> -->
+        </form> 
+    </div>
 
     <div class="box-container">
         <% if (recs.length > 0) { %>

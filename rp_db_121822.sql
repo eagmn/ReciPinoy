@@ -7,6 +7,9 @@
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
+CREATE DATABASE rp_db;
+USE rp_db;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -461,7 +464,7 @@ INSERT INTO `ing` (`ing_id`, `ing_name`, `ing_restrict`, `ing_allergy`) VALUES
 -- Table structure for table `mealplan`
 --
 
-CREATE TABLE `mealplan` (
+CREATE TABLE `mealPlan` (
   `mealPlan_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `rec_id` int(11) NOT NULL,
@@ -478,7 +481,7 @@ CREATE TABLE `mealplan` (
 -- Dumping data for table `mealplan`
 --
 
-INSERT INTO `mealplan` (`mealPlan_id`, `user_id`, `rec_id`, `month`, `day`, `time`, `sDay`, `weekCount`, `dateTime`, `dayMonth`) VALUES
+INSERT INTO `mealPlan` (`mealPlan_id`, `user_id`, `rec_id`, `month`, `day`, `time`, `sDay`, `weekCount`, `dateTime`, `dayMonth`) VALUES
 (21, 5, 7, 'Nov', 6, '6:24am', 'Sunday', 44, '11/06/2022 06:24 AM', '610'),
 (22, 5, 6, 'Nov', 8, '9:52am', 'Tuesday', 45, '11/08/2022 09:52 AM', '810'),
 (23, 5, 1, 'Dec', 18, '8:00pm', 'Sunday', 50, '12/18/2022 08:00 PM', '1811'),
@@ -2431,7 +2434,7 @@ ALTER TABLE `ing`
 --
 -- Indexes for table `mealplan`
 --
-ALTER TABLE `mealplan`
+ALTER TABLE `mealPlan`
   ADD PRIMARY KEY (`mealPlan_id`);
 
 --
@@ -2471,7 +2474,7 @@ ALTER TABLE `ing`
 --
 -- AUTO_INCREMENT for table `mealplan`
 --
-ALTER TABLE `mealplan`
+ALTER TABLE `mealPlan`
   MODIFY `mealPlan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
