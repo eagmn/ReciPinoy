@@ -7,7 +7,7 @@ const toCache = [
     'http://localhost:3000/saved',
     'http://localhost:3000/mealPlan',
     'http://localhost:3000/recommend',
-    'http://localhost:3000/grocery-list'/
+    'http://localhost:3000/grocery-list',
     // 'grocery.ejs',
     // 'index.ejs',
     // 'userHome.ejs',
@@ -84,9 +84,9 @@ self.addEventListener('fetch', (event) => {
               // Open the cache
       event.respondWith(caches.open(dyCache).then((cache) => {
         // Go to the network first
-        return fetch(event.request.url).then((fetchedResponse) => {
+        return fetch(event.request).then((fetchedResponse) => {
             if(toCache.includes(event.request.url)){
-                cache.put(event.request, fetchedResponse.clone());
+                cache.put(event.request.url, fetchedResponse.clone());
                 return fetchedResponse;
             }
             else{

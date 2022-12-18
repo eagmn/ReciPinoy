@@ -1374,27 +1374,29 @@ exports.userSaveRec = (req, res) =>{
 exports.userSavedRecipes = (req, res) =>{
     try {
         session = req.session;
-        function getRec(conn, name) {
-            conn.query('SELECT * FROM saved', (err, save) => {
-                if (err) {
-                    console.log(err);  
-                    conn.release(); 
-                } else {
-                    conn.release();
-                    res.render('saved', { title: 'Recipes', save: save, id: name});
-                }
-            })
-        }
+        // function getRec(conn, name) {
+
+        // }
         if(session.userId){
             pool.getConnection((err, conn)=>{
-                    if(err){
-                        console.log(err);
-                        conn.release();
-                    }
-                    else{
-                        getRec(conn, session.userName);
-                    }})
-        }else{
+                if(err){
+                    console.log(err);
+                    conn.release();
+                }
+                else{
+                    conn.query('SELECT * FROM saved', (err, save) => {
+                        if (err) {
+                            console.log(err);  
+                            conn.release(); 
+                        } else {
+                            conn.release();
+                            res.render('saved', { title: 'Recipes', save: save, id: session.userName});
+                        }
+                    })
+                    // getRec(conn, session.userName);
+                }})
+        }
+        else{
             req.flash('msg', 'You need to login to view saved recipes!')
             res.redirect('/login');
         }
