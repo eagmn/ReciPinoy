@@ -899,12 +899,55 @@ exports.getFilter = (req,res) => {
                         console.log(mealTime);
                         session = req.session;
                         if(session.adminId){
-                            conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: session.userName});
+                            let recIngs = [];
+                            let ingStringArr = [];
+                            let ingStr = '';
+                            let qStr = 'SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?';
+                            function getIngs(id){
+                                return new Promise((resolve, reject) => {
+                                        conn.query(qStr, [id], (err, ings) => {
+                                            if(err){
+                                                console.log(err, '\n');
+                                            }
+                                            else{
+                                                ings.forEach(ing => {
+                                                    let ingq = ing.ingQuant;
+                                                    let ingu = ing.ingUnit;
+                                                    let ingi = ing.ingIns;
+                                                    if(!ing.ingQuant || ing.ingQuant == 0){
+                                                        ingq = '';
+                                                    }
+                                                    if(!ing.ingUnit){
+                                                        ingu = '';
+                                                    }
+                                                    if(!ing.ingIns){
+                                                        ingi = '';
+                                                    }
+                                                    let temp = ingq + ' ' + ingu + ' ' + ing.ing_name + ' ' + ingi;
+                                                    ingStringArr.push(temp);
+                                                });
+                                                ingStr = ingStringArr.join('/');
+                                                ingStringArr = []; 
+                                                resolve(ingStr);
+                                            }
+                                        })
+                                })
+                            }
+                            async function getAllRecIng(r){
+                                for(id of r){
+                                    ingStr = await getIngs(id.rec_id);
+                                    recIngs.push(ingStr);
+                                }
+                                conn.release();
+                                //let msg = req.flash('msg');
+                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
+                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
+                            }
+                            getAllRecIng(filter);
                         }
                         else{
                             conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: ''});
+                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: ''});
                     }}
                 }) 
             }
@@ -917,12 +960,55 @@ exports.getFilter = (req,res) => {
                         console.log(mealTime);
                         session = req.session;
                         if(session.adminId){
-                            conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: session.userName});
+                            let recIngs = [];
+                            let ingStringArr = [];
+                            let ingStr = '';
+                            let qStr = 'SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?';
+                            function getIngs(id){
+                                return new Promise((resolve, reject) => {
+                                        conn.query(qStr, [id], (err, ings) => {
+                                            if(err){
+                                                console.log(err, '\n');
+                                            }
+                                            else{
+                                                ings.forEach(ing => {
+                                                    let ingq = ing.ingQuant;
+                                                    let ingu = ing.ingUnit;
+                                                    let ingi = ing.ingIns;
+                                                    if(!ing.ingQuant || ing.ingQuant == 0){
+                                                        ingq = '';
+                                                    }
+                                                    if(!ing.ingUnit){
+                                                        ingu = '';
+                                                    }
+                                                    if(!ing.ingIns){
+                                                        ingi = '';
+                                                    }
+                                                    let temp = ingq + ' ' + ingu + ' ' + ing.ing_name + ' ' + ingi;
+                                                    ingStringArr.push(temp);
+                                                });
+                                                ingStr = ingStringArr.join('/');
+                                                ingStringArr = []; 
+                                                resolve(ingStr);
+                                            }
+                                        })
+                                })
+                            }
+                            async function getAllRecIng(r){
+                                for(id of r){
+                                    ingStr = await getIngs(id.rec_id);
+                                    recIngs.push(ingStr);
+                                }
+                                conn.release();
+                                //let msg = req.flash('msg');
+                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
+                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
+                            }
+                            getAllRecIng(filter);
                         }
                         else{
                             conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: ''});
+                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: ''});
                     }}
                 }) 
             }
@@ -935,12 +1021,55 @@ exports.getFilter = (req,res) => {
                         console.log(mealTime);
                         session = req.session;
                         if(session.adminId){
-                            conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: session.userName});
+                            let recIngs = [];
+                            let ingStringArr = [];
+                            let ingStr = '';
+                            let qStr = 'SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?';
+                            function getIngs(id){
+                                return new Promise((resolve, reject) => {
+                                        conn.query(qStr, [id], (err, ings) => {
+                                            if(err){
+                                                console.log(err, '\n');
+                                            }
+                                            else{
+                                                ings.forEach(ing => {
+                                                    let ingq = ing.ingQuant;
+                                                    let ingu = ing.ingUnit;
+                                                    let ingi = ing.ingIns;
+                                                    if(!ing.ingQuant || ing.ingQuant == 0){
+                                                        ingq = '';
+                                                    }
+                                                    if(!ing.ingUnit){
+                                                        ingu = '';
+                                                    }
+                                                    if(!ing.ingIns){
+                                                        ingi = '';
+                                                    }
+                                                    let temp = ingq + ' ' + ingu + ' ' + ing.ing_name + ' ' + ingi;
+                                                    ingStringArr.push(temp);
+                                                });
+                                                ingStr = ingStringArr.join('/');
+                                                ingStringArr = []; 
+                                                resolve(ingStr);
+                                            }
+                                        })
+                                })
+                            }
+                            async function getAllRecIng(r){
+                                for(id of r){
+                                    ingStr = await getIngs(id.rec_id);
+                                    recIngs.push(ingStr);
+                                }
+                                conn.release();
+                                //let msg = req.flash('msg');
+                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
+                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
+                            }
+                            getAllRecIng(filter);
                         }
                         else{
                             conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: ''});
+                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: ''});
                     }}
                 }) 
             }
@@ -953,12 +1082,55 @@ exports.getFilter = (req,res) => {
                         console.log(mealTime);
                         session = req.session;
                         if(session.adminId){
-                            conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: session.userName});
+                            let recIngs = [];
+                            let ingStringArr = [];
+                            let ingStr = '';
+                            let qStr = 'SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?';
+                            function getIngs(id){
+                                return new Promise((resolve, reject) => {
+                                        conn.query(qStr, [id], (err, ings) => {
+                                            if(err){
+                                                console.log(err, '\n');
+                                            }
+                                            else{
+                                                ings.forEach(ing => {
+                                                    let ingq = ing.ingQuant;
+                                                    let ingu = ing.ingUnit;
+                                                    let ingi = ing.ingIns;
+                                                    if(!ing.ingQuant || ing.ingQuant == 0){
+                                                        ingq = '';
+                                                    }
+                                                    if(!ing.ingUnit){
+                                                        ingu = '';
+                                                    }
+                                                    if(!ing.ingIns){
+                                                        ingi = '';
+                                                    }
+                                                    let temp = ingq + ' ' + ingu + ' ' + ing.ing_name + ' ' + ingi;
+                                                    ingStringArr.push(temp);
+                                                });
+                                                ingStr = ingStringArr.join('/');
+                                                ingStringArr = []; 
+                                                resolve(ingStr);
+                                            }
+                                        })
+                                })
+                            }
+                            async function getAllRecIng(r){
+                                for(id of r){
+                                    ingStr = await getIngs(id.rec_id);
+                                    recIngs.push(ingStr);
+                                }
+                                conn.release();
+                                //let msg = req.flash('msg');
+                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
+                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
+                            }
+                            getAllRecIng(filter);
                         }
                         else{
                             conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: ''});
+                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: ''});
                     }}
                 }) 
             }
@@ -973,12 +1145,55 @@ exports.getFilter = (req,res) => {
                         console.log(calorie);
                         session = req.session;
                         if(session.adminId){
-                            conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: session.userName});
+                            let recIngs = [];
+                            let ingStringArr = [];
+                            let ingStr = '';
+                            let qStr = 'SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?';
+                            function getIngs(id){
+                                return new Promise((resolve, reject) => {
+                                        conn.query(qStr, [id], (err, ings) => {
+                                            if(err){
+                                                console.log(err, '\n');
+                                            }
+                                            else{
+                                                ings.forEach(ing => {
+                                                    let ingq = ing.ingQuant;
+                                                    let ingu = ing.ingUnit;
+                                                    let ingi = ing.ingIns;
+                                                    if(!ing.ingQuant || ing.ingQuant == 0){
+                                                        ingq = '';
+                                                    }
+                                                    if(!ing.ingUnit){
+                                                        ingu = '';
+                                                    }
+                                                    if(!ing.ingIns){
+                                                        ingi = '';
+                                                    }
+                                                    let temp = ingq + ' ' + ingu + ' ' + ing.ing_name + ' ' + ingi;
+                                                    ingStringArr.push(temp);
+                                                });
+                                                ingStr = ingStringArr.join('/');
+                                                ingStringArr = []; 
+                                                resolve(ingStr);
+                                            }
+                                        })
+                                })
+                            }
+                            async function getAllRecIng(r){
+                                for(id of r){
+                                    ingStr = await getIngs(id.rec_id);
+                                    recIngs.push(ingStr);
+                                }
+                                conn.release();
+                                //let msg = req.flash('msg');
+                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
+                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
+                            }
+                            getAllRecIng(filter);
                         }
                         else{
                             conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: ''});
+                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: ''});
                     }}
             })
         }
@@ -991,12 +1206,55 @@ exports.getFilter = (req,res) => {
                         console.log(calorie);
                         session = req.session;
                         if(session.adminId){
-                            conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: session.userName});
+                            let recIngs = [];
+                            let ingStringArr = [];
+                            let ingStr = '';
+                            let qStr = 'SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?';
+                            function getIngs(id){
+                                return new Promise((resolve, reject) => {
+                                        conn.query(qStr, [id], (err, ings) => {
+                                            if(err){
+                                                console.log(err, '\n');
+                                            }
+                                            else{
+                                                ings.forEach(ing => {
+                                                    let ingq = ing.ingQuant;
+                                                    let ingu = ing.ingUnit;
+                                                    let ingi = ing.ingIns;
+                                                    if(!ing.ingQuant || ing.ingQuant == 0){
+                                                        ingq = '';
+                                                    }
+                                                    if(!ing.ingUnit){
+                                                        ingu = '';
+                                                    }
+                                                    if(!ing.ingIns){
+                                                        ingi = '';
+                                                    }
+                                                    let temp = ingq + ' ' + ingu + ' ' + ing.ing_name + ' ' + ingi;
+                                                    ingStringArr.push(temp);
+                                                });
+                                                ingStr = ingStringArr.join('/');
+                                                ingStringArr = []; 
+                                                resolve(ingStr);
+                                            }
+                                        })
+                                })
+                            }
+                            async function getAllRecIng(r){
+                                for(id of r){
+                                    ingStr = await getIngs(id.rec_id);
+                                    recIngs.push(ingStr);
+                                }
+                                conn.release();
+                                //let msg = req.flash('msg');
+                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
+                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
+                            }
+                            getAllRecIng(filter);
                         }
                         else{
                             conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: ''});
+                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: ''});
                     }}
             })
         }
@@ -1009,12 +1267,55 @@ exports.getFilter = (req,res) => {
                         console.log(calorie);
                         session = req.session;
                         if(session.adminId){
-                            conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: session.userName});
+                            let recIngs = [];
+                            let ingStringArr = [];
+                            let ingStr = '';
+                            let qStr = 'SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?';
+                            function getIngs(id){
+                                return new Promise((resolve, reject) => {
+                                        conn.query(qStr, [id], (err, ings) => {
+                                            if(err){
+                                                console.log(err, '\n');
+                                            }
+                                            else{
+                                                ings.forEach(ing => {
+                                                    let ingq = ing.ingQuant;
+                                                    let ingu = ing.ingUnit;
+                                                    let ingi = ing.ingIns;
+                                                    if(!ing.ingQuant || ing.ingQuant == 0){
+                                                        ingq = '';
+                                                    }
+                                                    if(!ing.ingUnit){
+                                                        ingu = '';
+                                                    }
+                                                    if(!ing.ingIns){
+                                                        ingi = '';
+                                                    }
+                                                    let temp = ingq + ' ' + ingu + ' ' + ing.ing_name + ' ' + ingi;
+                                                    ingStringArr.push(temp);
+                                                });
+                                                ingStr = ingStringArr.join('/');
+                                                ingStringArr = []; 
+                                                resolve(ingStr);
+                                            }
+                                        })
+                                })
+                            }
+                            async function getAllRecIng(r){
+                                for(id of r){
+                                    ingStr = await getIngs(id.rec_id);
+                                    recIngs.push(ingStr);
+                                }
+                                conn.release();
+                                //let msg = req.flash('msg');
+                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
+                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
+                            }
+                            getAllRecIng(filter);
                         }
                         else{
                             conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: ''});
+                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: ''});
                     }}
             })
         }
@@ -1027,12 +1328,55 @@ exports.getFilter = (req,res) => {
                         console.log(calorie);
                         session = req.session;
                         if(session.adminId){
-                            conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: session.userName});
+                            let recIngs = [];
+                            let ingStringArr = [];
+                            let ingStr = '';
+                            let qStr = 'SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?';
+                            function getIngs(id){
+                                return new Promise((resolve, reject) => {
+                                        conn.query(qStr, [id], (err, ings) => {
+                                            if(err){
+                                                console.log(err, '\n');
+                                            }
+                                            else{
+                                                ings.forEach(ing => {
+                                                    let ingq = ing.ingQuant;
+                                                    let ingu = ing.ingUnit;
+                                                    let ingi = ing.ingIns;
+                                                    if(!ing.ingQuant || ing.ingQuant == 0){
+                                                        ingq = '';
+                                                    }
+                                                    if(!ing.ingUnit){
+                                                        ingu = '';
+                                                    }
+                                                    if(!ing.ingIns){
+                                                        ingi = '';
+                                                    }
+                                                    let temp = ingq + ' ' + ingu + ' ' + ing.ing_name + ' ' + ingi;
+                                                    ingStringArr.push(temp);
+                                                });
+                                                ingStr = ingStringArr.join('/');
+                                                ingStringArr = []; 
+                                                resolve(ingStr);
+                                            }
+                                        })
+                                })
+                            }
+                            async function getAllRecIng(r){
+                                for(id of r){
+                                    ingStr = await getIngs(id.rec_id);
+                                    recIngs.push(ingStr);
+                                }
+                                conn.release();
+                                //let msg = req.flash('msg');
+                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
+                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
+                            }
+                            getAllRecIng(filter);
                         }
                         else{
                             conn.release();
-                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: ''});
+                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: ''});
                     }}
             })
         }
@@ -1066,12 +1410,55 @@ exports.getFilter = (req,res) => {
                             console.log(calorie);
                             session = req.session;
                             if(session.adminId){
-                                conn.release();
-                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: session.userName});
+                                let recIngs = [];
+                            let ingStringArr = [];
+                            let ingStr = '';
+                            let qStr = 'SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?';
+                            function getIngs(id){
+                                return new Promise((resolve, reject) => {
+                                        conn.query(qStr, [id], (err, ings) => {
+                                            if(err){
+                                                console.log(err, '\n');
+                                            }
+                                            else{
+                                                ings.forEach(ing => {
+                                                    let ingq = ing.ingQuant;
+                                                    let ingu = ing.ingUnit;
+                                                    let ingi = ing.ingIns;
+                                                    if(!ing.ingQuant || ing.ingQuant == 0){
+                                                        ingq = '';
+                                                    }
+                                                    if(!ing.ingUnit){
+                                                        ingu = '';
+                                                    }
+                                                    if(!ing.ingIns){
+                                                        ingi = '';
+                                                    }
+                                                    let temp = ingq + ' ' + ingu + ' ' + ing.ing_name + ' ' + ingi;
+                                                    ingStringArr.push(temp);
+                                                });
+                                                ingStr = ingStringArr.join('/');
+                                                ingStringArr = []; 
+                                                resolve(ingStr);
+                                            }
+                                        })
+                                })
                             }
-                            else{
+                            async function getAllRecIng(r){
+                                for(id of r){
+                                    ingStr = await getIngs(id.rec_id);
+                                    recIngs.push(ingStr);
+                                }
                                 conn.release();
-                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, id: ''});
+                                //let msg = req.flash('msg');
+                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
+                                res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
+                            }
+                            getAllRecIng(filter);
+                        }
+                        else{
+                            conn.release();
+                            res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: ''});
                         }}
                     })
                 }
