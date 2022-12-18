@@ -12,6 +12,15 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+        <!-- manifest link -->
+    <link rel="manifest" href="/public/js/manifest.json">
+    <!-- link apple icon -->
+    <link rel="apple-touch-icon" href="/images/logo/icon-192x192.png">
+    <!-- link theme -->
+    <meta name="theme-color" content="#16be5c" />
+    <!-- description to improve seo -->
+    <meta name="description" content="ReciPinoy: Selected Filipino Cuisines Recommender Web Application">
+
     <title><%=title  %> </title>
 </head>
 <body>
@@ -39,7 +48,7 @@
         <!-- Search Ingredients -->
         <div class="parentContainer" id="ingInps">
             <div class="searchandadd">
-                <div class="search">
+                <div class="searchA">
                     <input type="text" placeholder="Enter your ingredients onhand..." name="ings[]" id="ing1" class="ingsInp">
                     <input type="hidden" name="ingNum" id="ingNum" value="0">
                     <div class="icon">
@@ -69,7 +78,7 @@
         <!-- Exclude Ingredients -->
         <div class="parentContainer" id="exIngs">
             <div class="searchandadd">
-                <div class="search">
+                <div class="searchX">
                     <input type="text" placeholder="Enter ingredients you want to exclude..." name="exIng[]" class ="ingsInp" id="exIng">
                     <input type="hidden" name="exIngNum" id="exIngNum" value="0">
                     <div class="iconExclude">
@@ -211,7 +220,7 @@
             }
             else{
                 let newIngNum = parseInt($('#exIngNum').val()) + 1;
-                let p = '<li onclick="removeExIng(ing)" name="exIngLi[]"><pre>'+ ingstr +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="color:red;">X</b></pre></li>';
+                let p = '<li onclick="removeExIng(this)" name="exIngLi[]"><pre>'+ ingstr +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="color:red;">X</b></pre></li>';
                 $('#exIngCont').append(p);
                 $("#exIng").val('');
                 $('#exIngNum').val(newIngNum);  
@@ -281,13 +290,12 @@
 
         function removeExIng(ing) {
             exIngArr = [];
+            ing.parentNode.removeChild(ing);
             jQuery('li[name="exIngLi[]"]').each(function() {
                 let str = $(this).text();
                 let newStr = str.replace(/X/g, '');
                 exIngArr.push(newStr.trim());
             });
-
-            console.log("ingStr: ", ingStr);
         }
     </script>
 
