@@ -211,7 +211,7 @@
             }
             else{
                 let newIngNum = parseInt($('#exIngNum').val()) + 1;
-                let p = '<li onclick="removeExIng(ing)" name="exIngLi[]"><pre>'+ ingstr +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="color:red;">X</b></pre></li>';
+                let p = '<li onclick="removeExIng(this)" name="exIngLi[]"><pre>'+ ingstr +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="color:red;">X</b></pre></li>';
                 $('#exIngCont').append(p);
                 $("#exIng").val('');
                 $('#exIngNum').val(newIngNum);  
@@ -281,13 +281,12 @@
 
         function removeExIng(ing) {
             exIngArr = [];
+            ing.parentNode.removeChild(ing);
             jQuery('li[name="exIngLi[]"]').each(function() {
                 let str = $(this).text();
                 let newStr = str.replace(/X/g, '');
                 exIngArr.push(newStr.trim());
             });
-
-            console.log("ingStr: ", ingStr);
         }
     </script>
 
