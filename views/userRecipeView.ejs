@@ -57,11 +57,9 @@
         <a class="back-btn" onclick="history.back()"></a>
         <div class="urv-upper-content">
             <!-- # image # -->
-            <div class="urv-img">
                 <% if (rec.rec_image) { %>
                     <img src="/images/<%= rec.rec_image%>" alt="<%= rec.rec_name %> Image" class="img-rec">
                 <% } %>
-            </div>
 
             <div class="urv-grid">
                 <div class="urv-grid-header">
@@ -79,7 +77,7 @@
                             </div>  <!-- hindi ko sya magawang star HAJDKAJKDAJKKJDKJ [eka] 
                                                                 lagyan ng star icon smth [euni]-->
                         <% } else { %>
-                            <span>This recipe hasn't been rated.</span>
+                            <span class="star-rate">This recipe hasn't been rated.</span>
                         <% } %>
                     </div>
 
@@ -158,14 +156,22 @@
                                             <input type="text" class="mp-date" name="datetimes" />
                                                 <!-- <label for="recMTime" class="addRecLabel">Meal Time: </label> -->
                                             <div class="meal-time">
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
                                                     <label for="mtBreakfast" class="addRecLabel">Breakfast</label>
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
+                                                </div>
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
                                                     <label for="mtLunch" class="addRecLabel">Lunch</label>
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Meryenda">
+                                                </div>
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Meryenda">
                                                     <label for="mtLunch" class="addRecLabel">Meryenda</label>
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
+                                                </div>
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
                                                     <label for="mtDinner" class="addRecLabel">Dinner</label>
+                                                </div>
                                             </div>
                                             <input type="hidden" name="recID" value="<%= rec.rec_id %>">
                                             <input type="hidden" name="recName" id="recName" value="<%= rec.rec_name %>">
@@ -181,7 +187,7 @@
                 <!-- recipe source -->
                 <!-- <div class="rec-src"> -->
                 <a href="<%= rec.rec_src %>" class="r-source">
-                    <span class="src">This recipe was excepted from this source.</span>
+                    <span class="src">This recipe was excerpted from this source.</span>
                 </a>
                 <!-- </div> -->
             </div>

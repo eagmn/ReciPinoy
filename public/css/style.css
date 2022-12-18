@@ -941,7 +941,7 @@ section{
    color:var(--green);
 }
 
-.star-rate, .saved-rate{
+.saved-rate{
    font-size: 1.2rem;
    margin-left: 1.2rem;
    padding-bottom: 2.5rem;
@@ -1156,20 +1156,13 @@ section{
 /* urv-img, urv-grid (urv-title, urv-saved-btn, rec-desc, urv-upper-details) */
 .urv-upper-content {
    display: grid;
-   grid-template-columns: repeat(2, 2fr);
-   gap: 25px;
+   grid-template-columns: 44% 2fr;
+   gap: 1.5em;
 }
-
-/* img src */
-/* .urv-img{
-   position: relative;
-   height: 0;
-   padding-bottom: 56.25%;
-} */
 
 .img-rec{
    width: 100%;
-   height: 100%;
+   max-height: 100%;
    /* object-fit: cover; */
 }
 
@@ -1179,11 +1172,11 @@ section{
 
 .urv-grid-header{
    display: flex;
-   justify-content: space-between;
 }
 
 /* div ng categ and name and rating & div ng saved btn */
 .urv-title {
+   flex-grow: 1;
    margin: 2em 2em 2em 0; /* 2em both kapag maliit na screen */
 }
 
@@ -1195,8 +1188,12 @@ section{
 
 .rec-name {
    margin: 10px 0;
-   font-size: 1.7em;
+   font-size: 2em;
    font-weight: bolder;
+}
+
+.star-rate{
+   font-size: 1.6rem;
 }
 
 /* star ulet sa ratings */
@@ -1239,37 +1236,46 @@ section{
 /* class ng desc */
 .rec-desc {
    text-align: justify;
+   font-size: 1.7rem;
 }
 
 /* div with total time, cal, add to meal plan button */
 .urv-upper-details{
    display: flex;
-   /* flex-wrap: wrap; */
-   font-size: 1.1rem;
-   justify-content: space-around;
-   margin: 1em 0.5em 1.5em;
+   /* font-size: 1.1rem; */
+   margin: 1.5em 0;
+   /* justify-content: space-around;
+   margin: 1em 0.5em 1.5em; */
+}
+
+.urv-upper-details p{
+   margin: 0;
 }
 
 .urv-time, .urv-cal, .urv-add-mp {
-   margin: 1em;
+   margin: 1em 0 1.5em;
+   flex-grow: 0.5;
+   text-align: center;
 }
 
 /* back button, total time and calories title */
 .tt-time, .tt-cal{
+   font-size: 1.3rem;
    font-weight: lighter;
    text-transform: uppercase;
 }
 
-/* total time and calories value */
+/* total time and calories value*/
 .tot-time, .cal{
    font-weight: 500;
-   font-size: 12px;
+   font-size: 1.5rem;
    text-transform: uppercase;
 }
 
 /* if no calorific value */
 .calv{
    font-weight: 500;
+   font-size: 1.3rem;
 }
 
 /* line between time/calories & mp button */
@@ -1296,20 +1302,19 @@ section{
 }
 
 .add-mp{
-   margin-top: 0.5rem;
+   margin: 0.8rem 0;
    padding: 1rem;
    cursor: pointer;
    background-color: var(--green);
    color:var(--white);
-   font-size: 1.2rem;
+   font-size: 1.5rem;
    text-transform: uppercase;
 }
-
 
 /* recipe source */
 .src{
    font-style: italic;
-   font-size: 12px;
+   font-size: 1em;
    color:rgb(27, 27, 27) !important;
    cursor: pointer;
    text-decoration: none;
@@ -2776,8 +2781,14 @@ transform: scale(1.1);
 
  .meal-time{
   display: flex;
-  justify-content: center;
+  flex-direction: column;
  }
+
+.box-mtime{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
 
  /* checkbox for meal plan button */
  .urv-add-mp .modal-content .meal-time input[type="checkbox"]{
@@ -2890,9 +2901,27 @@ transform: scale(1.1);
 # MEDIA QUERIES
 --------------------------------------------------------------*/
 
-/* @media only screen and (max-width: 1366px) {
+@media only screen and (max-width: 1480px) {
+   .rec-name{
+      font-size: 1.5em;
+   }
 
-} */
+   .star-rate{
+      font-size: 1.3rem;
+   }
+
+   .rec-desc{
+      font-size: 1.4rem;
+   }
+
+   .tt-time, .tt-cal{
+      font-size: 1.1rem;
+   }
+
+   .tot-time, .cal{
+      font-size: 1.3rem;
+   }
+}
 
 @media only screen and (max-width: 1300px) {
    /* .urv-img{
@@ -2908,10 +2937,6 @@ transform: scale(1.1);
    .select-box {
       width: 170px;
     }
-
-   .rec-name {
-      font-size: 1.9em;
-   }
  }
 
 
@@ -2945,13 +2970,13 @@ transform: scale(1.1);
       justify-content: flex-start;
    }
 
-   .urv-time{
+   /* .urv-time{
       margin: 1em 3em 1em 0;
    }
 
    .urv-cal, .urv-add-mp{
       margin: 1em 3em 1em;
-   }
+   } */
 
    .rec-ing-title, .rproc{
       margin: 0.5em 0 0.5em 0;
@@ -2972,9 +2997,44 @@ transform: scale(1.1);
 
 }
 
+@media only screen and (max-width: 1280px) {
+   .urv-title{
+      margin: 1.5rem 0;
+   }
+
+   .urv-saved-btn{
+      margin: 0;
+   }
+   
+}
+
+
 @media only screen and (max-width:1200px){
-.userRecipeView{
+/* .userRecipeView{
    padding: 0 2rem 2rem;
+} */
+html{
+   font-size: 52%;
+}
+
+.urv-upper-details{
+   margin: 0;
+}
+
+.urv-time{
+   margin: 1em 0.5em 1em 0;
+}
+
+.urv-cal{
+   margin: 1em 0.5em;
+}
+
+.add-mp{
+   padding: 0.8rem;
+}
+
+.src{
+   font-size: 0.8em;
 }
 
 #menu-btn{
@@ -3020,6 +3080,34 @@ transform: scale(1.1);
       width: 140px;
       font-size: 14px;
     }
+
+    .urv-grid{
+      margin-bottom: 0;
+   }
+
+   .rec-name{
+      font-size: 2em;
+   }
+
+   .star-rate{
+      font-size: 1.5rem;
+   }
+
+   .rec-desc {
+      font-size: 1.8rem;
+   }
+
+   .tt-time, .tt-cal{
+      font-size: 1.5rem;
+   }
+
+   .tot-time, .cal, .calv{
+      font-size: 1.7rem;
+   }
+
+   .src{
+      font-size: 1em;
+   }
 }
 
 @media (max-width:991px){
@@ -3212,9 +3300,23 @@ transform: scale(1.1);
       margin: 0.5rem 0.2rem;
    }
 
+   .tt-time, .tt-cal{
+      font-size: 1.2rem;
+   }
+
+   .tot-time, .cal, .calv{
+      font-size: 1.3rem;
+   }
+
+
 }
 
 @media only screen and (max-width: 670px){ 
+   .add-mp{
+      font-size: 1.2rem;
+      margin: 1em 0.5em;
+   }
+   
    .select-box {
       margin-right: 1em;
       width: 120px;
@@ -3260,6 +3362,10 @@ transform: scale(1.1);
 
 
 @media only screen and (max-width: 580px){ 
+   html{
+      font-size: 59%;
+   }
+   
    .food-title{
       font-size: 1.2rem;
    }
@@ -3335,6 +3441,42 @@ transform: scale(1.1);
       flex-flow: column;
       gap:0;
    }
+
+   .rec-desc{
+      font-size: 1.4rem;
+   }
+
+   .urv-upper-details{
+      flex-direction: column;
+   }
+
+   .bdr-line{
+      display: none;
+   }
+
+   .urv-time, .urv-cal{
+      display: flex;
+      flex-direction: row;
+      margin: 0;
+   }
+
+   .urv-upper-details p{
+      margin: 1em;
+   }
+
+   .tot-time, .cal, .calv{
+     margin: 1em;
+   }
+
+   .urv-add-mp{
+      text-align: left;
+      margin: 0.5em 0 1em;
+   }
+
+   .add-mp{
+      margin: 0;
+      font-size: 1.5rem;
+   }
 }
    
 
@@ -3359,15 +3501,9 @@ transform: scale(1.1);
    .add-recipes form .box, .add-recipes form .textareabox{
       width: 68%;
    }
-
 }
 
 @media (max-width:450px){
-
-   html{
-      font-size: 50%;
-   }
-
    .title{
       font-size: 3rem;
    }
@@ -3383,14 +3519,6 @@ transform: scale(1.1);
 }
 
 @media only screen and (max-width: 428px){
-   html{
-      font-size: 45%;
-   }
-   
-   .urv-add-mp{
-      margin: 1em 1.9em 1em;
-   }
-
    .add-mp{
       font-size: 1.1rem;
    }
@@ -3398,10 +3526,6 @@ transform: scale(1.1);
 
 
 @media only screen and (max-width: 396px){ 
-   html{
-      font-size: 40%;
-   }
-   
    .select-box1 {
       font-size: 14px;
    }
@@ -3409,21 +3533,9 @@ transform: scale(1.1);
    .sel-opt{
       font-size: 1.4em;
    }
-
-   .urv-add-mp{
-      margin: 1em 1.3em 1em 2em;
-   }
-
-   .add-mp{
-      font-size: 1rem;
-   }
-
 }
 
 @media only screen and (max-width: 375px) { 
-   .urv-add-mp{
-      margin: 1em 1.1em 1em 1.7em;
-   }
    .select-box1 {
       font-size: 12px;
    }
