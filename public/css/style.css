@@ -723,14 +723,14 @@ section{
 .box-categ{
    text-transform: uppercase;
    font-weight: normal;
-   font-size: 0.8rem;
+   font-size: 1.2rem;
    color:rgb(142, 142, 142);
 }
 
 .box-name{
    /* text-transform: uppercase; */
    font-weight: 450;
-   font-size: 1.2rem;
+   font-size: 1.8rem;
    /* letter-spacing: 0.2em; */
    margin: 0.6rem 1rem 0.9rem 0;
 }
@@ -756,24 +756,12 @@ section{
    font-size: 1.8em;
 }
 
-/* -------------------------------end of recipe grid */
-
-/* .usr-view-btn{
-   display: block;
-   background-color: var(--green);
-   color: #fff;
-   position: relative;
-   text-transform: uppercase;
-   letter-spacing: 0.1em;
-   text-align: center;
-   padding: 10px;
-   transition: 250ms;
+.box-rate, .box-not{
+   font-size: 1.2em;
 }
 
-.usr-view-btn:hover{
-   color: var(--black);
-   transition: 250ms;
-} */
+/* -------------------------------end of recipe grid */
+
 
 /*--------------------------------------------------------------
 # View Recipes Page
@@ -1338,17 +1326,28 @@ section{
    gap: 10px;
 }
 
+.flex-ing{
+   display: flex;
+   flex-direction: row;
+}
+
 /* ingredients */
 .ing-details{
    display: flex;
 }
 
 /* titles for ingredients & process */
-.rec-ing-title, .rproc{ 
+.rec-ing-title { 
    display: block;
    font-size: 1.5em;
    font-weight: bolder;
    margin: 0.5em 0 0.5em 1.3em;
+}
+
+.rproc{
+   display: block;
+   font-size: 1.5em;
+   font-weight: bolder;
 }
 
 /* add to grocery list button */
@@ -1373,7 +1372,7 @@ section{
    cursor: pointer;
    background-color: var(--green);
    color:var(--white);
-   font-size: 1.2rem;
+   font-size: 1.5rem;
    text-transform: uppercase;
 }
 
@@ -1432,24 +1431,26 @@ section{
 
 /* ingredient list */
 #ings{
-   margin-left: 2.2em;
-   margin-right: 1.5em;
-   line-height: 2em;
+   margin-left: 2em;
+   /* margin-right: 1.5em; */
+   line-height: 1.7em;
    text-align: justify;
-   font-size: 16px;
+   font-size: 1.4em;
 }
 
 ::marker{
    color: var(--light-color);
 }
 
+.rec-ing{
+   flex-grow: 1;
+}
 
 /* process */
 .rec-process {
-   margin: 1em auto;
+   flex-grow: 2;
    /* padding: 3em 0; */
    /* max-width: 150em; */
-   width: 100%;
 }
 
 
@@ -1464,15 +1465,16 @@ section{
    overflow: hidden;
 } */
 
-textarea{
+.txt-area{
    height: auto;
    width: 100%;
-   margin: 0 1em;
-   padding: 1.5em;
+   margin: 0.5em;
+   padding: 1em;
    resize: none;
    line-height: 1.7em;
    text-align: justify;
    overflow: auto;
+   font-size: 1.3em;
 }
 
 /* line border between ingredients & video */
@@ -3007,6 +3009,14 @@ transform: scale(1.1);
    .urv-saved-btn{
       margin: 0;
    }
+
+   #ings{
+      font-size: 1em;
+   }
+   
+   .txt-area{
+      font-size: 1em;
+   }
    
 }
 
@@ -3037,6 +3047,10 @@ html{
 
 .src{
    font-size: 0.8em;
+}
+
+.flex-ing{
+   flex-direction: column;
 }
 
 #menu-btn{
@@ -3481,13 +3495,26 @@ html{
 
    .urv-add-mp{
       text-align: left;
-      margin: 0.5em 0 1em;
+      margin: 0.5em 1em 1em;
    }
 
    .add-mp{
       margin: 0;
+      font-size: 1.35rem;
+   }
+
+   .tt-time, .tt-cal{
+      font-size: 1.4rem;
+   }
+
+   .tot-time, .cal, .calv{
       font-size: 1.5rem;
    }
+
+   .src{
+      font-size: 0.8em;
+   }
+
 }
    
 

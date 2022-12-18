@@ -155,99 +155,101 @@
 
         <div class="urv-lower-content">
             <!-- recipe ingredients -->
-            <div class="rec-ing">
-                <!-- title part details-->
-                <div class="ing-details">
-                    <!-- ingredient title -->
-                    <div class="rec-ing-title">
-                        <label>Ingredients </label>
-                    </div>
-                        
-                    <!-- add to grocery list button -->
-                    <div class="ing-gl-btn">
-                        <button type="button" id="openModal" class="gl-btn">add to grocery list</button>
-                        <!-- The Modal -->
-                        <div id="glModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <p class="rec-name-mdl"><%= saved.rec_name %></p>
-                                <p class="ing-mdl">Ingredients</p>
-                                <!-- border line -->
-                                <span class="line-mdl"></span>
-                                <form action="/grocery-list" method="post" onsubmit="addGrocery()">
-                                    <input type="hidden" name="recId" value="<%= saved.rec_id %>">
-                                    <input type="hidden" name="gList" id="gList" value="">
-                                    <div id="ingList"></div>
-                                    <button type="submit" class="add-mdl">add ingredients</button>
-                                </form>
+            <div class="flex-ing">
+                <div class="rec-ing">
+                    <!-- title part details-->
+                    <div class="ing-details">
+                        <!-- ingredient title -->
+                        <div class="rec-ing-title">
+                            <label>Ingredients </label>
+                        </div>
+                            
+                        <!-- add to grocery list button -->
+                        <div class="ing-gl-btn">
+                            <button type="button" id="openModal" class="gl-btn">add to grocery list</button>
+                            <!-- The Modal -->
+                            <div id="glModal" class="modal">
+                                <!-- Modal content -->
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <p class="rec-name-mdl"><%= saved.rec_name %></p>
+                                    <p class="ing-mdl">Ingredients</p>
+                                    <!-- border line -->
+                                    <span class="line-mdl"></span>
+                                    <form action="/grocery-list" method="post" onsubmit="addGrocery()">
+                                        <input type="hidden" name="recId" value="<%= saved.rec_id %>">
+                                        <input type="hidden" name="gList" id="gList" value="">
+                                        <div id="ingList"></div>
+                                        <button type="submit" class="add-mdl">add ingredients</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- serving -->
-                <div class="rec-ing-serving">
-                    <% if (saved.rec_serving) { %>
-                        <span class="srv-title">Serving</span>
-                        <div class="serving-btn">
-                            <% if (saved.rec_serving == 1) { %>
-                                <% srv = saved.rec_serving; %> 
-                                <button type="button" id="minusButton" class="minus-btn"></button>
-                                <input type="number" class="num-srv" name="servingInp" id="servingInp" value="<%= saved.rec_serving %>" min="1" readonly>
-                                <button type="button" id="plusButton" class="add-btn"></button>
-                            <% } else { %>
-                                <% srv = saved.rec_serving; %> 
-                                <button type="button" id="minusButton" class="minus-btn"></button>
-                                <input type="number" class="num-srv" name="servingInp" id="servingInp" value="1" min="1" readonly>
-                                <button type="button" id="plusButton"class="add-btn"></button>
-                            <% } %>
-                        </div>
-                    <% } %>
-                </div>
-    
-                <!-- ingredients list -->
-                <div id="ings">
-                    <input id="ingCount" value="<%= recIngs.length%>" type="hidden">
-                    <% for( let index = 0; index < recIngs.length; index++ ) { %>
-                        <input type="hidden" name="uiInp[]" value="<%=recIngs[index]%>">
-                        <% if (srv == 1) { %>
-                            <% if (quantArr[index] != 0) { %>
-                                <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
-                                <li><span id="quantSpan<%= index + 1%>"><%= quantArr[index]%></span>
-                                <span><%=recIngs[index]%><%=ins[index] %></span></li>
-                            <% } else { %>
-                                <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
-                                <li><span id="quantSpan<%= index + 1%>"></span>
+                    <!-- serving -->
+                    <div class="rec-ing-serving">
+                        <% if (saved.rec_serving) { %>
+                            <span class="srv-title">Serving</span>
+                            <div class="serving-btn">
+                                <% if (saved.rec_serving == 1) { %>
+                                    <% srv = saved.rec_serving; %> 
+                                    <button type="button" id="minusButton" class="minus-btn"></button>
+                                    <input type="number" class="num-srv" name="servingInp" id="servingInp" value="<%= saved.rec_serving %>" min="1" readonly>
+                                    <button type="button" id="plusButton" class="add-btn"></button>
+                                <% } else { %>
+                                    <% srv = saved.rec_serving; %> 
+                                    <button type="button" id="minusButton" class="minus-btn"></button>
+                                    <input type="number" class="num-srv" name="servingInp" id="servingInp" value="1" min="1" readonly>
+                                    <button type="button" id="plusButton"class="add-btn"></button>
+                                <% } %>
+                            </div>
+                        <% } %>
+                    </div>
+        
+                    <!-- ingredients list -->
+                    <div id="ings">
+                        <input id="ingCount" value="<%= recIngs.length%>" type="hidden">
+                        <% for( let index = 0; index < recIngs.length; index++ ) { %>
+                            <input type="hidden" name="uiInp[]" value="<%=recIngs[index]%>">
+                            <% if (srv == 1) { %>
+                                <% if (quantArr[index] != 0) { %>
+                                    <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
+                                    <li><span id="quantSpan<%= index + 1%>"><%= quantArr[index]%></span>
                                     <span><%=recIngs[index]%><%=ins[index] %></span></li>
-                            <% } %>
-                            
-                        <% } else { %>
-                            <% let newQuant = quantArr[index];%>
-                            <% newQuant = newQuant / srv; %>
-                            <% newQuant = newQuant.toFixed(2); %>  
+                                <% } else { %>
+                                    <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
+                                    <li><span id="quantSpan<%= index + 1%>"></span>
+                                        <span><%=recIngs[index]%><%=ins[index] %></span></li>
+                                <% } %>
+                                
+                            <% } else { %>
+                                <% let newQuant = quantArr[index];%>
+                                <% newQuant = newQuant / srv; %>
+                                <% newQuant = newQuant.toFixed(2); %>  
 
-                            <% if (quantArr[index] != 0) { %>
-                                <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
-                                <li><span id="quantSpan<%= index + 1%>"><%= quantArr[index]%></span>
-                                <span><%=recIngs[index]%><%=ins[index] %></span></li>
-                            <% } else { %>
-                                <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
-                                <li><span id="quantSpan<%= index + 1%>"></span>
+                                <% if (quantArr[index] != 0) { %>
+                                    <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
+                                    <li><span id="quantSpan<%= index + 1%>"><%= quantArr[index]%></span>
                                     <span><%=recIngs[index]%><%=ins[index] %></span></li>
+                                <% } else { %>
+                                    <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
+                                    <li><span id="quantSpan<%= index + 1%>"></span>
+                                        <span><%=recIngs[index]%><%=ins[index] %></span></li>
+                                <% } %>
                             <% } %>
                         <% } %>
-                    <% } %>
+                    </div>
                 </div>
-            </div>
 
-
-            <!-- ingredients process -->
-            <div class="rec-process">
-                <span class="rproc">How to Cook <%= saved.rec_name %></span>
-                <div contenteditable="true">
-                <textarea name="" id="" cols="30" rows="14" class="txt-area" readonly><%= saved.rec_process %></textarea><br>
+                <!-- ingredients process -->
+                <div class="rec-process">
+                    <span class="rproc">How to Cook <%= saved.rec_name %></span>
+                    <div contenteditable="true">
+                    <textarea name="" id="" cols="30" rows="18" class="txt-area" readonly><%= saved.rec_process %></textarea><br>
+                    </div>
                 </div>
+
             </div>
 
             <!-- recipe video with section line-->
