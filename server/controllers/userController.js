@@ -1397,7 +1397,7 @@ exports.userSavedRecipes = (req, res) =>{
                 }})
         }
         else{
-            req.flash('msg', 'You need to login to view saved recipes!')
+            req.flash('msg', 'You need to login to view Saved Recipes!')
             res.redirect('/login');
         }
         
@@ -2050,7 +2050,7 @@ exports.groceryPage = (req, res) => {
             renderPage();
         }
         else{
-            req.flash('msg', 'You need to log in first!');
+            req.flash('msg', 'You need to login to view Grocery Lists!');
             res.redirect('/login');
         }
     } catch (error) {
@@ -2900,7 +2900,7 @@ exports.mealPlanCurrentBut = (req, res) => {
                         getRec(conn, session.userName);
                     }})
         }else{
-            req.flash('msg', 'You need to login to view mealplan!')
+            req.flash('msg', 'You need to login to view Meal Plan!')
             res.redirect('/login');
         }
         
