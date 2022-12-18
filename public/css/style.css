@@ -848,7 +848,7 @@ section{
 
 .saved-img{
    width: 100%;
-   /* object-fit: cover; */
+   object-fit: cover;
 }
 
 .saved-container .each-card .img-clr {
@@ -921,7 +921,8 @@ section{
 .btnEdit{
    background-color: #fff;
    font-size: 2rem;
-   margin: 1.2rem 0 0.5rem;
+   margin: 1.2rem 0.5rem 0.5rem 0;
+
 }
 
 .food-title{
