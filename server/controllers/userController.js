@@ -1384,7 +1384,7 @@ exports.userSavedRecipes = (req, res) =>{
                     conn.release();
                 }
                 else{
-                    conn.query('SELECT * FROM saved', (err, save) => {
+                    conn.query('SELECT * FROM saved WHERE user_id = ?',[session.userId], (err, save) => {
                         if (err) {
                             console.log(err);  
                             conn.release(); 
