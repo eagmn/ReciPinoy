@@ -1214,20 +1214,21 @@ section{
    margin: 2em 0 2em 2em;
 }
 
-.save-btn::before{
-   content: "\f02e";
-   display: inline-block;
-   margin: 0.2rem 0.5rem 0 0;
-   color: var(--green);
-   font: var(--fa-font-regular);
-   text-rendering: auto;
-   -webkit-font-smoothing: antialiased;
-   cursor:pointer;
+.save-btn > .fa-regular + .fa-solid,
+.save-btn:hover > .fa-regular {
+  display: none;
+}
+
+.save-btn:hover > .fa-regular + .fa-solid {
+  display: inherit;
 }
 
 .save-btn {
+   color: var(--green);  
+   margin: 0.2rem 0.5rem 0 0;
    background-color: #fff;
-   font-size: 1.4em;
+   font-size: 2em;
+   cursor:pointer;
 }
 
 .svd-title{
