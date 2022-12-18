@@ -1055,7 +1055,7 @@ exports.getFilter = (req,res) => {
                     calorieFilter(conn, calorie);
                 }
                 else{
-                    conn.query('SELECT * FROM rec WHERE rec_mealTime LIKE ? OR rec_categ LIKE ? OR rec_time LIKE ?', ['%' +req.body.recDishInp + '%', req.body.recCateg, '%' +req.body.recTimeInp + '%'], (err, filter) =>{
+                    conn.query('SELECT * FROM rec WHERE rec_mealTime LIKE ? OR rec_categ LIKE ? OR rec_time LIKE ? OR rec_cal LIKE ?', ['%' +req.body.recDishInp + '%', req.body.recCateg, '%' +req.body.recTimeInp + '%', '%' +req.body.recCal + '%'], (err, filter) =>{
                         if(err){
                             console.log(err);
                             conn.release();
@@ -1063,6 +1063,7 @@ exports.getFilter = (req,res) => {
                             console.log(dishType);
                             console.log(categoryRec);
                             console.log(mealTime);
+                            console.log(calorie);
                             session = req.session;
                             if(session.adminId){
                                 conn.release();
@@ -1080,3 +1081,5 @@ exports.getFilter = (req,res) => {
         res.status(500).json({ message: error.message});
     }
 }
+
+
