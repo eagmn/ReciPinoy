@@ -45,7 +45,7 @@
         <% } %>
         <br>
 
-        <form action="/recommend/new" method="post" id="resForm">
+        <form class="formContainer" action="/recommend/new" method="post" id="resForm">
             <!-- Included Ingredients -->
             <div class="parentContainerRes">
                 <!-- Included Ingredients List Box -->
@@ -71,7 +71,7 @@
                 <!-- Show Form -->
                 <div id="showForm" style="display:none; width: 100%;">
                     <div class="searchandaddRes" >
-                        <div class="searchRes">
+                        <div class="searchResA">
                             <input type="text" placeholder="Enter your ingredients onhand..." name="ings[]" id="ingNew" class="ingsInp">
                             <div class="iconRes">
                                 <i class="fa-solid fa-magnifying-glass-plus" style="font-size: 32px; margin-right: 8px;"></i>
@@ -117,7 +117,7 @@
                 <!-- Show Form -->
                 <div id="showExForm" style="display:none; width: 100%;">
                     <div class="searchandaddRes">
-                        <div class="searchRes">
+                        <div class="searchResX">
                             <input type="text" placeholder="Enter ingredients you want to exclude..." name="exIng[]" id="exIngNew" class="ingsInp">
                             <div class="iconExcludeRes">
                                 <i class="fa-solid fa-magnifying-glass-plus" style="font-size: 32px; margin-right: 8px;"></i>

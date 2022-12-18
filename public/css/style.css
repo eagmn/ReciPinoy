@@ -2390,6 +2390,13 @@ transform: scale(1.1);
    box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
 } 
 
+.parentContainerRes .searchandaddRes .searchResA,
+.parentContainerRes .searchandaddRes .searchResX {
+   width: 75%;
+   position: relative;
+   box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
+} 
+
 .parentContainerRes .searchandaddRes .addIngBtnRes, .parentContainerRes .searchandaddRes .excludeIngBtnRes{
    border-radius: 40px;
    display: flex;
@@ -2431,7 +2438,8 @@ transform: scale(1.1);
    background: #DC3545;
 }
 
-.searchRes input {
+.searchResA input,
+.searchResX input {
    height: 50px;
    width: 100%;
    border-radius: 5px;
@@ -2442,11 +2450,19 @@ transform: scale(1.1);
    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
  }
 
- .searchRes .active input {
-   border-radius: 5px 5px 0 0;
- }
+ .searchResA input:focus{
+   border-color: var(--green);
+   outline: none;
+   box-shadow: var(--green) 0px 0px 0px 2px;
+}
 
- .searchRes .iconRes {
+.searchResX input:focus{
+   border-color: var(--green);
+   outline: none;
+   box-shadow: var(--red) 0px 0px 0px 2px;
+}
+
+ .searchResA .iconRes {
    position: absolute;
    right: 0px;
    top: 0px;
@@ -2456,7 +2472,7 @@ transform: scale(1.1);
    cursor: pointer;
  }
 
- .searchRes .iconExcludeRes {
+ .searchResX .iconExcludeRes {
    position: absolute;
    right: 0px;
    top: 0px;
