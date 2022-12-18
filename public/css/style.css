@@ -3166,6 +3166,22 @@ html{
       flex-wrap: wrap;
    }
 
+   .addedIngBox, .excludedIngBox{
+      width: 60%;
+   }
+
+   .parentContainer .searchandadd .searchA, .parentContainer .searchandadd .searchX{
+      width: 70%;
+   }
+
+   .addedIngBoxRes, .excludedIngBoxRes{
+      width: 60%;
+   }
+
+   .parentContainerRes .searchandaddRes .searchResA, .parentContainerRes .searchandaddRes .searchResX{
+      width: 70%;
+   }
+
 }
 
 @media only screen and (max-width:830px){
@@ -3334,6 +3350,42 @@ html{
    }
 
 
+   .addedIngBox, .excludedIngBox{
+      width: 75%;
+   }
+
+   .parentContainer .searchandadd .searchA, .parentContainer .searchandadd .searchX{
+      width: 60%;
+      height: 45px;
+      font-size: 16px;
+   }
+
+   .parentContainerRes .searchandaddRes .searchResA, .parentContainerRes .searchandaddRes .searchResX{
+      width: 60%;
+      height: 45px;
+      font-size: 16px;
+   }
+
+   .searchA .icon{
+      font-size: 28px;
+      margin-top: -8px;
+   }
+
+   .searchX .iconExclude{
+      font-size: 28px;
+      margin-top: -8px;
+   }
+
+   .searchResA .iconRes{
+      font-size: 28px;
+      margin-top: -8px;
+   }
+
+   .searchResX .iconExcludeRes{
+      font-size: 28px;
+      margin-top: -8px;
+   }
+
 }
 
 @media only screen and (max-width: 670px){ 
@@ -3359,6 +3411,32 @@ html{
    .saved-container {
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
+   }
+}
+
+@media only screen and (max-width: 620px){ 
+   .parentContainer .searchandadd{
+      flex-direction: column;
+   }
+
+   .parentContainer .searchandadd .addIngBtn, .parentContainer .searchandadd .excludeIngBtn{
+      margin-top: 18px;
+   }
+
+   .parentContainer .searchandadd .searchA, .parentContainer .searchandadd .searchX{
+      width: 90%;
+   }
+
+   .parentContainerRes .searchandaddRes{
+      flex-direction: column;
+   }
+
+   .parentContainerRes .searchandaddRes .addIngBtnRes, .parentContainerRes .searchandaddRes .excludeIngBtnRes{
+      margin-top: 18px;
+   }
+
+   .parentContainerRes .searchandaddRes .searchResA, .parentContainerRes .searchandaddRes .searchResX{
+      width: 90%;
    }
 }
 
@@ -3466,55 +3544,6 @@ html{
       flex-flow: column;
       gap:0;
    }
-
-   .rec-desc{
-      font-size: 1.4rem;
-   }
-
-   .urv-upper-details{
-      flex-direction: column;
-   }
-
-   .bdr-line{
-      display: none;
-   }
-
-   .urv-time, .urv-cal{
-      display: flex;
-      flex-direction: row;
-      margin: 0;
-   }
-
-   .urv-upper-details p{
-      margin: 1em;
-   }
-
-   .tot-time, .cal, .calv{
-     margin: 1em;
-   }
-
-   .urv-add-mp{
-      text-align: left;
-      margin: 0.5em 1em 1em;
-   }
-
-   .add-mp{
-      margin: 0;
-      font-size: 1.35rem;
-   }
-
-   .tt-time, .tt-cal{
-      font-size: 1.4rem;
-   }
-
-   .tot-time, .cal, .calv{
-      font-size: 1.5rem;
-   }
-
-   .src{
-      font-size: 0.8em;
-   }
-
 }
    
 
