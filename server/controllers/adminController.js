@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const pool = require('../classes/db');
 const User = require('../classes/user');
 const Recipe = require('../classes/recipe');
