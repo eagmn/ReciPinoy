@@ -770,9 +770,14 @@ pool.getConnection((err, conn) => {
                             const restrict = ing[index].ing_restrict;
                             const id = ing[index].ing_id;
                             if(aArr.length > 0){
+                                // console.log(allergy);
+                                // console.log(aArr);
                                 aArr.forEach(a => {
-                                    if(allergy.includes(a)){
-                                        idStr += id + '/';
+                                    if(a){
+                                        console.log(a);
+                                        if(allergy.includes(a)){
+                                            idStr += id + '/';
+                                        }
                                     }
                                 });
                             }
