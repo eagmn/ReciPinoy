@@ -293,7 +293,7 @@ exports.submitRecipe = (req, res) => {
                                     }
                                     async function insertRecIng(ingName, qf, ingUnit, ingIns){
                                         const ii = await insertNewIng(ingName);
-                                        conn.query('INSERT INTO recIng(recId, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [recId, ii, qf, ingUnit, ingIns], (err, row) => {
+                                        conn.query('INSERT INTO recing(recId, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [recId, ii, qf, ingUnit, ingIns], (err, row) => {
                                             if(err){
                                                 console.log(err, '\n');
                                                 conn.release();
@@ -326,7 +326,7 @@ exports.submitRecipe = (req, res) => {
                                                     }
                                                     else if(rows[0]){
                                                         let ii = rows[0].ing_id;
-                                                        conn.query('INSERT INTO recIng(recId, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [recId, ii, qf, ingUnit, ingIns], (err, row) => {
+                                                        conn.query('INSERT INTO recing(recId, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [recId, ii, qf, ingUnit, ingIns], (err, row) => {
                                                             if(err){
                                                                 console.log(err, '\n');
                                                                 conn.release();
