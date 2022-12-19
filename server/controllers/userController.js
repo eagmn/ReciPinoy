@@ -2825,7 +2825,7 @@ exports.mealPlanRecDelete = (req, res) => {
         if(session.userId){
             pool.getConnection((err, conn) => {
                 let id = req.params.id;
-                conn.query('DELETE FROM mealPlan where rec_id =? AND user_id =?', [id, seseion.userId], (err, result) => {
+                conn.query('DELETE FROM mealPlan where rec_id =? AND user_id =?', [id, session.userId], (err, result) => {
                     if(err){
                         console.log('not deleted');
                         conn.release();
