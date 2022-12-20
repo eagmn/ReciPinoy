@@ -161,12 +161,15 @@
             }
 
             let div = document.querySelector('#list');
-            div.onclick = ((e) => {
+            if(div){
+                div.onclick = ((e) => {
                 if (e.target.classList.contains("delete")) {
                     e.target.parentElement.remove();
                     deleteFromLocalStorage(e.target.parentElement.getAttribute("data-id"));
                 }
             })
+            }
+
 
             function deleteFromLocalStorage(id) {
                 gArr = [];

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <link rel="icon" href="/images/logo/logo-recipinoy.png" type="image/icon type">
 
     <!-- font awesome cdn link  -->
@@ -19,15 +18,10 @@
     <!-- description to improve seo -->
     <meta name="description" content="ReciPinoy: Selected Filipino Cuisines Recommender Web Application">
 
-    <!-- custom css file link  -->
-    <!-- <link rel="stylesheet" href="/public/css/style.css"> -->
-
     <!-- bootstrap for modal -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <!-- <link type="text/css" href="/css/bootstrap-timepicker.min.css" />
-    <script type="text/javascript" src="/js/bootstrap-timepicker.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js" integrity="sha512-2xXe2z/uA+2SyT/sTSt9Uq4jDKsT0lV4evd3eoE/oxKih8DSAsOF6LUb+ncafMJPAimWAXdu9W+yMXGrCVOzQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css" integrity="sha512-/Ae8qSd9X8ajHk6Zty0m8yfnKJPlelk42HTJjOHDWs1Tjr41RfsSkceZ/8yyJGLkxALGMIYd5L2oGemy/x1PLg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -209,24 +203,11 @@
                             
                         <!-- add to grocery list button -->
                         <div class="ing-gl-btn">
-                            <button type="button" id="openModal" class="gl-btn">add to grocery list</button>
-                            <!-- The Modal -->
-                            <div id="glModal" class="modal">
-                                <!-- Modal content -->
-                                <div class="modal-content">
-                                    <span class="close">&times;</span>
-                                    <p class="rec-name-mdl"><%= rec.rec_name %></p>
-                                    <p class="ing-mdl">Ingredients</p>
-                                    <!-- border line -->
-                                    <span class="line-mdl"></span>
-                                    <form action="/grocery-list" method="post" onsubmit="addGrocery()">
-                                        <input type="hidden" name="recId" value="<%= rec.rec_id %>">
-                                        <input type="hidden" name="gList" id="gList" value="">
-                                        <div id="ingList"></div>
-                                        <button type="submit" class="add-mdl">add ingredients</button>
-                                    </form>
-                                </div>
-                            </div>
+                            <form action="/grocery-list" method="post" onsubmit="addGrocery()">
+                                <input type="hidden" name="recId" value="<%= rec.rec_id %>">
+                                <input type="hidden" name="gList" id="gList" value="">
+                                <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
+                            </form>
                         </div>
                     </div>
 
@@ -368,7 +349,7 @@
 
         const minusButton = document.getElementById('minusButton');
         const plusButton = document.getElementById('plusButton');
-        // const srvField = document.getElementById('servingInp').value;
+  
         if(minusButton){
             minusButton.disabled = true;
             minusButton.addEventListener('click', event => {
@@ -519,19 +500,18 @@
                 });
             }
             
-
-            //$('#gList').val(JSON.stringify(ingsArr));
         }
 
         function addGrocery() {
+            getIngs();
             let gListArr = [];
-            let cont = document.querySelector('#ingList');
-            let ingChecked = cont.querySelectorAll('input[name="ingsCb[]"]');
-            ingChecked.forEach(ic => {
-                if(ic.checked){
-                    gListArr.push(ic.value);
+
+            ingsArr.forEach(ic => {
+                if(ic){
+                    gListArr.push(ic);
                 }
             });
+            
 
             $('#gList').val(JSON.stringify(gListArr));
         }
@@ -539,30 +519,6 @@
         let modal = document.getElementById("glModal");
         let btn = document.getElementById("openModal");
         let span = document.getElementsByClassName("close")[0];
-
-        //open the modal
-        btn.onclick = function() {
-            getIngs();
-            ingsArr.forEach(ia => {
-                let input = '<div class="list-mdl" style="text-align:justify; font-size: 1.3em; margin:0.7em auto 0.7em;"><input type="checkbox" name="ingsCb[]" value="' + ia + '" style="transform: scale(2); margin: 0 0.5em 0 2.5em; cursor: pointer;">&nbsp;&nbsp;&nbsp;<label for="ingCheckbox" style="width: 80%; font-weight: normal;">' + ia + '</label><br></div><span class="bdr-mdl" style="display: block; border-top: 1px solid black; height: 1px; width: 100%; margin: 0 auto; opacity: 0.1;"></span></div>'
-                $("#ingList").append(input);
-            });
-            modal.style.display = "block";
-        }
-
-        //close the modal
-        span.onclick = function() {
-            $("#ingList").empty();
-            modal.style.display = "none";
-        }
-
-        //close it
-        window.onclick = function(event) {
-        if (event.target == modal) {
-            $("#ingList").empty();
-            modal.style.display = "none";
-        }
-        }
 
         $(function() {
          $('input[name="datetimes"]').daterangepicker({
