@@ -2187,7 +2187,7 @@ exports.getFilter = (req,res) => {
     try{
         function timeFilter (conn, mealTime){
             if (mealTime === "30"){
-                conn.query('SELECT * FROM rec WHERE rec_time IN (0,15, 16, 17, 18 ,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30)  ORDER BY rec_time ASC LIMIT 35;', [mealTime],(err, filter) =>{
+                conn.query('SELECT * FROM rec WHERE rec_time IN (0,15, 16, 17, 18 ,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30)  ORDER BY rec_time ASC;', [mealTime],(err, filter) =>{
                     if(err){
                         console.log(err);
                         conn.release();
@@ -2223,7 +2223,7 @@ exports.getFilter = (req,res) => {
                 }) 
             }
             else if(mealTime === "31"){
-                conn.query('SELECT * FROM rec WHERE rec_time IN (40, 41, 42, 43, 44,45,47,48,49,50,55,56,57,58,59, "1 hr%")  ORDER BY rec_time ASC LIMIT 35;',(err, filter) =>{
+                conn.query('SELECT * FROM rec WHERE rec_time IN (40, 41, 42, 43, 44,45,47,48,49,50,55,56,57,58,59, "1 hr%")  ORDER BY rec_time ASC;',(err, filter) =>{
                     if(err){
                         console.log(err);
                         conn.release();
@@ -2259,7 +2259,7 @@ exports.getFilter = (req,res) => {
                 }) 
             }
             else if(mealTime ==="1 hr and 30 minutes"){
-                conn.query('SELECT * FROM rec WHERE rec_time LIKE "1 h%" ORDER BY rec_time ASC LIMIT 35;',(err, filter) =>{
+                conn.query('SELECT * FROM rec WHERE rec_time LIKE "1 h%" ORDER BY rec_time ASC;',(err, filter) =>{
                     if(err){
                         console.log(err);
                         conn.release();
@@ -2295,7 +2295,7 @@ exports.getFilter = (req,res) => {
                 }) 
             }
             else if (mealTime ==="1 hr and 31 minutes"){
-                conn.query('SELECT * FROM rec WHERE rec_time >= "1 hour and 3% minutes" ORDER BY rec_time ASC LIMIT 35;',(err, filter) =>{
+                conn.query('SELECT * FROM rec WHERE rec_time >= "1 hour and 3% minutes" ORDER BY rec_time ASC;',(err, filter) =>{
                     if(err){
                         console.log(err);
                         conn.release();
@@ -2333,7 +2333,7 @@ exports.getFilter = (req,res) => {
         };
         function calorieFilter(conn, calorie){
             if(calorie==="400"){
-                conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 100 AND 400 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
+                conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 100 AND 400 ORDER BY rec_cal ASC;',(err, filter) =>{
                     if(err){
                         console.log(err);
                         conn.release();
@@ -2369,7 +2369,7 @@ exports.getFilter = (req,res) => {
                 }) 
             }
         else if(calorie==="800"){
-                conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 401 AND 800 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
+                conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 401 AND 800 ORDER BY rec_cal ASC;',(err, filter) =>{
                     if(err){
                         console.log(err);
                         conn.release();
@@ -2405,7 +2405,7 @@ exports.getFilter = (req,res) => {
                 }) 
             }
         else if(calorie==="801"){
-                conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 801 AND 1200 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
+                conn.query('SELECT * FROM rec WHERE rec_cal BETWEEN 801 AND 1200 ORDER BY rec_cal ASC;',(err, filter) =>{
                     if(err){
                         console.log(err);
                         conn.release();
@@ -2441,7 +2441,7 @@ exports.getFilter = (req,res) => {
                 }) 
             }
         else if(calorie==="1201"){
-                conn.query('SELECT * FROM rec WHERE rec_cal > 1201 ORDER BY rec_cal ASC LIMIT 35;',(err, filter) =>{
+                conn.query('SELECT * FROM rec WHERE rec_cal > 1201 ORDER BY rec_cal ASC;',(err, filter) =>{
                     if(err){
                         console.log(err);
                         conn.release();
