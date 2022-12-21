@@ -2082,15 +2082,16 @@ exports.addGrocery = (req,res) => {
                             ings.forEach(ing => {
                                 let ingq = ing.ingQuant;
                                 let ingu = ing.ingUnit;
+                                let temp = '';
                                 
                                 if(!ing.ingQuant){
-                                    ingq = 0;
+                                    ingq = '';
                                 }
                                 if(!ing.ingUnit){
                                     ingu = '';
                                 }
-                                let temp = ingq + ' ' + ingu + ' ' + ing.ing_name;
-                                ingStringArr.push(temp);
+                                temp = ingq + ' ' + ingu + ' ' + ing.ing_name;
+                                ingStringArr.push(temp.trim());
                             });
                             
                             // conn.release();
