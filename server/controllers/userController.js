@@ -1,4 +1,3 @@
-// const bcrypt = require('bcrypt');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const pool = require('../classes/db');
@@ -2067,50 +2066,117 @@ exports.addGrocery = (req,res) => {
     try {
         session = req.session;
         if(session.userId){
-            let recId = req.body.recId;
+            let recId;
+            let mealPlanRecId;
             let grocery = new Recipe.Grocery();
-            grocery.item = JSON.parse(req.body.gList);
             let gListStr = '';
-            if(Array.isArray(grocery.getItem())){
-                grocery.getItem().forEach(g => {
-                    gListStr += g + '/';
-                });
+            let ingStringArr = [];
+
+            function getIngs(mealPlanRecId, conn) {
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?', [mealPlanRecId], (err, ings) => {
+                        if (err) {
+                            console.log('err in q: ', err);
+                            conn.release();
+                        } else {
+                            ings.forEach(ing => {
+                                let ingq = ing.ingQuant;
+                                let ingu = ing.ingUnit;
+                                
+                                if(!ing.ingQuant){
+                                    ingq = 0;
+                                }
+                                if(!ing.ingUnit){
+                                    ingu = '';
+                                }
+                                let temp = ingq + ' ' + ingu + ' ' + ing.ing_name;
+                                ingStringArr.push(temp);
+                            });
+                            
+                            // conn.release();
+                            console.log('arr: ', ingStringArr);
+                            ingStringArr.forEach(g => {
+                                // console.log(g);
+                                gListStr += g + '/';
+                            });
+                            resolve(gListStr);
+                        }
+                    })
+                })
             }
-            else{
-                gListStr = grocery.getItem();
+            async function ingWait(id, conn) {
+                let str = await getIngs(id, conn);
+                console.log('str: ', str);
+            }
+            function updateGList(str, conn){
+                conn.query('UPDATE `users` SET `user_grocery`= ? WHERE user_id = ?', [str, session.userId], (err, row) =>{
+                    if (err) {
+                        console.log(err);
+                        conn.release();
+                    } else {
+                        conn.release();
+                        req.flash('msg', 'Ingredients added to your Grocery List!');
+                        if(mealPlanRecId){
+                            res.redirect('/mealPlan');
+                        }
+                        if(recId){
+                            res.redirect('/recipes/' + recId);
+                        }
+                        
+                    }
+                })
             }
             pool.getConnection((err, conn) => {
                 if (err) {
                     console.log(err);
                     conn.release();
                 } else {
+                    if(req.body.recId){
+                        recId = req.body.recId;
+                        grocery.item = JSON.parse(req.body.gList);
+                        if(Array.isArray(grocery.getItem())){
+                            grocery.getItem().forEach(g => {
+                                gListStr += g + '/';
+                            });
+                        }
+                        else{
+                            gListStr = grocery.getItem();
+                        }
+                    }
+                    if(req.body.mealPlanRecId){
+                        mealPlanRecId = req.body.mealPlanRecId
+                        console.log(mealPlanRecId);
+                        ingWait(mealPlanRecId, conn)
+                    }
+                    console.log('after ifs ', gListStr);
                     conn.query('SELECT user_grocery FROM users WHERE user_id = ?', [session.userId], (err, row) =>{
                         if (err) {
                             console.log(err);
                             conn.release();
                         } else {
+                            console.log('glist inside select: ', gListStr);
                             let listStr = row[0].user_grocery;
                             if(listStr){
                                 listStr += gListStr + '/';
-                                updateGList(listStr);
+                                updateGList(listStr, conn);
                             }
                             else{
-                                updateGList(gListStr);
+                                updateGList(gListStr, conn);
                             }
                         }
                     })
-                    function updateGList(str){
-                        conn.query('UPDATE `users` SET `user_grocery`= ? WHERE user_id = ?', [str, session.userId], (err, row) =>{
-                            if (err) {
-                                console.log(err);
-                                conn.release();
-                            } else {
-                                conn.release();
-                                req.flash('msg', 'Ingredients added to your Grocery List!');
-                                res.redirect('/recipes/' + recId);
-                            }
-                        })
-                    }
+                }
+            })
+
+
+            
+            pool.getConnection((err, conn) => {
+                if (err) {
+                    console.log(err);
+                    conn.release();
+                } else {
+
+
                 }
             })
         }
@@ -2657,7 +2723,8 @@ exports.mealPlanRec = (req, res) =>{
                     conn.release(); 
                 } else {
                     conn.release();
-                    res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: name});
+                    let msg = req.flash('msg');
+                    res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: name, msg});
                 }
             })
         };
@@ -2892,7 +2959,8 @@ exports.mealPlanCurrentBut = (req, res) => {
                     conn.release(); 
                 } else {
                     conn.release();
-                    res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: name});
+                    let msg = req.flash('msg');
+                    res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: name, msg});
                 }
             })
         };
@@ -2953,7 +3021,8 @@ exports.mealPlanPastBut = (req, res) => {
                         conn.release();
                     }else{
                         conn.release();
-                        res.render('mealPlan', { title: 'PastWeek', mealPlan: mealPlan, id: session.userName});
+                        let msg = req.flash('msg');
+                        res.render('mealPlan', { title: 'PastWeek', mealPlan: mealPlan, id: session.userName, msg});
                     }
                 });
             })
@@ -2989,7 +3058,8 @@ exports.mealPlanNextBut = (req, res) => {
                         conn.release();
                     }else{
                         conn.release();
-                        res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: session.userName});
+                        let msg = req.flash('msg');
+                        res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: session.userName, msg});
                     }
                 })
             })
@@ -3208,4 +3278,3 @@ exports.userSearchSave = (req, res) =>{
         res.status(500).json({ message: error.message});
     }
 }
-

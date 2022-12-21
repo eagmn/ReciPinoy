@@ -35,7 +35,13 @@
             <img src="/images/loader.gif" alt="">
         </div> -->
 
-
+   <!-- message  -->
+   <% if (msg != '') { %>
+    <div class="message">
+        <span> <%= msg %> </span>
+        <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+    </div>
+<% } %>   
    <!-- guest header -->
    <%- include('./partials/userNav'); %>
    <%#- include('./partials/guestNav'); %>
@@ -176,14 +182,24 @@
                                                 <% } %>
                                             </div>
                                         </div>
-                                    </a>                       
+                                    </a>
+                                    <!-- add to grocery list button -->
+                                    <div class="ing-gl-btn">
+                                        <form action="/grocery-list" method="post">
+                                            <input type="hidden" name="mealPlanRecId" value="<%= mealPlan.rec_id %>">
+                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
+                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
+                                        </form>
+                                    </div>
+                                    </div>                       
                                 </div>
                             </div>
-                        </div>
+
                     <% }) %>
                     <% } else { %>
                         <span class="mp-empty"></span> 
                     <% } %>
+
                 </div>
 
                 <span class="mp-day">Tuesday</span>
