@@ -36,11 +36,12 @@
         <a href="/" class="back-btn"><span class="rec-back">Home</span></a>
 
         <span class="saved-title">My Saved Recipes</span>
+        <a href="/saved/create" class="createbtn">Create Recipe</a>
 
         <!-- border line -->
         <span class="saved-line"></span>
 
-        <form action="/saved" method="get" class="saved-container">
+        <form action="/saved" method="post" class="saved-container">
             <!--<div id="sortResults">
                 <select name="recent" id="recent" onchange="this.form.submit()">
                     <option value="" disabled selected>sort to newest</option>
@@ -84,7 +85,8 @@
                             </div>   
                         <!-- </div> -->
                     <% }) %>
-        </form>  
+        </form>
+        </div>  
     </div> 
 
 
@@ -92,5 +94,8 @@
 
     <!-- custom js file link  -->
     <script src="/public/js/script.js"></script>
+
+        <!-- custom js file link  -->
+        <script src="/public/js/script.js"></script> 
 </body>
 </html>
