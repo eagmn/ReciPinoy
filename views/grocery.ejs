@@ -33,7 +33,8 @@
         <div class="grocery-header">
             <div class="gr-title">
                 <span class="gl-name">Grocery List</span>
-                <button type="button" class="del-all" onclick="deleteAll()"></button>
+                <button type="button" class="del-all" id="delButton" onclick="delSelected()" disabled></button>
+
             </div>
             <form action="/grocery-list/add" method="post" id="gForm" class="gForm">
                 <label for="gItem"></label>
@@ -50,10 +51,12 @@
                     <h3 class="gl-empty">Your grocery list is empty!</h3> 
             <% } else { %>
                 <div id="list">
+                    <label for="delAllCheckbox" class="gl-txt"><input type="checkbox" id="delAllCheckbox" onchange="checkAll()">Select All</label>
                     <% for( let index=0; index < list.length; index++ ) { %>
                         <% let l=list[index]; %>
                         <% if (l !='' ) { %>
                             <div class="gl-item">
+                                <input type="checkbox" name="delCheckbox" onchange="checkItem()" class="delCheckbox">
                                 <input type="text" class="gl-txt" name="item[]" value="<%= l %>" readonly>
                                 <span class="delete"></span>
                                 <div class="itm-txt"></div>
@@ -127,11 +130,12 @@
                     gArr.push(val);
                 }
             })
-
+            console.log('gArr after jq: ', gArr);
             let newItem = document.querySelector("#newItem").value;
             if (newItem) {
                 gArr.push(newItem);
             }
+            console.log('gArr after newItem: ', gArr);
 
             $('#itemVal').val(JSON.stringify(gArr));
             document.getElementById("gForm").submit();
@@ -148,32 +152,77 @@
                 title: ing,
             };
             objArr.push(item);
+            console.log(objArr);
             addToLocalStorage(objArr);
-        }
-
-        function deleteAll() {
-            window.localStorage.removeItem("lists")
-
-            $('#itemVal').val(JSON.stringify(''));
-            document.getElementById("gForm").submit();
         }
 
         let div = document.querySelector('#list');
         if(div){
             div.onclick = ((e) => {
-                if (e.target.classList.contains("delete")) {
-                    e.target.parentElement.remove();
-                    deleteFromLocalStorage(e.target.parentElement.getAttribute("data-id"));
-                }
+            if (e.target.classList.contains("delete")) {
+                e.target.parentElement.remove();
+                deleteFromLocalStorage(e.target.parentElement.getAttribute("data-id"));
+            }
             })
         }
 
+        let delAll = document.getElementById("delAllCheckbox");
+        let del = document.getElementsByName("delCheckbox")
 
-        function deleteFromLocalStorage(id) {
+        function checkAll() {
+            if(delAll.checked == true){
+                delButton.disabled = false;
+                for (let index = 0; index < del.length; index++) {
+                    const element = del[index];
+                    element.checked = true;
+                }
+            }
+            else{
+                delButton.disabled = true;
+                for (let index = 0; index < del.length; index++) {
+                    const element = del[index];
+                    element.checked = false;
+                }
+            }
+        }
+
+        function checkItem() {
+            let count = 0;
+            del.forEach(d => {
+                if(d.checked == true){
+                    count++;
+                }
+            });
+            if(count > 0){
+                delButton.disabled = false;
+            }
+            else{
+                delButton.disabled = true;
+            }
+        }
+
+        function delSelected() {
+            let tempId = [];
+            if(delAll.checked == true){
+                window.localStorage.removeItem("lists")
+                $('#itemVal').val(JSON.stringify(''));
+                document.getElementById("gForm").submit();
+            }
+            else{
+                $.each($("input[name='delCheckbox']:checked"), function(){
+                    let id = $(this).parent().attr('data-id');
+                    $(this).parent().remove();
+                    objArr = objArr.filter((list) => list.id != id);
+                    addToLocalStorage(objArr);
+                });
+                updatedList();
+            }
+
+
+        }
+
+        function updatedList() {
             gArr = [];
-
-            objArr = objArr.filter((list) => list.id != id);
-            addToLocalStorage(objArr);
 
             jQuery('input[name="item[]"]').each(function () {
                 let val = this.value;
@@ -184,6 +233,13 @@
 
             $('#itemVal').val(JSON.stringify(gArr));
             document.getElementById("gForm").submit();
+        }
+
+        function deleteFromLocalStorage(id) {
+            objArr = objArr.filter((list) => list.id != id);
+            addToLocalStorage(objArr);
+
+            updatedList();
         }
     </script>
 
