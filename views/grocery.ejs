@@ -69,129 +69,127 @@
 
 
 
-        <!-- script part -->
-        <script type="text/javascript">
-            $('#gFormBtn').on('click', addItem);
-            let gArr = [];
-            let objArr = [];
+    <!-- script part -->
+    <script type="text/javascript">
+        $('#gFormBtn').on('click', addItem);
+        let gArr = [];
+        let objArr = [];
 
-            $(document).ready(function () {
-                // let divCount = $('.item').length;
-                let itemDiv = document.querySelectorAll('.item');
-                let count = 0;
-                jQuery('input[name="item[]"]').each(function () {
-                    let val = this.value;
-                    console.log(val);
-                    if (val) {
-                        let str = checkStorage();
-                        console.log('str: ' + str);
-                        if (str.includes(val)) {
-                            console.log(val);
-                        }
-                        else {
-                            let d = Date.now();
-                            if(itemDiv[count]){
-                                itemDiv[count].setAttribute("data-id", d);
-                                addIngToListObj(val, d);
-                                count++;
-                            }
-                        }
-
+        $(document).ready(function () {
+            let itemDiv = document.querySelectorAll('.gl-item');
+            let count = 0;
+            jQuery('input[name="item[]"]').each(function () {
+                let val = this.value;
+                console.log(val);
+                if (val) {
+                    let str = checkStorage();
+                    console.log('str: ' + str);
+                    if (str.includes(val)) {
+                        console.log(val);
                     }
-                })
-            });
+                    else {
+                        let d = Date.now();
+                        if(itemDiv[count]){
+                            itemDiv[count].setAttribute("data-id", d);
+                            addIngToListObj(val, d);
+                            count++;
+                        }
+                    }
 
-            $('#newItem').keyup(function(){
-            if($(this).val().length !=0)
-                $('#gFormBtn').attr('disabled', false);            
-            else
-                $('#gFormBtn').attr('disabled',true);
+                }
+            })
+        });
+
+        $('#newItem').keyup(function(){
+        if($(this).val().length !=0)
+            $('#gFormBtn').attr('disabled', false);            
+        else
+            $('#gFormBtn').attr('disabled',true);
+        })
+
+        function checkStorage() {
+            let values = [],
+                keys = Object.keys(localStorage),
+                i = keys.length;
+
+            while (i--) {
+                values.push(localStorage.getItem(keys[i]));
+            }
+
+            return values;
+        }
+
+        function addItem() {
+            gArr = [];
+            jQuery('input[name="item[]"]').each(function () {
+                let val = this.value;
+                if (val) {
+                    gArr.push(val);
+                }
             })
 
-            function checkStorage() {
-                let values = [],
-                    keys = Object.keys(localStorage),
-                    i = keys.length;
-
-                while (i--) {
-                    values.push(localStorage.getItem(keys[i]));
-                }
-
-                return values;
+            let newItem = document.querySelector("#newItem").value;
+            if (newItem) {
+                gArr.push(newItem);
             }
 
-            function addItem() {
-                gArr = [];
-                jQuery('input[name="item[]"]').each(function () {
-                    let val = this.value;
-                    if (val) {
-                        gArr.push(val);
-                    }
-                })
+            $('#itemVal').val(JSON.stringify(gArr));
+            document.getElementById("gForm").submit();
 
-                let newItem = document.querySelector("#newItem").value;
-                if (newItem) {
-                    gArr.push(newItem);
-                }
+        }
 
-                $('#itemVal').val(JSON.stringify(gArr));
-                document.getElementById("gForm").submit();
+        function addToLocalStorage(arr) {
+            window.localStorage.setItem("lists", JSON.stringify(arr));
+        }
 
-            }
+        function addIngToListObj(ing, d) {
+            const item = {
+                id: d,
+                title: ing,
+            };
+            objArr.push(item);
+            addToLocalStorage(objArr);
+        }
 
-            function addToLocalStorage(arr) {
-                window.localStorage.setItem("lists", JSON.stringify(arr));
-            }
+        function deleteAll() {
+            window.localStorage.removeItem("lists")
 
-            function addIngToListObj(ing, d) {
-                const item = {
-                    id: d,
-                    title: ing,
-                };
-                objArr.push(item);
-                addToLocalStorage(objArr);
-            }
+            $('#itemVal').val(JSON.stringify(''));
+            document.getElementById("gForm").submit();
+        }
 
-            function deleteAll() {
-                // $("#list").html('<h3>Your grocery list is empty!</h3>');
-                window.localStorage.removeItem("lists")
-
-                $('#itemVal').val(JSON.stringify(''));
-                document.getElementById("gForm").submit();
-            }
-
-            let div = document.querySelector('#list');
-            if(div){
-                div.onclick = ((e) => {
+        let div = document.querySelector('#list');
+        if(div){
+            div.onclick = ((e) => {
                 if (e.target.classList.contains("delete")) {
                     e.target.parentElement.remove();
                     deleteFromLocalStorage(e.target.parentElement.getAttribute("data-id"));
                 }
             })
-            }
+        }
 
 
-            function deleteFromLocalStorage(id) {
-                gArr = [];
+        function deleteFromLocalStorage(id) {
+            gArr = [];
 
-                objArr = objArr.filter((list) => list.id != id);
-                addToLocalStorage(objArr);
+            objArr = objArr.filter((list) => list.id != id);
+            addToLocalStorage(objArr);
 
-                jQuery('input[name="item[]"]').each(function () {
-                    let val = this.value;
-                    if (val) {
-                        gArr.push(val);
-                    }
-                })
+            jQuery('input[name="item[]"]').each(function () {
+                let val = this.value;
+                if (val) {
+                    gArr.push(val);
+                }
+            })
 
-                $('#itemVal').val(JSON.stringify(gArr));
-                document.getElementById("gForm").submit();
-            }
-        </script>
+            $('#itemVal').val(JSON.stringify(gArr));
+            document.getElementById("gForm").submit();
+        }
+    </script>
 
 
-        <!-- custom js file link  -->
-        <script src="/public/js/script.js"></script>
+    <!-- custom js file link  -->
+    <script src="/public/js/script.js"></script>
 </body>
 
 </html>
