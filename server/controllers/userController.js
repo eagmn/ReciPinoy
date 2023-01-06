@@ -2170,17 +2170,6 @@ exports.addGrocery = (req,res) => {
                 }
             })
 
-
-            
-            pool.getConnection((err, conn) => {
-                if (err) {
-                    console.log(err);
-                    conn.release();
-                } else {
-
-
-                }
-            })
         }
         else{
             req.flash('msg', 'You need to log in first!');
