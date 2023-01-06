@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=
-    , initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/logo/logo-recipinoy.png" type="image/icon type">
 
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+        <!-- manifest link -->
+    <link rel="manifest" href="/public/js/manifest.json">
+    <!-- link apple icon -->
+    <link rel="apple-touch-icon" href="/images/logo/icon-192x192.png">
+    <!-- link theme -->
+    <meta name="theme-color" content="#16be5c" />
+    <!-- description to improve seo -->
+    <meta name="description" content="ReciPinoy: Selected Filipino Cuisines Recommender Web Application">
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="/public/css/admin_style.css">
@@ -23,12 +30,13 @@
         </div>
     <% } %>
 
-    <!-- admin dashboard section starts  -->
-    <%- include('./partials/adminNav'); %>
+   <!-- guest header -->
+   <%- include('./partials/userNav'); %>
+   <%#- include('./partials/guestNav'); %>
     <a href="/saved" class="back-btn">>> Back</a>
     
     <section class="add-recipes">
-        <form action="saved/create" method="post" onsubmit="getIngs()" enctype="multipart/form-data">
+        <form action="/saved/create" method="post" onsubmit="getIngs()" enctype="multipart/form-data">
             <h3>add recipes</h3>
             <label for="recNameLbl" class="addRecLabel">Name: </label>
                 <input type="text" name="recNameInp" id="recNameInp" required placeholder="type your recipe name here" maxlength="100" class="box">
@@ -140,5 +148,11 @@
             $('#ingNum').val(newIngNum);    
         }
     </script>
+
+        <!-- custom js file link  -->
+        <script src="/public/js/script.js"></script>
+    
+            <!-- custom js file link  -->
+            <script src="/public/js/script.js"></script> 
 </body>
 </html>

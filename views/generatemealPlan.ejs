@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="icon" href="/images/logo/logo-recipinoy.png" type="image/icon type">
+    
+     <!-- para sa input ng ing -->
+     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+         <!-- manifest link -->
+    <link rel="manifest" href="/public/js/manifest.json">
+    <!-- link apple icon -->
+    <link rel="apple-touch-icon" href="/images/logo/icon-192x192.png">
+    <!-- link theme -->
+    <meta name="theme-color" content="#16be5c" />
+    <!-- description to improve seo -->
+    <meta name="description" content="ReciPinoy: Selected Filipino Cuisines Recommender Web Application">
+    <title><%= title %> </title>
+</head>
+<body>
+        <!-- loader -->
+        <!-- <div class="loader">
+            <img src="/images/loader.gif" alt="">
+        </div> -->
+    <!-- user header -->
+    <%#- include('./partials/guestNav'); %>
+    <%- include('./partials/userNav'); %>
+
+    <div class ="recipeResults">
+        <a class="back-btn" onclick="history.back()"><span class="rec-back">Back</span></a>
+        <br>
+
+        <!-- title -->
+        <span class="titleheading">Generated Week Meal Plan</span>
+    
+        <% if (msg != '') { %>
+            <h4><%= msg %> </h4>
+            <br>
+        <% } %>
+        <br>
+
+    <h5>Recommended Recipes</h5>
+        <div class="usr-container">
+            <!-- day headers: monday, tues -->
+            <span class="mp-day">Breakfast</span>
+
+            <!-- recipe card -->
+            <div class="mp-slider owl-carousel">
+                <%# let count = 10; %> 
+                <% for( let index = 0; index < brecId.length; index++ ) { %>
+                    <%# if (index < count) { %>
+                        <div class="result-card">
+                            <div class="box-card">
+                            <!-- img -->
+                            <div class="box-header">
+                                <img src="/images/<%= brecImage[index]%>" alt="<%= brecName[index] %> Image" class="box-img">
+                            </div>
+                            <!-- details -->
+                            <div class="box-details">
+                                <a href="/recipes/<%= brecId[index]%>" class="rec-usr">
+                                    <div class="box-one">
+                                        <div class="name-cont">
+                                            <!-- category -->
+                                            <span class="box-categ"><%= brecCateg[index] %></span>
+                                            <!-- recipe name -->
+                                            <p class="box-name"><%= brecName[index] %></p>
+                                            <!-- rating -->
+                                            <% if (brecRate[index]) { %>
+                                                <div class="box-rate">
+                                                    <% let rating = brecRate[index]/brecRateCount[index]; %> 
+                                                    <% rating = Math.round(rating)%> 
+                                                    <%= rating%>
+                                                    <span class="str"></span>
+                                                </div>
+                                            <% } else { %>
+                                                <span class="box-not">This recipe hasn't been rated.</span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </a>                       
+                            </div>
+                            </div>
+                        </div>
+                    <%# } %>
+                <% } %>
+                <!--<%# } %>-->
+            </div>
+
+            <!-- day headers: monday, tues -->
+            <span class="mp-day">Lunch</span>
+
+            <!-- recipe card -->
+            <div class="mp-slider owl-carousel">
+                <%# let count = 10; %> 
+                <% for( let index = 0; index < lrecId.length; index++ ) { %>
+                    <%# if (index < count) { %>
+                        <div class="result-card">
+                            <div class="box-card">
+                            <!-- img -->
+                            <div class="box-header">
+                                <img src="/images/<%= lrecImage[index]%>" alt="<%= lrecName[index] %> Image" class="box-img">
+                            </div>
+                            <!-- details -->
+                            <div class="box-details">
+                                <a href="/recipes/<%= lrecId[index]%>" class="rec-usr">
+                                    <div class="box-one">
+                                        <div class="name-cont">
+                                            <!-- category -->
+                                            <span class="box-categ"><%= lrecCateg[index] %></span>
+                                            <!-- recipe name -->
+                                            <p class="box-name"><%= lrecName[index] %></p>
+                                            <!-- rating -->
+                                            <% if (brecRate[index]) { %>
+                                                <div class="box-rate">
+                                                    <% let rating = lrecRate[index]/lrecRateCount[index]; %> 
+                                                    <% rating = Math.round(rating)%> 
+                                                    <%= rating%>
+                                                    <span class="str"></span>
+                                                </div>
+                                            <% } else { %>
+                                                <span class="box-not">This recipe hasn't been rated.</span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </a>                       
+                            </div>
+                            </div>
+                        </div>
+                    <%# } %>
+                <% } %>
+                <!--<%# } %>-->
+            </div>
+
+            <!-- day headers: monday, tues -->
+            <span class="mp-day">Breakfast</span>
+
+            <!-- recipe card -->
+            <div class="mp-slider owl-carousel">
+                <%# let count = 10; %> 
+                <% for( let index = 0; index < drecId.length; index++ ) { %>
+                    <%# if (index < count) { %>
+                        <div class="result-card">
+                            <div class="box-card">
+                            <!-- img -->
+                            <div class="box-header">
+                                <img src="/images/<%= drecImage[index]%>" alt="<%= drecName[index] %> Image" class="box-img">
+                            </div>
+                            <!-- details -->
+                            <div class="box-details">
+                                <a href="/recipes/<%= drecId[index]%>" class="rec-usr">
+                                    <div class="box-one">
+                                        <div class="name-cont">
+                                            <!-- category -->
+                                            <span class="box-categ"><%= drecCateg[index] %></span>
+                                            <!-- recipe name -->
+                                            <p class="box-name"><%= drecName[index] %></p>
+                                            <!-- rating -->
+                                            <% if (drecRate[index]) { %>
+                                                <div class="box-rate">
+                                                    <% let rating = drecRate[index]/drecRateCount[index]; %> 
+                                                    <% rating = Math.round(rating)%> 
+                                                    <%= rating%>
+                                                    <span class="str"></span>
+                                                </div>
+                                            <% } else { %>
+                                                <span class="box-not">This recipe hasn't been rated.</span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </a>                       
+                            </div>
+                            </div>
+                        </div>
+                    <%# } %>
+                <% } %>
+            <!---<%# } %>-->
+            </div>
+        </div>
+    </div>
+
+    <!-- custom js file link  -->
+    <script src="/public/js/script.js"></script>
+</body>
+</html>

@@ -107,6 +107,15 @@
             <!-- border line -->
             <span class="meal-line"></span>
 
+            <div class="past-week">
+                <form action="/mealPlan/generate" method="post">
+                    <button type="submit" class="weeklybtn">
+                        <!-- icon -->
+                        <span class="past-btn"></span>
+                        <span class="mp-back">Generate Meal Plan</span>
+                    </button>
+                </form>
+            </div>
 
             <!-- week header -->
             <!--id="weekViewInp" name="weekViewInp"-->
@@ -151,28 +160,28 @@
 
                 <!-- recipe card -->
                 <div class="mp-slider owl-carousel">
-                    <% if (mealPlan.length > 0) { %>
-                    <% mealPlan.forEach(mealPlan => { %>
+                    <% if (mrecId.length > 0) { %>
+                        <% for( let index = 0; index < mrecId.length; index++ ) { %>
                         <div class="mp-card">
                             <div class="card-cont">
                                 <div class="mp-header">
                                     <div class="clear-icon">
-                                        <a href="/mealPlan/delete/<%= mealPlan.rec_id%>" class="clear-mp"></a>
-                                        <a href="/recipes/<%= mealPlan.rec_id%>">
-                                        <img src="/images/<%= mealPlan.rec_image%>" alt="<%= mealPlan.rec_name %> Image" class="box-img">
+                                        <a href="/mealPlan/delete/<%= mrecId[index]%>" class="clear-mp"></a>
+                                        <a href="/recipes/<%= mrecId[index]%>">
+                                        <img src="/images/<%= mrecImage[index]%>" alt="<%= mrecName[index] %> Image" class="box-img">
                                         </a>
                                     </div>
                                 </div>
 
                                 <div class="mp-details">
-                                    <a href="/recipes/<%= mealPlan.rec_id%>" class="mp-usr">
+                                    <a href="/recipes/<%= mrecId[index]%>" class="mp-usr">
                                         <div class="mp-one">
                                             <div class="mp-cont">
-                                                <span class="mp-categ"><%= mealPlan.rec_categ %></span>
-                                                <p class="mp-name"><%= mealPlan.rec_name %></p>
-                                                <% if (mealPlan.rec_rate) { %>
+                                                <span class="mp-categ"><%= mrecCateg[index] %></span>
+                                                <p class="mp-name"><%= mrecName[index] %></p>
+                                                <% if (mrecRate) { %>
                                                     <div class="mp-rate">
-                                                        <% let rating = mealPlan.rec_rate/mealPlan.rec_rateCount; %> 
+                                                        <% let rating = mrecRate[index]/mrecRateCount[index]; %> 
                                                         <% rating = Math.round(rating)%> 
                                                         <%= rating%>
                                                         <span class="mp-str"></span>
@@ -186,7 +195,7 @@
                                     <!-- add to grocery list button -->
                                     <div class="ing-gl-btn">
                                         <form action="/grocery-list" method="post">
-                                            <input type="hidden" name="mealPlanRecId" value="<%= mealPlan.rec_id %>">
+                                            <input type="hidden" name="mealPlanRecId" value="<%= mrecId[index] %>">
                                             <!-- <input type="hidden" name="gList" id="gList" value=""> -->
                                             <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
                                         </form>
@@ -195,24 +204,336 @@
                                 </div>
                             </div>
 
-                    <% }) %>
+                    <% } %>
+                    <% } else { %>
+                        <span class="mp-empty"></span> 
+                    <% } %>
+
+                </div>
+                <span class="mp-day">Tuesday</span>
+                <!-- recipe card -->
+                <div class="mp-slider owl-carousel">
+                    <% if (trecId.length > 0) { %>
+                        <% for( let index = 0; index < trecId.length; index++ ) { %>
+                        <div class="mp-card">
+                            <div class="card-cont">
+                                <div class="mp-header">
+                                    <div class="clear-icon">
+                                        <a href="/mealPlan/delete/<%= trecId[index]%>" class="clear-mp"></a>
+                                        <a href="/recipes/<%= trecId[index]%>">
+                                        <img src="/images/<%= trecImage[index]%>" alt="<%= trecName[index] %> Image" class="box-img">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="mp-details">
+                                    <a href="/recipes/<%= trecId[index]%>" class="mp-usr">
+                                        <div class="mp-one">
+                                            <div class="mp-cont">
+                                                <span class="mp-categ"><%= trecCateg[index] %></span>
+                                                <p class="mp-name"><%= trecName[index] %></p>
+                                                <% if (trecRate) { %>
+                                                    <div class="mp-rate">
+                                                        <% let rating = trecRate[index]/trecRateCount[index]; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="mp-str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <span class="mp-empty">This recipe hasn't been rated.</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!-- add to grocery list button -->
+                                    <div class="ing-gl-btn">
+                                        <form action="/grocery-list" method="post">
+                                            <input type="hidden" name="mealPlanRecId" value="<%= trecId[index] %>">
+                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
+                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
+                                        </form>
+                                    </div>
+                                    </div>                       
+                                </div>
+                            </div>
+
+                    <% } %>
                     <% } else { %>
                         <span class="mp-empty"></span> 
                     <% } %>
 
                 </div>
 
-                <span class="mp-day">Tuesday</span>
-
                 <span class="mp-day">Wednesday</span>
+                <!-- recipe card -->
+                <div class="mp-slider owl-carousel">
+                    <% if (wrecId.length > 0) { %>
+                        <% for( let index = 0; index < wrecId.length; index++ ) { %>
+                        <div class="mp-card">
+                            <div class="card-cont">
+                                <div class="mp-header">
+                                    <div class="clear-icon">
+                                        <a href="/mealPlan/delete/<%= wrecId[index]%>" class="clear-mp"></a>
+                                        <a href="/recipes/<%= wrecId[index]%>">
+                                        <img src="/images/<%= wrecImage[index]%>" alt="<%= wrecName[index] %> Image" class="box-img">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="mp-details">
+                                    <a href="/recipes/<%= wrecId[index]%>" class="mp-usr">
+                                        <div class="mp-one">
+                                            <div class="mp-cont">
+                                                <span class="mp-categ"><%= wrecCateg[index] %></span>
+                                                <p class="mp-name"><%= wrecName[index] %></p>
+                                                <% if (wrecRate) { %>
+                                                    <div class="mp-rate">
+                                                        <% let rating = wrecRate[index]/wrecRateCount[index]; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="mp-str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <span class="mp-empty">This recipe hasn't been rated.</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!-- add to grocery list button -->
+                                    <div class="ing-gl-btn">
+                                        <form action="/grocery-list" method="post">
+                                            <input type="hidden" name="mealPlanRecId" value="<%= wrecId[index] %>">
+                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
+                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
+                                        </form>
+                                    </div>
+                                    </div>                       
+                                </div>
+                            </div>
+
+                    <% } %>
+                    <% } else { %>
+                        <span class="mp-empty"></span> 
+                    <% } %>
+
+                </div>
 
                 <span class="mp-day">Thursday</span>
+                <!-- recipe card -->
+                <div class="mp-slider owl-carousel">
+                    <% if (threcId.length > 0) { %>
+                        <% for( let index = 0; index < threcId.length; index++ ) { %>
+                        <div class="mp-card">
+                            <div class="card-cont">
+                                <div class="mp-header">
+                                    <div class="clear-icon">
+                                        <a href="/mealPlan/delete/<%= threcId[index]%>" class="clear-mp"></a>
+                                        <a href="/recipes/<%= threcId[index]%>">
+                                        <img src="/images/<%= threcImage[index]%>" alt="<%= threcName[index] %> Image" class="box-img">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="mp-details">
+                                    <a href="/recipes/<%= threcId[index]%>" class="mp-usr">
+                                        <div class="mp-one">
+                                            <div class="mp-cont">
+                                                <span class="mp-categ"><%= threcCateg[index] %></span>
+                                                <p class="mp-name"><%= threcName[index] %></p>
+                                                <% if (threcRate) { %>
+                                                    <div class="mp-rate">
+                                                        <% let rating = threcRate[index]/threcRateCount[index]; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="mp-str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <span class="mp-empty">This recipe hasn't been rated.</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!-- add to grocery list button -->
+                                    <div class="ing-gl-btn">
+                                        <form action="/grocery-list" method="post">
+                                            <input type="hidden" name="mealPlanRecId" value="<%= threcId[index] %>">
+                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
+                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
+                                        </form>
+                                    </div>
+                                    </div>                       
+                                </div>
+                            </div>
+
+                    <% } %>
+                    <% } else { %>
+                        <span class="mp-empty"></span> 
+                    <% } %>
+
+                </div>
 
                 <span class="mp-day">Friday</span>
+                <!-- recipe card -->
+                <div class="mp-slider owl-carousel">
+                    <% if (frecId.length > 0) { %>
+                        <% for( let index = 0; index < frecId.length; index++ ) { %>
+                        <div class="mp-card">
+                            <div class="card-cont">
+                                <div class="mp-header">
+                                    <div class="clear-icon">
+                                        <a href="/mealPlan/delete/<%= frecId[index]%>" class="clear-mp"></a>
+                                        <a href="/recipes/<%= frecId[index]%>">
+                                        <img src="/images/<%= frecImage[index]%>" alt="<%= frecName[index] %> Image" class="box-img">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="mp-details">
+                                    <a href="/recipes/<%= frecId[index]%>" class="mp-usr">
+                                        <div class="mp-one">
+                                            <div class="mp-cont">
+                                                <span class="mp-categ"><%= frecCateg[index] %></span>
+                                                <p class="mp-name"><%= frecName[index] %></p>
+                                                <% if (frecRate) { %>
+                                                    <div class="mp-rate">
+                                                        <% let rating = frecRate[index]/frecRateCount[index]; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="mp-str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <span class="mp-empty">This recipe hasn't been rated.</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!-- add to grocery list button -->
+                                    <div class="ing-gl-btn">
+                                        <form action="/grocery-list" method="post">
+                                            <input type="hidden" name="mealPlanRecId" value="<%= frecId[index] %>">
+                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
+                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
+                                        </form>
+                                    </div>
+                                    </div>                       
+                                </div>
+                            </div>
+
+                    <% } %>
+                    <% } else { %>
+                        <span class="mp-empty"></span> 
+                    <% } %>
+
+                </div>
 
                 <span class="mp-day">Saturday</span>
+                <!-- recipe card -->
+                <div class="mp-slider owl-carousel">
+                    <% if (srecId.length > 0) { %>
+                        <% for( let index = 0; index < srecId.length; index++ ) { %>
+                        <div class="mp-card">
+                            <div class="card-cont">
+                                <div class="mp-header">
+                                    <div class="clear-icon">
+                                        <a href="/mealPlan/delete/<%= srecId[index]%>" class="clear-mp"></a>
+                                        <a href="/recipes/<%= srecId[index]%>">
+                                        <img src="/images/<%= srecImage[index]%>" alt="<%= srecName[index] %> Image" class="box-img">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="mp-details">
+                                    <a href="/recipes/<%= srecId[index]%>" class="mp-usr">
+                                        <div class="mp-one">
+                                            <div class="mp-cont">
+                                                <span class="mp-categ"><%= srecCateg[index] %></span>
+                                                <p class="mp-name"><%= srecName[index] %></p>
+                                                <% if (srecRate) { %>
+                                                    <div class="mp-rate">
+                                                        <% let rating = srecRate[index]/srecRateCount[index]; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="mp-str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <span class="mp-empty">This recipe hasn't been rated.</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!-- add to grocery list button -->
+                                    <div class="ing-gl-btn">
+                                        <form action="/grocery-list" method="post">
+                                            <input type="hidden" name="mealPlanRecId" value="<%= srecId[index] %>">
+                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
+                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
+                                        </form>
+                                    </div>
+                                    </div>                       
+                                </div>
+                            </div>
+
+                    <% } %>
+                    <% } else { %>
+                        <span class="mp-empty"></span> 
+                    <% } %>
+
+                </div>
 
                 <span class="mp-day">Sunday</span>
+                <!-- recipe card -->
+                <div class="mp-slider owl-carousel">
+                    <% if (surecId.length > 0) { %>
+                        <% for( let index = 0; index < surecId.length; index++ ) { %>
+                        <div class="mp-card">
+                            <div class="card-cont">
+                                <div class="mp-header">
+                                    <div class="clear-icon">
+                                        <a href="/mealPlan/delete/<%= surecId[index]%>" class="clear-mp"></a>
+                                        <a href="/recipes/<%= surecId[index]%>">
+                                        <img src="/images/<%= surecImage[index]%>" alt="<%= surecName[index] %> Image" class="box-img">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="mp-details">
+                                    <a href="/recipes/<%= surecId[index]%>" class="mp-usr">
+                                        <div class="mp-one">
+                                            <div class="mp-cont">
+                                                <span class="mp-categ"><%= surecCateg[index] %></span>
+                                                <p class="mp-name"><%= surecName[index] %></p>
+                                                <% if (surecRate) { %>
+                                                    <div class="mp-rate">
+                                                        <% let rating = surecRate[index]/surecRateCount[index]; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="mp-str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <span class="mp-empty">This recipe hasn't been rated.</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!-- add to grocery list button -->
+                                    <div class="ing-gl-btn">
+                                        <form action="/grocery-list" method="post">
+                                            <input type="hidden" name="mealPlanRecId" value="<%= surecId[index] %>">
+                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
+                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
+                                        </form>
+                                    </div>
+                                    </div>                       
+                                </div>
+                            </div>
+
+                    <% } %>
+                    <% } else { %>
+                        <span class="mp-empty"></span> 
+                    <% } %>
+
+                </div>
+                
             </div>
         </div>  
     

@@ -4,6 +4,7 @@ const pool = require('../classes/db');
 const User = require('../classes/user');
 const randToken = require('rand-token');
 const Recipe = require('../classes/recipe');
+//const session = require('express-session');
 
 
 
@@ -2703,44 +2704,282 @@ exports.mealPlan = (req, res) =>{
 
 exports.mealPlanRec = (req, res) =>{
     try {
-        session = req.session;
-        Date.prototype.getWeek = function() {
-            var date = new Date(this.getTime());
-            date.setHours(0, 0, 0, 0);
-            // Thursday in current week decides the year.
-            date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-            // January 4 is always in week 1.
-            var week1 = new Date(date.getFullYear(), 0, 4);
-            // Adjust to Thursday in week 1 and count number of weeks from date to week1.
-            return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-        };
-        function getRec(conn, name) {
-            let date = new Date();
-            let dateC = date.getWeek();
-            let gy = 'SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =?'
-            conn.query(gy,[dateC, session.userId], (err, mealPlan) => {
-                if (err) {
-                    console.log(err);  
-                    conn.release(); 
-                } else {
-                    conn.release();
+        pool.getConnection((err, conn) => {
+            if (err){
+                console.log(err);
+                conn.release();
+            }
+            else{
+                let mrecName = [];
+                let mrecId = [];
+                let mrecImage = [];
+                let mrecCateg = [];
+                let mrecRate = [];
+                let mrecRateCount = [];
+                let trecName = [];
+                let trecId = [];
+                let trecImage = [];
+                let trecCateg = [];
+                let trecRate = [];
+                let trecRateCount = [];
+                let wrecName = [];
+                let wrecId = [];
+                let wrecImage = [];
+                let wrecCateg = [];
+                let wrecRate = [];
+                let wrecRateCount = [];
+                let threcName = [];
+                let threcId = [];
+                let threcImage = [];
+                let threcCateg = [];
+                let threcRate = [];
+                let threcRateCount = [];
+                let frecName = [];
+                let frecId = [];
+                let frecImage = [];
+                let frecCateg = [];
+                let frecRate = [];
+                let frecRateCount = [];
+                let srecName = [];
+                let srecId = [];
+                let srecImage = [];
+                let srecCateg = [];
+                let srecRate = [];
+                let srecRateCount = [];
+                let surecName = [];
+                let surecId = [];
+                let surecImage = [];
+                let surecCateg = [];
+                let surecRate = [];
+                let surecRateCount = [];
+                let date = new Date();
+                session = req.session;
+
+                Date.prototype.getWeek = function() {
+                    var date = new Date(this.getTime());
+                    date.setHours(0, 0, 0, 0);
+                    // Thursday in current week decides the year.
+                    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+                    // January 4 is always in week 1.
+                    var week1 = new Date(date.getFullYear(), 0, 4);
+                    // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+                    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+                };
+
+                let dateC = date.getWeek();
+
+                function monday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Monday"',[dateC, session.userId], (err, monday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else {
+                                for(let i = 0; i< monday.length; i++){
+                                    let id = monday[i].rec_id;
+                                    let name = monday[i].rec_name;
+                                    let image = monday[i].rec_image;
+                                    let categ = monday[i].rec_categ;
+                                    let rate = monday[i].rec_rate;
+                                    let count = monday[i].rec_rateCount;
+                                    mrecName.push(name);
+                                    mrecId.push(id);
+                                    mrecImage.push(image);
+                                    mrecCateg.push(categ);
+                                    mrecRate.push(rate);
+                                    mrecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function tuesday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Tuesday"',[dateC, session.userId], (err, tuesday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< tuesday.length; i++){
+                                    let id = tuesday[i].rec_id;
+                                    let name = tuesday[i].rec_name;
+                                    let image = tuesday[i].rec_image;
+                                    let categ = tuesday[i].rec_categ;
+                                    let rate = tuesday[i].rec_rate;
+                                    let count = tuesday[i].rec_rateCount;
+                                    trecName.push(name);
+                                    trecId.push(id);
+                                    trecImage.push(image);
+                                    trecCateg.push(categ);
+                                    trecRate.push(rate);
+                                    trecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function wednesday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Wednesday"',[dateC, session.userId], (err, wednesday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< wednesday.length; i++){
+                                    let id = wednesday[i].rec_id;
+                                    let name = wednesday[i].rec_name;
+                                    let image = wednesday[i].rec_image;
+                                    let categ = wednesday[i].rec_categ;
+                                    let rate = wednesday[i].rec_rate;
+                                    let count = wednesday[i].rec_rateCount;
+                                    wrecName.push(name);
+                                    wrecId.push(id);
+                                    wrecImage.push(image);
+                                    wrecCateg.push(categ);
+                                    wrecRate.push(rate);
+                                    wrecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function thursday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Thursday"',[dateC, session.userId], (err, thursday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< thursday.length; i++){
+                                    let id = thursday[i].rec_id;
+                                    let name = thursday[i].rec_name;
+                                    let image = thursday[i].rec_image;
+                                    let categ = thursday[i].rec_categ;
+                                    let rate = thursday[i].rec_rate;
+                                    let count = thursday[i].rec_rateCount;
+                                    threcName.push(name);
+                                    threcId.push(id);
+                                    threcImage.push(image);
+                                    threcCateg.push(categ);
+                                    threcRate.push(rate);
+                                    threcRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function friday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Friday"',[dateC, session.userId], (err, friday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< friday.length; i++){
+                                    let id = friday[i].rec_id;
+                                    let name = friday[i].rec_name;
+                                    let image = friday[i].rec_image;
+                                    let categ = friday[i].rec_categ;
+                                    let rate = friday[i].rec_rate;
+                                    let count = friday[i].rec_rateCount;
+                                    frecName.push(name);
+                                    frecId.push(id);
+                                    frecImage.push(image);
+                                    frecCateg.push(categ);
+                                    frecRate.push(rate);
+                                    frecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function saturday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Saturday"',[dateC, session.userId], (err, saturday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< saturday.length; i++){
+                                    let id = saturday[i].rec_id;
+                                    let name = saturday[i].rec_name;
+                                    let image = saturday[i].rec_image;
+                                    let categ = saturday[i].rec_categ;
+                                    let rate = saturday[i].rec_rate;
+                                    let count = saturday[i].rec_rateCount;
+                                    srecName.push(name);
+                                    srecId.push(id);
+                                    srecImage.push(image);
+                                    srecCateg.push(categ);
+                                    srecRate.push(rate);
+                                    srecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function sunday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Sunday"',[dateC, session.userId], (err, sunday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< sunday.length; i++){
+                                    let id = sunday[i].rec_id;
+                                    let name = sunday[i].rec_name;
+                                    let image = sunday[i].rec_image;
+                                    let categ = sunday[i].rec_categ;
+                                    let rate = sunday[i].rec_rate;
+                                    let count = sunday[i].rec_rateCount;
+                                    surecName.push(name);
+                                    surecId.push(id);
+                                    surecImage.push(image);
+                                    surecCateg.push(categ);
+                                    surecRate.push(rate);
+                                    surecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                async function getMealPlan(){
+                    let mondayrec = await monday();
+                    let tuerec = await tuesday();
+                    let wedrec = await wednesday();
+                    let thursrec = await thursday();
+                    let frirec = await friday();
+                    let satrec = await saturday();
+                    let sunrec = await sunday();
+                    console.log(mondayrec);
+
                     let msg = req.flash('msg');
-                    res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: name, msg});
+                    conn.release();
+                    res.render('mealPlan', {title: 'MealPlan', mrecName: mrecName, mrecId: mrecId, mrecImage: mrecImage, mrecCateg: mrecCateg, mrecRate: mrecRate, mrecRateCount: mrecRateCount, trecName: trecName, trecId: trecId, trecImage: trecImage, trecCateg: trecCateg, trecRate: trecRate, trecRateCount: trecRateCount, wrecName: wrecName, wrecId: wrecId, wrecImage: wrecImage, wrecCateg: wrecCateg, wrecRate: wrecRate, wrecRateCount: wrecRateCount, threcName: threcName, threcId: threcId, threcImage: threcImage, threcCateg: threcCateg, threcRate: threcRate, threcRateCount: threcRateCount, frecName: frecName, frecId: frecId, frecImage: frecImage, frecCateg: frecCateg, frecRate: frecRate, frecRateCount: frecRateCount, srecName: srecName, srecId: srecId, srecImage: srecImage, srecCateg: srecCateg, srecRate: srecRate, srecRateCount: srecRateCount, surecName: surecName, surecId: surecId, surecImage: surecImage, surecCateg: surecCateg, surecRate: surecRate, surecRateCount: surecRateCount, msg, id: session.userName});
                 }
-            })
-        };
-        if(session.userId){
-            pool.getConnection((err, conn)=>{
-                    if(err){
-                        console.log(err);
-                    }
-                    else{
-                        getRec(conn, session.userName);
-                    }})
-        }else{
-            req.flash('msg', 'You need to login to view Meal Plan!')
-            res.redirect('/login');
-        }
+                if(session.userId){
+                    getMealPlan();
+                }
+                else{
+                    req.flash('msg', 'You need to login to view Meal Plan Recipes!')
+                    res.redirect('/login');
+                }
+            }
+        })  
         
     } catch (error) {
         res.status(500).json({ message: error.message});
@@ -2939,136 +3178,864 @@ exports.mealPlanRecDelete = (req, res) => {
 
 exports.mealPlanCurrentBut = (req, res) => {
     try {
-        session = req.session;
-        Date.prototype.getWeek = function() {
-            var date = new Date(this.getTime());
-            date.setHours(0, 0, 0, 0);
-            // Thursday in current week decides the year.
-            date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-            // January 4 is always in week 1.
-            var week1 = new Date(date.getFullYear(), 0, 4);
-            // Adjust to Thursday in week 1 and count number of weeks from date to week1.
-            return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-        };
-        function getRec(conn, name) {
-            let date = new Date();
-            let dateC = date.getWeek();
-            let gy = 'SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =?'
-            conn.query(gy,[dateC, session.userId], (err, mealPlan) => {
-                if (err) {
-                    console.log(err);  
-                    conn.release(); 
-                } else {
-                    conn.release();
+        pool.getConnection((err, conn) => {
+            if (err){
+                console.log(err);
+                conn.release();
+            }
+            else{
+                let mrecName = [];
+                let mrecId = [];
+                let mrecImage = [];
+                let mrecCateg = [];
+                let mrecRate = [];
+                let mrecRateCount = [];
+                let trecName = [];
+                let trecId = [];
+                let trecImage = [];
+                let trecCateg = [];
+                let trecRate = [];
+                let trecRateCount = [];
+                let wrecName = [];
+                let wrecId = [];
+                let wrecImage = [];
+                let wrecCateg = [];
+                let wrecRate = [];
+                let wrecRateCount = [];
+                let threcName = [];
+                let threcId = [];
+                let threcImage = [];
+                let threcCateg = [];
+                let threcRate = [];
+                let threcRateCount = [];
+                let frecName = [];
+                let frecId = [];
+                let frecImage = [];
+                let frecCateg = [];
+                let frecRate = [];
+                let frecRateCount = [];
+                let srecName = [];
+                let srecId = [];
+                let srecImage = [];
+                let srecCateg = [];
+                let srecRate = [];
+                let srecRateCount = [];
+                let surecName = [];
+                let surecId = [];
+                let surecImage = [];
+                let surecCateg = [];
+                let surecRate = [];
+                let surecRateCount = [];
+                let date = new Date();
+                session = req.session;
+
+                Date.prototype.getWeek = function() {
+                    var date = new Date(this.getTime());
+                    date.setHours(0, 0, 0, 0);
+                    // Thursday in current week decides the year.
+                    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+                    // January 4 is always in week 1.
+                    var week1 = new Date(date.getFullYear(), 0, 4);
+                    // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+                    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+                };
+
+                let dateC = date.getWeek();
+
+                function monday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Monday"',[dateC, session.userId], (err, monday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else {
+                                for(let i = 0; i< monday.length; i++){
+                                    let id = monday[i].rec_id;
+                                    let name = monday[i].rec_name;
+                                    let image = monday[i].rec_image;
+                                    let categ = monday[i].rec_categ;
+                                    let rate = monday[i].rec_rate;
+                                    let count = monday[i].rec_rateCount;
+                                    mrecName.push(name);
+                                    mrecId.push(id);
+                                    mrecImage.push(image);
+                                    mrecCateg.push(categ);
+                                    mrecRate.push(rate);
+                                    mrecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function tuesday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Tuesday"',[dateC, session.userId], (err, tuesday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< tuesday.length; i++){
+                                    let id = tuesday[i].rec_id;
+                                    let name = tuesday[i].rec_name;
+                                    let image = tuesday[i].rec_image;
+                                    let categ = tuesday[i].rec_categ;
+                                    let rate = tuesday[i].rec_rate;
+                                    let count = tuesday[i].rec_rateCount;
+                                    trecName.push(name);
+                                    trecId.push(id);
+                                    trecImage.push(image);
+                                    trecCateg.push(categ);
+                                    trecRate.push(rate);
+                                    trecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function wednesday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Wednesday"',[dateC, session.userId], (err, wednesday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< wednesday.length; i++){
+                                    let id = wednesday[i].rec_id;
+                                    let name = wednesday[i].rec_name;
+                                    let image = wednesday[i].rec_image;
+                                    let categ = wednesday[i].rec_categ;
+                                    let rate = wednesday[i].rec_rate;
+                                    let count = wednesday[i].rec_rateCount;
+                                    wrecName.push(name);
+                                    wrecId.push(id);
+                                    wrecImage.push(image);
+                                    wrecCateg.push(categ);
+                                    wrecRate.push(rate);
+                                    wrecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function thursday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Thursday"',[dateC, session.userId], (err, thursday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< thursday.length; i++){
+                                    let id = thursday[i].rec_id;
+                                    let name = thursday[i].rec_name;
+                                    let image = thursday[i].rec_image;
+                                    let categ = thursday[i].rec_categ;
+                                    let rate = thursday[i].rec_rate;
+                                    let count = thursday[i].rec_rateCount;
+                                    threcName.push(name);
+                                    threcId.push(id);
+                                    threcImage.push(image);
+                                    threcCateg.push(categ);
+                                    threcRate.push(rate);
+                                    threcRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function friday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Friday"',[dateC, session.userId], (err, friday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< friday.length; i++){
+                                    let id = friday[i].rec_id;
+                                    let name = friday[i].rec_name;
+                                    let image = friday[i].rec_image;
+                                    let categ = friday[i].rec_categ;
+                                    let rate = friday[i].rec_rate;
+                                    let count = friday[i].rec_rateCount;
+                                    frecName.push(name);
+                                    frecId.push(id);
+                                    frecImage.push(image);
+                                    frecCateg.push(categ);
+                                    frecRate.push(rate);
+                                    frecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function saturday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Saturday"',[dateC, session.userId], (err, saturday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< saturday.length; i++){
+                                    let id = saturday[i].rec_id;
+                                    let name = saturday[i].rec_name;
+                                    let image = saturday[i].rec_image;
+                                    let categ = saturday[i].rec_categ;
+                                    let rate = saturday[i].rec_rate;
+                                    let count = saturday[i].rec_rateCount;
+                                    srecName.push(name);
+                                    srecId.push(id);
+                                    srecImage.push(image);
+                                    srecCateg.push(categ);
+                                    srecRate.push(rate);
+                                    srecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function sunday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Sunday"',[dateC, session.userId], (err, sunday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< sunday.length; i++){
+                                    let id = sunday[i].rec_id;
+                                    let name = sunday[i].rec_name;
+                                    let image = sunday[i].rec_image;
+                                    let categ = sunday[i].rec_categ;
+                                    let rate = sunday[i].rec_rate;
+                                    let count = sunday[i].rec_rateCount;
+                                    surecName.push(name);
+                                    surecId.push(id);
+                                    surecImage.push(image);
+                                    surecCateg.push(categ);
+                                    surecRate.push(rate);
+                                    surecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                async function getMealPlan(){
+                    let mondayrec = await monday();
+                    let tuerec = await tuesday();
+                    let wedrec = await wednesday();
+                    let thursrec = await thursday();
+                    let frirec = await friday();
+                    let satrec = await saturday();
+                    let sunrec = await sunday();
+                    console.log(mondayrec);
+
                     let msg = req.flash('msg');
-                    res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: name, msg});
+                    conn.release();
+                    res.render('mealPlan', {title: 'MealPlan', mrecName: mrecName, mrecId: mrecId, mrecImage: mrecImage, mrecCateg: mrecCateg, mrecRate: mrecRate, mrecRateCount: mrecRateCount, trecName: trecName, trecId: trecId, trecImage: trecImage, trecCateg: trecCateg, trecRate: trecRate, trecRateCount: trecRateCount, wrecName: wrecName, wrecId: wrecId, wrecImage: wrecImage, wrecCateg: wrecCateg, wrecRate: wrecRate, wrecRateCount: wrecRateCount, threcName: threcName, threcId: threcId, threcImage: threcImage, threcCateg: threcCateg, threcRate: threcRate, threcRateCount: threcRateCount, frecName: frecName, frecId: frecId, frecImage: frecImage, frecCateg: frecCateg, frecRate: frecRate, frecRateCount: frecRateCount, srecName: srecName, srecId: srecId, srecImage: srecImage, srecCateg: srecCateg, srecRate: srecRate, srecRateCount: srecRateCount, surecName: surecName, surecId: surecId, surecImage: surecImage, surecCateg: surecCateg, surecRate: surecRate, surecRateCount: surecRateCount, msg, id: session.userName});
                 }
-            })
-        };
-        if(session.userId){
-            pool.getConnection((err, conn)=>{
-                    if(err){
-                        console.log(err);
-                        conn.release();
-                    }
-                    else{
-                        getRec(conn, session.userName);
-                    }})
-        }else{
-            req.flash('msg', 'You need to login to view Meal Plan!')
-            res.redirect('/login');
-        }
+                if(session.userId){
+                    getMealPlan();
+                }
+                else{
+                    req.flash('msg', 'You need to login to view Meal Plan Recipes!')
+                    res.redirect('/login');
+                }
+            }
+        })  
         
     } catch (error) {
         res.status(500).json({ message: error.message});
     }
 }
 exports.mealPlanPastBut = (req, res) => {
-    function getFirstDay(){
-        let curr = new Date; // get current date
-        let first = curr.getDate() - curr.getDay()-12; // First day is the day of the month - the day of the week
-        console.log(first);
-        let startDate = new Date(curr.setDate(first));
-        console.log(startDate);
-        //startDate = ""+startDate.getFullYear()+"/"+ (startDate.getMonth() + 1) + "/" + startDate.getDate() 
-        startDate = ""+startDate.getDate();
-        
-        return startDate;
-       //alert(startDate+" ,   "+endDate)
-    };
-    function getLastDay(){
-        let curr = new Date; // get current date
-        let first = curr.getDate() - curr.getDay()-12; // First day is the day of the month - the day of the week
-        let last = first + 5; // last day is the first day + 5
-        let endDate = new Date(curr.setDate(last));
-        //endDate = "" + (endDate.getMonth() + 1) + "/" + endDate.getDate() + "/" + endDate.getFullYear();
-        endDate = ""+endDate.getDate();
-        return endDate;
-    }
+    try {
+        pool.getConnection((err, conn) => {
+            if (err){
+                console.log(err);
+                conn.release();
+            }
+            else{
+                let mrecName = [];
+                let mrecId = [];
+                let mrecImage = [];
+                let mrecCateg = [];
+                let mrecRate = [];
+                let mrecRateCount = [];
+                let trecName = [];
+                let trecId = [];
+                let trecImage = [];
+                let trecCateg = [];
+                let trecRate = [];
+                let trecRateCount = [];
+                let wrecName = [];
+                let wrecId = [];
+                let wrecImage = [];
+                let wrecCateg = [];
+                let wrecRate = [];
+                let wrecRateCount = [];
+                let threcName = [];
+                let threcId = [];
+                let threcImage = [];
+                let threcCateg = [];
+                let threcRate = [];
+                let threcRateCount = [];
+                let frecName = [];
+                let frecId = [];
+                let frecImage = [];
+                let frecCateg = [];
+                let frecRate = [];
+                let frecRateCount = [];
+                let srecName = [];
+                let srecId = [];
+                let srecImage = [];
+                let srecCateg = [];
+                let srecRate = [];
+                let srecRateCount = [];
+                let surecName = [];
+                let surecId = [];
+                let surecImage = [];
+                let surecCateg = [];
+                let surecRate = [];
+                let surecRateCount = [];
+                let date = new Date();
+                session = req.session;
 
-    try{
-        session = req.session;
-        if(session.userId){
-            pool.getConnection((err, conn) => {
-                let today = new Date();
+                function getFirstDay(){
+                    let curr = new Date; // get current date
+                    let first = curr.getDate() - curr.getDay()-12; // First day is the day of the month - the day of the week
+                    console.log(first);
+                    let startDate = new Date(curr.setDate(first));
+                    console.log(startDate);
+                    //startDate = ""+startDate.getFullYear()+"/"+ (startDate.getMonth() + 1) + "/" + startDate.getDate() 
+                    startDate = ""+startDate.getDate();
+                    
+                    return startDate;
+                   //alert(startDate+" ,   "+endDate)
+                };
+                function getLastDay(){
+                    let curr = new Date; // get current date
+                    let first = curr.getDate() - curr.getDay()-12; // First day is the day of the month - the day of the week
+                    let last = first + 5; // last day is the first day + 5
+                    let endDate = new Date(curr.setDate(last));
+                    //endDate = "" + (endDate.getMonth() + 1) + "/" + endDate.getDate() + "/" + endDate.getFullYear();
+                    endDate = ""+endDate.getDate();
+                    return endDate;
+                }
+            
                 let dateC = getFirstDay();
                 let dateD = getLastDay();
-                console.log(dateC);
-                console.log(dateD);
-                // SELECT * FROM mealPlan where weekCount = ? ORDER BY dateTime
-                conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ?  AND user_id = ? ORDER BY dateTime', [dateC, dateD, session.userId], (err, mealPlan) => {
-                    if(err){
-                        console.log(err);  
-                        conn.release();
-                    }else{
-                        conn.release();
-                        let msg = req.flash('msg');
-                        res.render('mealPlan', { title: 'PastWeek', mealPlan: mealPlan, id: session.userName, msg});
-                    }
-                });
-            })
-        }
-    }catch(error){
-        res.status(500).json({ message: error.message });
+            
 
+                function monday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ? AND user_id =? AND mealPlan.sDay = "Monday"',[dateC, dateD, session.userId], (err, monday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else {
+                                for(let i = 0; i< monday.length; i++){
+                                    let id = monday[i].rec_id;
+                                    let name = monday[i].rec_name;
+                                    let image = monday[i].rec_image;
+                                    let categ = monday[i].rec_categ;
+                                    let rate = monday[i].rec_rate;
+                                    let count = monday[i].rec_rateCount;
+                                    mrecName.push(name);
+                                    mrecId.push(id);
+                                    mrecImage.push(image);
+                                    mrecCateg.push(categ);
+                                    mrecRate.push(rate);
+                                    mrecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function tuesday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ? AND user_id =? AND mealPlan.sDay = "Tuesday"',[dateC, dateD, session.userId], (err, tuesday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< tuesday.length; i++){
+                                    let id = tuesday[i].rec_id;
+                                    let name = tuesday[i].rec_name;
+                                    let image = tuesday[i].rec_image;
+                                    let categ = tuesday[i].rec_categ;
+                                    let rate = tuesday[i].rec_rate;
+                                    let count = tuesday[i].rec_rateCount;
+                                    trecName.push(name);
+                                    trecId.push(id);
+                                    trecImage.push(image);
+                                    trecCateg.push(categ);
+                                    trecRate.push(rate);
+                                    trecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function wednesday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ? AND user_id =? AND mealPlan.sDay = "Wednesday"',[dateC, dateD, session.userId], (err, wednesday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< wednesday.length; i++){
+                                    let id = wednesday[i].rec_id;
+                                    let name = wednesday[i].rec_name;
+                                    let image = wednesday[i].rec_image;
+                                    let categ = wednesday[i].rec_categ;
+                                    let rate = wednesday[i].rec_rate;
+                                    let count = wednesday[i].rec_rateCount;
+                                    wrecName.push(name);
+                                    wrecId.push(id);
+                                    wrecImage.push(image);
+                                    wrecCateg.push(categ);
+                                    wrecRate.push(rate);
+                                    wrecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function thursday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ? AND user_id =? AND mealPlan.sDay = "Thursday"',[dateC, dateD, session.userId], (err, thursday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< thursday.length; i++){
+                                    let id = thursday[i].rec_id;
+                                    let name = thursday[i].rec_name;
+                                    let image = thursday[i].rec_image;
+                                    let categ = thursday[i].rec_categ;
+                                    let rate = thursday[i].rec_rate;
+                                    let count = thursday[i].rec_rateCount;
+                                    threcName.push(name);
+                                    threcId.push(id);
+                                    threcImage.push(image);
+                                    threcCateg.push(categ);
+                                    threcRate.push(rate);
+                                    threcRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function friday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ? AND user_id =? AND mealPlan.sDay = "Friday"',[dateC, dateD, session.userId], (err, friday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< friday.length; i++){
+                                    let id = friday[i].rec_id;
+                                    let name = friday[i].rec_name;
+                                    let image = friday[i].rec_image;
+                                    let categ = friday[i].rec_categ;
+                                    let rate = friday[i].rec_rate;
+                                    let count = friday[i].rec_rateCount;
+                                    frecName.push(name);
+                                    frecId.push(id);
+                                    frecImage.push(image);
+                                    frecCateg.push(categ);
+                                    frecRate.push(rate);
+                                    frecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function saturday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ? AND user_id =? AND mealPlan.sDay = "Saturday"',[dateC, dateD, session.userId], (err, saturday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< saturday.length; i++){
+                                    let id = saturday[i].rec_id;
+                                    let name = saturday[i].rec_name;
+                                    let image = saturday[i].rec_image;
+                                    let categ = saturday[i].rec_categ;
+                                    let rate = saturday[i].rec_rate;
+                                    let count = saturday[i].rec_rateCount;
+                                    srecName.push(name);
+                                    srecId.push(id);
+                                    srecImage.push(image);
+                                    srecCateg.push(categ);
+                                    srecRate.push(rate);
+                                    srecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function sunday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.day BETWEEN ? AND ? AND user_id =? AND mealPlan.sDay = "Sunday"',[dateC, dateD, session.userId], (err, sunday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< sunday.length; i++){
+                                    let id = sunday[i].rec_id;
+                                    let name = sunday[i].rec_name;
+                                    let image = sunday[i].rec_image;
+                                    let categ = sunday[i].rec_categ;
+                                    let rate = sunday[i].rec_rate;
+                                    let count = sunday[i].rec_rateCount;
+                                    surecName.push(name);
+                                    surecId.push(id);
+                                    surecImage.push(image);
+                                    surecCateg.push(categ);
+                                    surecRate.push(rate);
+                                    surecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                async function getMealPlan(){
+                    let mondayrec = await monday();
+                    let tuerec = await tuesday();
+                    let wedrec = await wednesday();
+                    let thursrec = await thursday();
+                    let frirec = await friday();
+                    let satrec = await saturday();
+                    let sunrec = await sunday();
+                    console.log(mondayrec);
+
+                    let msg = req.flash('msg');
+                    conn.release();
+                    res.render('mealPlan', {title: 'MealPlan', mrecName: mrecName, mrecId: mrecId, mrecImage: mrecImage, mrecCateg: mrecCateg, mrecRate: mrecRate, mrecRateCount: mrecRateCount, trecName: trecName, trecId: trecId, trecImage: trecImage, trecCateg: trecCateg, trecRate: trecRate, trecRateCount: trecRateCount, wrecName: wrecName, wrecId: wrecId, wrecImage: wrecImage, wrecCateg: wrecCateg, wrecRate: wrecRate, wrecRateCount: wrecRateCount, threcName: threcName, threcId: threcId, threcImage: threcImage, threcCateg: threcCateg, threcRate: threcRate, threcRateCount: threcRateCount, frecName: frecName, frecId: frecId, frecImage: frecImage, frecCateg: frecCateg, frecRate: frecRate, frecRateCount: frecRateCount, srecName: srecName, srecId: srecId, srecImage: srecImage, srecCateg: srecCateg, srecRate: srecRate, srecRateCount: srecRateCount, surecName: surecName, surecId: surecId, surecImage: surecImage, surecCateg: surecCateg, surecRate: surecRate, surecRateCount: surecRateCount, msg, id: session.userName});
+                }
+                if(session.userId){
+                    getMealPlan();
+                }
+                else{
+                    req.flash('msg', 'You need to login to view Meal Plan Recipes!')
+                    res.redirect('/login');
+                }
+            }
+        })  
+        
+    } catch (error) {
+        res.status(500).json({ message: error.message});
     }
 }
 exports.mealPlanNextBut = (req, res) => {
-    Date.prototype.getWeek = function() {
-        var date = new Date(this.getTime());
-        date.setHours(0, 0, 0, 0);
-        // Thursday in current week decides the year.
-        date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-        // January 4 is always in week 1.
-        var week1 = new Date(date.getFullYear(), 0, 4);
-        // Adjust to Thursday in week 1 and count number of weeks from date to week1.
-        return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-      };
-    try{
-        session = req.session;
-        if(session.userId){
-            pool.getConnection((err, conn) => {
-                let weekView = req.body.weekViewInp;
-                console.log(weekView);
+    try {
+        pool.getConnection((err, conn) => {
+            if (err){
+                console.log(err);
+                conn.release();
+            }
+            else{
+                let mrecName = [];
+                let mrecId = [];
+                let mrecImage = [];
+                let mrecCateg = [];
+                let mrecRate = [];
+                let mrecRateCount = [];
+                let trecName = [];
+                let trecId = [];
+                let trecImage = [];
+                let trecCateg = [];
+                let trecRate = [];
+                let trecRateCount = [];
+                let wrecName = [];
+                let wrecId = [];
+                let wrecImage = [];
+                let wrecCateg = [];
+                let wrecRate = [];
+                let wrecRateCount = [];
+                let threcName = [];
+                let threcId = [];
+                let threcImage = [];
+                let threcCateg = [];
+                let threcRate = [];
+                let threcRateCount = [];
+                let frecName = [];
+                let frecId = [];
+                let frecImage = [];
+                let frecCateg = [];
+                let frecRate = [];
+                let frecRateCount = [];
+                let srecName = [];
+                let srecId = [];
+                let srecImage = [];
+                let srecCateg = [];
+                let srecRate = [];
+                let srecRateCount = [];
+                let surecName = [];
+                let surecId = [];
+                let surecImage = [];
+                let surecCateg = [];
+                let surecRate = [];
+                let surecRateCount = [];
                 let date = new Date();
-                let dateC = date.getWeek() + 1;
-                console.log(dateC);
-                conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id = ? ORDER BY mealPlan.dateTime', [dateC, session.userId], (err, mealPlan) => {
-                    if(err){
-                        console.log(err);  
-                        conn.release();
-                    }else{
-                        conn.release();
-                        let msg = req.flash('msg');
-                        res.render('mealPlan', { title: 'Meal Plan', mealPlan: mealPlan, id: session.userName, msg});
-                    }
-                })
-            })
-        }
-        
-    }catch(error){
-        res.status(500).json({ message: error.message });
+                session = req.session;
 
+                Date.prototype.getWeek = function() {
+                    var date = new Date(this.getTime());
+                    date.setHours(0, 0, 0, 0);
+                    // Thursday in current week decides the year.
+                    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+                    // January 4 is always in week 1.
+                    var week1 = new Date(date.getFullYear(), 0, 4);
+                    // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+                    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+                };
+
+                let dateC = date.getWeek() + 1;
+
+                function monday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Monday"',[dateC, session.userId], (err, monday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else {
+                                for(let i = 0; i< monday.length; i++){
+                                    let id = monday[i].rec_id;
+                                    let name = monday[i].rec_name;
+                                    let image = monday[i].rec_image;
+                                    let categ = monday[i].rec_categ;
+                                    let rate = monday[i].rec_rate;
+                                    let count = monday[i].rec_rateCount;
+                                    mrecName.push(name);
+                                    mrecId.push(id);
+                                    mrecImage.push(image);
+                                    mrecCateg.push(categ);
+                                    mrecRate.push(rate);
+                                    mrecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function tuesday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Tuesday"',[dateC, session.userId], (err, tuesday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< tuesday.length; i++){
+                                    let id = tuesday[i].rec_id;
+                                    let name = tuesday[i].rec_name;
+                                    let image = tuesday[i].rec_image;
+                                    let categ = tuesday[i].rec_categ;
+                                    let rate = tuesday[i].rec_rate;
+                                    let count = tuesday[i].rec_rateCount;
+                                    trecName.push(name);
+                                    trecId.push(id);
+                                    trecImage.push(image);
+                                    trecCateg.push(categ);
+                                    trecRate.push(rate);
+                                    trecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function wednesday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Wednesday"',[dateC, session.userId], (err, wednesday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< wednesday.length; i++){
+                                    let id = wednesday[i].rec_id;
+                                    let name = wednesday[i].rec_name;
+                                    let image = wednesday[i].rec_image;
+                                    let categ = wednesday[i].rec_categ;
+                                    let rate = wednesday[i].rec_rate;
+                                    let count = wednesday[i].rec_rateCount;
+                                    wrecName.push(name);
+                                    wrecId.push(id);
+                                    wrecImage.push(image);
+                                    wrecCateg.push(categ);
+                                    wrecRate.push(rate);
+                                    wrecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function thursday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Thursday"',[dateC, session.userId], (err, thursday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< thursday.length; i++){
+                                    let id = thursday[i].rec_id;
+                                    let name = thursday[i].rec_name;
+                                    let image = thursday[i].rec_image;
+                                    let categ = thursday[i].rec_categ;
+                                    let rate = thursday[i].rec_rate;
+                                    let count = thursday[i].rec_rateCount;
+                                    threcName.push(name);
+                                    threcId.push(id);
+                                    threcImage.push(image);
+                                    threcCateg.push(categ);
+                                    threcRate.push(rate);
+                                    threcRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function friday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Friday"',[dateC, session.userId], (err, friday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< friday.length; i++){
+                                    let id = friday[i].rec_id;
+                                    let name = friday[i].rec_name;
+                                    let image = friday[i].rec_image;
+                                    let categ = friday[i].rec_categ;
+                                    let rate = friday[i].rec_rate;
+                                    let count = friday[i].rec_rateCount;
+                                    frecName.push(name);
+                                    frecId.push(id);
+                                    frecImage.push(image);
+                                    frecCateg.push(categ);
+                                    frecRate.push(rate);
+                                    frecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function saturday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Saturday"',[dateC, session.userId], (err, saturday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< saturday.length; i++){
+                                    let id = saturday[i].rec_id;
+                                    let name = saturday[i].rec_name;
+                                    let image = saturday[i].rec_image;
+                                    let categ = saturday[i].rec_categ;
+                                    let rate = saturday[i].rec_rate;
+                                    let count = saturday[i].rec_rateCount;
+                                    srecName.push(name);
+                                    srecId.push(id);
+                                    srecImage.push(image);
+                                    srecCateg.push(categ);
+                                    srecRate.push(rate);
+                                    srecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                function sunday(){
+                    return new Promise((resolve, reject) => {
+                        conn.query('SELECT * FROM rec INNER JOIN mealPlan ON rec.rec_id=mealPlan.rec_id WHERE mealPlan.weekCount = ? AND user_id =? AND mealPlan.sDay = "Sunday"',[dateC, session.userId], (err, sunday) =>{
+                            if(err){
+                                console.log(err)
+                            }
+                            else{
+                                for(let i = 0; i< sunday.length; i++){
+                                    let id = sunday[i].rec_id;
+                                    let name = sunday[i].rec_name;
+                                    let image = sunday[i].rec_image;
+                                    let categ = sunday[i].rec_categ;
+                                    let rate = sunday[i].rec_rate;
+                                    let count = sunday[i].rec_rateCount;
+                                    surecName.push(name);
+                                    surecId.push(id);
+                                    surecImage.push(image);
+                                    surecCateg.push(categ);
+                                    surecRate.push(rate);
+                                    surecRateCount.push(count);
+                                }
+                                resolve();
+                            }
+                        })
+                    })
+                };
+
+                async function getMealPlan(){
+                    let mondayrec = await monday();
+                    let tuerec = await tuesday();
+                    let wedrec = await wednesday();
+                    let thursrec = await thursday();
+                    let frirec = await friday();
+                    let satrec = await saturday();
+                    let sunrec = await sunday();
+                    console.log(mondayrec);
+
+                    let msg = req.flash('msg');
+                    conn.release();
+                    res.render('mealPlan', {title: 'MealPlan', mrecName: mrecName, mrecId: mrecId, mrecImage: mrecImage, mrecCateg: mrecCateg, mrecRate: mrecRate, mrecRateCount: mrecRateCount, trecName: trecName, trecId: trecId, trecImage: trecImage, trecCateg: trecCateg, trecRate: trecRate, trecRateCount: trecRateCount, wrecName: wrecName, wrecId: wrecId, wrecImage: wrecImage, wrecCateg: wrecCateg, wrecRate: wrecRate, wrecRateCount: wrecRateCount, threcName: threcName, threcId: threcId, threcImage: threcImage, threcCateg: threcCateg, threcRate: threcRate, threcRateCount: threcRateCount, frecName: frecName, frecId: frecId, frecImage: frecImage, frecCateg: frecCateg, frecRate: frecRate, frecRateCount: frecRateCount, srecName: srecName, srecId: srecId, srecImage: srecImage, srecCateg: srecCateg, srecRate: srecRate, srecRateCount: srecRateCount, surecName: surecName, surecId: surecId, surecImage: surecImage, surecCateg: surecCateg, surecRate: surecRate, surecRateCount: surecRateCount, msg, id: session.userName});
+                }
+                if(session.userId){
+                    getMealPlan();
+                }
+                else{
+                    req.flash('msg', 'You need to login to view Meal Plan Recipes!')
+                    res.redirect('/login');
+                }
+            }
+        })  
+        
+    } catch (error) {
+        res.status(500).json({ message: error.message});
     }
 }
 exports.mealPlanEditButton = (req, res) => {
@@ -3317,6 +4284,7 @@ exports.savedCreate = (req, res) => {
 }
 exports.savedSubmitCreate = (req, res) => {
     try{
+        let recId;
         session = req.session;
         if(session.userId){
             pool.getConnection((err, conn) =>{
@@ -3374,7 +4342,7 @@ exports.savedSubmitCreate = (req, res) => {
                                     console.log(err, '\n');
                                     conn.release();
                                 }else{
-                                    let recId = result.insertId;
+                                    recId = result.insertId;
                                     let ing = new Recipe.Ing();
                                     let ingNum = req.body.ingNum;
                                     ing.quant = JSON.parse(req.body.qval);
@@ -3471,7 +4439,7 @@ exports.savedSubmitCreate = (req, res) => {
                                         else{
                                             conn.release();
                                             req.flash('msg', 'New recipe added!');
-                                            res.redirect('/saved/create'); 
+                                            res.redirect('/saved'); 
                                         }
                                     });
                                 }
@@ -3531,8 +4499,360 @@ exports.savedupdateIng = (req,res) =>{
         }
         // conn.release();
         req.flash('msg', 'New recipe added!');
-        res.redirect('/saved'); 
+        res.redirect('/saved/create'); 
 
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+exports.generatemealPlan = (req,res) => {
+    try{
+        pool.getConnection((err, conn) => {
+            session = req.session;
+            let recID = [];
+            let brecImage = [];
+            let brecId = [];
+            let brecName = [];
+            let userRecIds = [];
+            let brecCateg = [];
+            let brecRate = [];
+            let brecRateCount = [];
+            let userAllergy = [];
+            let userRestrict = [];
+            let breakfastID = [];
+            let lunchID = [];
+            let dinnerID = [];
+            let lrecName = [];
+            let lrecId = [];
+            let lrecImage = [];
+            let lrecCateg = [];
+            let lrecRate = [];
+            let lrecRateCount = [];
+            let drecName = [];
+            let drecId = [];
+            let drecImage = [];
+            let drecCateg = [];
+            let drecRate = [];
+            let drecRateCount = [];
+
+            function getRecIds(){
+                return new Promise((resolve, reject) =>{
+                    conn.query('SELECT rec_id FROM rec', (err, row) =>{
+                        if (err){
+                            console.log(err);
+                        }
+                        else{
+                            for(let i = 0; i< row.length; i++){
+                                let recid = row[i].rec_id;
+                                recID.push(recid);
+                                console.log(recid);
+                            }
+                            resolve();
+                        }
+                    })
+                })
+            };
+            function getRestriction(id){
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT user_allergy, user_restrict FROM users WHERE user_id = ?', [id], (err, row) =>{
+                        if (err) {
+                            console.log(err);
+                        } 
+                        else{
+                            let ua = row[0].user_allergy;
+                            let ur = row[0].user_restrict;
+                            if(ua){
+                                userAllergy.push(ua);
+                                console.log(userAllergy);
+                            } 
+                            if(ur){
+                                userRestrict.push(ur);
+                                console.log(userRestrict);
+                            }
+                            console.log('ua: ', ua);
+                            console.log('ur: ', ur);
+                            resolve('got');
+                        }
+                    })
+                })
+            };
+
+            function getFilteredIngIds(aArr, rArr) {
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT * FROM ing', (err, ing) => {
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            let idStr = ''
+                            let count = 0;
+                            for (let index = 0; index < ing.length; index++) {
+                                const allergy = ing[index].ing_allergy;
+                                const restrict = ing[index].ing_restrict;
+                                const id = ing[index].ing_id;
+                                if(aArr.length > 0){
+                                    // console.log(allergy);
+                                    // console.log(aArr);
+                                    aArr.forEach(a => {
+                                        if(a){
+                                            console.log(a);
+                                            if(allergy.includes(a)){
+                                                idStr += id + '/';
+                                            }
+                                        }
+                                    });
+                                }
+                                if (rArr.length > 0) {
+                                    rArr.forEach(r => {
+                                        if(restrict.includes(r)){
+                                            if(idStr.includes(id)){
+                                                count += 1;
+                                            }
+                                            else{
+                                                idStr += id + '/';
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                            resolve(idStr);
+                        }
+                    })
+                })
+            };
+            
+            function getUserRecIds(id) {
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT recId FROM recing WHERE ingId = ?', [id], (err, ids) => {
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            let count = 0;
+                            for (let index = 0; index < ids.length; index++) {
+                                const element = ids[index].recId;
+                                if(userRecIds.includes(element)){
+                                    count += 1;
+                                }
+                                else{
+                                    userRecIds.push(element);
+                                }
+                            }
+                            resolve();
+                        }
+                    })
+                })
+            };
+
+            function breakfast(){
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT rec_id FROM rec WHERE rec_mealTime LIKE "%Breakfast%" ORDER BY RAND() LIMIT 7', (err, breakfast) =>{
+                        if(err){
+                            console.log(err)
+                        }
+                        else{
+                            for(let i = 0; i< breakfast.length; i++){
+                                let recid = breakfast[i].rec_id;
+                                breakfastID.push(recid);
+                            }
+                            resolve();
+                        }
+                    })
+                })
+            };
+
+            function breakfastDetails(id) {
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT * FROM rec WHERE rec_id = ?', [id], (err, breakfast) =>{
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            let id = breakfast[0].rec_id;
+                            let name = breakfast[0].rec_name;
+                            let image = breakfast[0].rec_image;
+                            let categ = breakfast[0].rec_categ;
+                            let rate = breakfast[0].rec_rate;
+                            let count = breakfast[0].rec_rateCount;
+                            brecName.push(name);
+                            brecId.push(id);
+                            brecImage.push(image);
+                            brecCateg.push(categ);
+                            brecRate.push(rate);
+                            brecRateCount.push(count);
+                            resolve();
+                        }
+                    })
+                })
+            };
+
+            function lunch(){
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT rec_id FROM rec WHERE rec_mealTime LIKE "%Lunch%" ORDER BY RAND() LIMIT 7', (err, lunch) =>{
+                        if(err){
+                            console.log(err)
+                        }
+                        else{
+                            for(let i = 0; i< lunch.length; i++){
+                                let recid = lunch[i].rec_id;
+                                lunchID.push(recid);
+                            }
+                            resolve();
+                        }
+                    })
+                })
+            };
+
+            function lunchDetails(id) {
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT * FROM rec WHERE rec_id = ?', [id], (err, lunch) =>{
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            let id = lunch[0].rec_id;
+                            let name = lunch[0].rec_name;
+                            let image = lunch[0].rec_image;
+                            let categ = lunch[0].rec_categ;
+                            let rate = lunch[0].rec_rate;
+                            let count = lunch[0].rec_rateCount;
+                            lrecName.push(name);
+                            lrecId.push(id);
+                            lrecImage.push(image);
+                            lrecCateg.push(categ);
+                            lrecRate.push(rate);
+                            lrecRateCount.push(count);
+                            resolve();
+                        }
+                    })
+                })
+            };
+
+            function dinner(){
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT rec_id FROM rec WHERE rec_mealTime LIKE "%Dinner%" ORDER BY RAND() LIMIT 7', (err, dinner) =>{
+                        if(err){
+                            console.log(err)
+                        }
+                        else{
+                            for(let i = 0; i< dinner.length; i++){
+                                let recid = dinner[i].rec_id;
+                                dinnerID.push(recid);
+                            }
+                            resolve();
+                        }
+                    })
+                })
+            };
+
+            function dinnerDetails(id) {
+                return new Promise((resolve, reject) => {
+                    conn.query('SELECT * FROM rec WHERE rec_id = ?', [id], (err, dinner) =>{
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            let id = dinner[0].rec_id;
+                            let name = dinner[0].rec_name;
+                            let image = dinner[0].rec_image;
+                            let categ = dinner[0].rec_categ;
+                            let rate = dinner[0].rec_rate;
+                            let count = dinner[0].rec_rateCount;
+                            drecName.push(name);
+                            drecId.push(id);
+                            drecImage.push(image);
+                            drecCateg.push(categ);
+                            drecRate.push(rate);
+                            drecRateCount.push(count);
+                            resolve();
+                        }
+                    })
+                })
+            };
+
+            async function generatemealPlan(){
+                let rec = await getRecIds();
+                console.log('rar');
+                console.log(recID);
+                let allergy = await getRestriction(session.userId);
+                if (allergy == 'got'){
+                    let idFilter = [];
+                    let idStr = await getFilteredIngIds(userAllergy, userRestrict);
+                    idFilter = idStr.split('/'); //ing id of with restrictions and allergies
+                
+                    console.log('ids of restrict ing');
+                    console.log(idFilter);
+                    for (const i of idFilter) {
+                        const id = await getUserRecIds(i); //rec ids tht has the restriction and allergy ings
+                    }
+
+                    console.log('rec ids of id filter');
+                    console.log(userRecIds);
+
+                    let breakfastid = await breakfast(); //rec ids of the recs with breakfast
+                    for (let index = 0; index < userRecIds.length; index++) {
+                        let element = userRecIds[index];
+                        if (breakfastID.includes(element)) {
+                            for(let i = 0; i < breakfastID.length; i++){ 
+                                if (breakfastID[i] === element) { 
+                                    breakfastID.splice(i, 1); 
+                                }
+                            }
+                        } 
+                    }
+
+                    for (const rec of breakfastID) {
+                        let rf = await breakfastDetails(rec);
+                    }
+                    console.log('b');
+                    console.log(breakfastID);
+
+                    let lunchid = await lunch(); // rec ids of the recs with lunch
+                    console.log(lunchID);
+                    for (let index = 0; index < userRecIds.length; index++) {
+                        let element = userRecIds[index];
+                        if (lunchID.includes(element)) {
+                            for(let i = 0; i < lunchID.length; i++){ 
+                                if (lunchID[i] === element) { 
+                                    lunchID.splice(i, 1); 
+                                }
+                            }
+                        } 
+                    }
+
+                    for (const rec of lunchID) {
+                        let rf = await lunchDetails(rec);
+                    }
+                    console.log('l');
+                    console.log(lunchID);
+
+                    let dinnerid = await dinner(); //rec ids of the recs with dinner
+                    console.log(dinnerID);
+                    for (let index = 0; index < userRecIds.length; index++) {
+                        let element = userRecIds[index];
+                        if (dinnerID.includes(element)) {
+                            for(let i = 0; i < dinnerID.length; i++){ 
+                                if (dinnerID[i] === element) { 
+                                    dinnerID.splice(i, 1); 
+                                }
+                            }
+                        } 
+                    }
+
+                    for (const rec of dinnerID) {
+                        let rf = await dinnerDetails(rec);
+                    }
+                    console.log('d');
+                    console.log(dinnerID);
+
+                    let msg = req.flash('msg');
+                    conn.release();
+                    res.render('generatemealPlan', {title: 'Generated MealPlan', brecId: brecId, brecName: brecName, lrecName: lrecName, drecName: drecName,  lrecId: lrecId, drecId: drecId, brecImage: brecImage, lrecImage: lrecImage, drecImage: drecImage, brecCateg: brecCateg, lrecCateg: lrecCateg, drecCateg: drecCateg, brecRate: brecRate, lrecRate: lrecRate, drecRate: drecRate, brecRateCount: brecRateCount, lrecRateCount: lrecRateCount, drecRateCount: drecRateCount, msg, id: session.userName});
+                }
+            }
+            generatemealPlan();
+        })
     } catch (error) {
         res.json({ message: error.message });
     }
