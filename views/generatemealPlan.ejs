@@ -7,11 +7,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="icon" href="/images/logo/logo-recipinoy.png" type="image/icon type">
     
-     <!-- para sa input ng ing -->
-     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- for slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 
-         <!-- manifest link -->
+    <!-- para sa input ng ing -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- manifest link -->
     <link rel="manifest" href="/public/js/manifest.json">
     <!-- link apple icon -->
     <link rel="apple-touch-icon" href="/images/logo/icon-192x192.png">
@@ -30,12 +35,15 @@
     <%#- include('./partials/guestNav'); %>
     <%- include('./partials/userNav'); %>
 
-    <div class ="recipeResults">
+    <div class="userMealPlan">
         <a class="back-btn" onclick="history.back()"><span class="rec-back">Back</span></a>
         <br>
 
         <!-- title -->
         <span class="titleheading">Generated Week Meal Plan</span>
+
+        <!-- border line -->
+        <span class="meal-line"></span>
     
         <% if (msg != '') { %>
             <h4><%= msg %> </h4>
@@ -43,8 +51,8 @@
         <% } %>
         <br>
 
-    <h5>Recommended Recipes</h5>
-        <div class="usr-container">
+        <h5>Recommended Recipes</h5>
+        <div class="mp-bot">
             <!-- day headers: monday, tues -->
             <span class="mp-day">Breakfast</span>
 
@@ -53,36 +61,37 @@
                 <%# let count = 10; %> 
                 <% for( let index = 0; index < brecId.length; index++ ) { %>
                     <%# if (index < count) { %>
-                        <div class="result-card">
-                            <div class="box-card">
-                            <!-- img -->
-                            <div class="box-header">
-                                <img src="/images/<%= brecImage[index]%>" alt="<%= brecName[index] %> Image" class="box-img">
-                            </div>
-                            <!-- details -->
-                            <div class="box-details">
-                                <a href="/recipes/<%= brecId[index]%>" class="rec-usr">
-                                    <div class="box-one">
-                                        <div class="name-cont">
-                                            <!-- category -->
-                                            <span class="box-categ"><%= brecCateg[index] %></span>
-                                            <!-- recipe name -->
-                                            <p class="box-name"><%= brecName[index] %></p>
-                                            <!-- rating -->
-                                            <% if (brecRate[index]) { %>
-                                                <div class="box-rate">
-                                                    <% let rating = brecRate[index]/brecRateCount[index]; %> 
-                                                    <% rating = Math.round(rating)%> 
-                                                    <%= rating%>
-                                                    <span class="str"></span>
-                                                </div>
-                                            <% } else { %>
-                                                <span class="box-not">This recipe hasn't been rated.</span>
-                                            <% } %>
-                                        </div>
+                        <div class="mp-card">
+                            <div class="card-cont">
+                                <div class="mp-header">
+                                    <div class="clear-icon">
+                                        <img src="/images/<%= brecImage[index]%>" alt="<%= brecName[index] %> Image" class="box-img">
                                     </div>
-                                </a>                       
-                            </div>
+                                </div>
+
+                                <div class="mp-details">
+                                    <a href="/recipes/<%= brecId[index]%>" class="mp-usr">
+                                        <div class="mp-one">
+                                            <div class="mp-cont">
+                                                <!-- category -->
+                                                <span class="mp-categ"><%= brecCateg[index] %></span>
+                                                <!-- recipe name -->
+                                                <p class="mp-name"><%= brecName[index] %></p>
+                                                <!-- rating -->
+                                                <% if (brecRate[index]) { %>
+                                                    <div class="mp-rate">
+                                                        <% let rating = brecRate[index]/brecRateCount[index]; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="mp-str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <span class="mp-empty">This recipe hasn't been rated.</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </a>                       
+                                </div>
                             </div>
                         </div>
                     <%# } %>
@@ -98,36 +107,37 @@
                 <%# let count = 10; %> 
                 <% for( let index = 0; index < lrecId.length; index++ ) { %>
                     <%# if (index < count) { %>
-                        <div class="result-card">
-                            <div class="box-card">
-                            <!-- img -->
-                            <div class="box-header">
-                                <img src="/images/<%= lrecImage[index]%>" alt="<%= lrecName[index] %> Image" class="box-img">
-                            </div>
-                            <!-- details -->
-                            <div class="box-details">
-                                <a href="/recipes/<%= lrecId[index]%>" class="rec-usr">
-                                    <div class="box-one">
-                                        <div class="name-cont">
-                                            <!-- category -->
-                                            <span class="box-categ"><%= lrecCateg[index] %></span>
-                                            <!-- recipe name -->
-                                            <p class="box-name"><%= lrecName[index] %></p>
-                                            <!-- rating -->
-                                            <% if (brecRate[index]) { %>
-                                                <div class="box-rate">
-                                                    <% let rating = lrecRate[index]/lrecRateCount[index]; %> 
-                                                    <% rating = Math.round(rating)%> 
-                                                    <%= rating%>
-                                                    <span class="str"></span>
-                                                </div>
-                                            <% } else { %>
-                                                <span class="box-not">This recipe hasn't been rated.</span>
-                                            <% } %>
-                                        </div>
+                        <div class="mp-card">
+                            <div class="card-cont">
+                                <div class="mp-header">
+                                    <div class="clear-icon">
+                                        <img src="/images/<%= lrecImage[index]%>" alt="<%= lrecName[index] %> Image" class="box-img">
                                     </div>
-                                </a>                       
-                            </div>
+                                </div>
+
+                                <div class="mp-details">
+                                    <a href="/recipes/<%= lrecId[index]%>" class="mp-usr">
+                                        <div class="mp-one">
+                                            <div class="mp-cont">
+                                                <!-- category -->
+                                                <span class="mp-categ"><%= lrecCateg[index] %></span>
+                                                <!-- recipe name -->
+                                                <p class="mp-name"><%= lrecName[index] %></p>
+                                                <!-- rating -->
+                                                <% if (brecRate[index]) { %>
+                                                    <div class="mp-rate">
+                                                        <% let rating = lrecRate[index]/lrecRateCount[index]; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="mp-str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <span class="mp-empty">This recipe hasn't been rated.</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </a>                       
+                                </div>
                             </div>
                         </div>
                     <%# } %>
@@ -143,36 +153,37 @@
                 <%# let count = 10; %> 
                 <% for( let index = 0; index < drecId.length; index++ ) { %>
                     <%# if (index < count) { %>
-                        <div class="result-card">
-                            <div class="box-card">
-                            <!-- img -->
-                            <div class="box-header">
-                                <img src="/images/<%= drecImage[index]%>" alt="<%= drecName[index] %> Image" class="box-img">
-                            </div>
-                            <!-- details -->
-                            <div class="box-details">
-                                <a href="/recipes/<%= drecId[index]%>" class="rec-usr">
-                                    <div class="box-one">
-                                        <div class="name-cont">
-                                            <!-- category -->
-                                            <span class="box-categ"><%= drecCateg[index] %></span>
-                                            <!-- recipe name -->
-                                            <p class="box-name"><%= drecName[index] %></p>
-                                            <!-- rating -->
-                                            <% if (drecRate[index]) { %>
-                                                <div class="box-rate">
-                                                    <% let rating = drecRate[index]/drecRateCount[index]; %> 
-                                                    <% rating = Math.round(rating)%> 
-                                                    <%= rating%>
-                                                    <span class="str"></span>
-                                                </div>
-                                            <% } else { %>
-                                                <span class="box-not">This recipe hasn't been rated.</span>
-                                            <% } %>
-                                        </div>
+                        <div class="mp-card">
+                            <div class="card-cont">
+                                <div class="mp-header">
+                                    <div class="clear-icon">
+                                        <img src="/images/<%= drecImage[index]%>" alt="<%= drecName[index] %> Image" class="box-img">
                                     </div>
-                                </a>                       
-                            </div>
+                                </div>
+
+                                <div class="mp-details">
+                                    <a href="/recipes/<%= drecId[index]%>" class="mp-usr">
+                                        <div class="mp-one">
+                                            <div class="mp-cont">
+                                                <!-- category -->
+                                                <span class="mp-categ"><%= drecCateg[index] %></span>
+                                                <!-- recipe name -->
+                                                <p class="mp-name"><%= drecName[index] %></p>
+                                                <!-- rating -->
+                                                <% if (drecRate[index]) { %>
+                                                    <div class="mp-rate">
+                                                        <% let rating = drecRate[index]/drecRateCount[index]; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="mp-str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                    <span class="mp-empty">This recipe hasn't been rated.</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </a>                       
+                                </div>
                             </div>
                         </div>
                     <%# } %>
@@ -184,5 +195,46 @@
 
     <!-- custom js file link  -->
     <script src="/public/js/script.js"></script>
+    <script>
+        //for slider
+        $(".mp-slider").owlCarousel({
+            nav: true,
+            dots: false,
+            mouseDrag: true,
+            responsive: {
+                360:{
+                    items: 2
+                },
+
+                414:{
+                    items: 2
+                },
+                
+                540: {
+                items: 2
+                },
+
+                768: {
+                items: 3
+                },
+
+                820: {
+                items: 4
+                },
+
+                912: {
+                items: 4
+                },
+
+                1024: {
+                items: 4
+                },
+
+                1400: {
+                items: 3
+                }
+            }
+        });
+    </script>
 </body>
 </html>

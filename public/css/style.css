@@ -1729,6 +1729,20 @@ section{
 
 /* end of header */
 
+/* generate mp */
+
+.gen-mp{
+   width: 100%;
+   margin-top: 0.5rem;
+   padding:1rem 1.2rem;
+   cursor: pointer;
+   background-color: var(--green);
+   color:var(--white);
+   font-size: 1.5rem;
+   text-transform: uppercase;
+}
+
+
 /* weekly title */
 .weekly-title{
    display: flex;
@@ -1954,6 +1968,23 @@ section{
    text-rendering: auto;
    -webkit-font-smoothing: antialiased;
 }
+
+.mp-card .card-cont .mp-details .mp-gl .mp-gl-btn::before{
+   content: "\f46d";
+   display: inline-block;
+   color: var(--green);
+   font: var(--fa-font-solid);
+   text-rendering: auto;
+   -webkit-font-smoothing: antialiased;
+   cursor:pointer;
+}
+
+.mp-card .card-cont .mp-details .mp-gl .mp-gl-btn{
+   cursor: pointer;
+   background-color:var(--white);
+   font-size: 1.8rem;
+}
+
 
 /* .mp-slider .mp-empty{
    background-color: #fff;

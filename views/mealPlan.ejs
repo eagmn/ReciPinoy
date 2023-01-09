@@ -107,16 +107,6 @@
             <!-- border line -->
             <span class="meal-line"></span>
 
-            <div class="past-week">
-                <form action="/mealPlan/generate" method="post">
-                    <button type="submit" class="weeklybtn">
-                        <!-- icon -->
-                        <span class="past-btn"></span>
-                        <span class="mp-back">Generate Meal Plan</span>
-                    </button>
-                </form>
-            </div>
-
             <!-- week header -->
             <!--id="weekViewInp" name="weekViewInp"-->
             <div class="weekly-title">
@@ -149,9 +139,12 @@
                 </div>
             </div>
 
-            <!-- border line -->
-            <!-- <span class="meal-line"></span> -->
-
+            <!-- generate meal plan button -->
+            <div class="gen-plan">
+                <form action="/mealPlan/generate" method="post">
+                    <button type="submit" class="gen-mp">Generate Meal Plan</button>
+                </form>
+            </div>
 
             <!-- bottom contents -->
             <div class="mp-bot">
@@ -190,20 +183,19 @@
                                                     <span class="mp-empty">This recipe hasn't been rated.</span>
                                                 <% } %>
                                             </div>
+
+                                            <!-- add to grocery list button -->
+                                            <div class="mp-gl">
+                                                <form action="/grocery-list" method="post">
+                                                    <input type="hidden" name="mealPlanRecId" value="<%= mrecId[index] %>">
+                                                    <button type="submit" id="openModal" class="mp-gl-btn"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </a>
-                                    <!-- add to grocery list button -->
-                                    <div class="ing-gl-btn">
-                                        <form action="/grocery-list" method="post">
-                                            <input type="hidden" name="mealPlanRecId" value="<%= mrecId[index] %>">
-                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
-                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
-                                        </form>
-                                    </div>
-                                    </div>                       
-                                </div>
+                                </div>                       
                             </div>
-
+                        </div>
                     <% } %>
                     <% } else { %>
                         <span class="mp-empty"></span> 
@@ -243,19 +235,19 @@
                                                     <span class="mp-empty">This recipe hasn't been rated.</span>
                                                 <% } %>
                                             </div>
+
+                                            <!-- add to grocery list button -->
+                                            <div class="mp-gl">
+                                                <form action="/grocery-list" method="post">
+                                                    <input type="hidden" name="mealPlanRecId" value="<%= mrecId[index] %>">
+                                                    <button type="submit" id="openModal" class="mp-gl-btn"></button>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </a>
-                                    <!-- add to grocery list button -->
-                                    <div class="ing-gl-btn">
-                                        <form action="/grocery-list" method="post">
-                                            <input type="hidden" name="mealPlanRecId" value="<%= trecId[index] %>">
-                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
-                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
-                                        </form>
-                                    </div>
-                                    </div>                       
-                                </div>
+                                    </a>  
+                                </div>               
                             </div>
+                        </div>
 
                     <% } %>
                     <% } else { %>
@@ -297,20 +289,19 @@
                                                     <span class="mp-empty">This recipe hasn't been rated.</span>
                                                 <% } %>
                                             </div>
+
+                                            <!-- add to grocery list button -->
+                                            <div class="mp-gl">
+                                                <form action="/grocery-list" method="post">
+                                                    <input type="hidden" name="mealPlanRecId" value="<%= mrecId[index] %>">
+                                                    <button type="submit" id="openModal" class="mp-gl-btn"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </a>
-                                    <!-- add to grocery list button -->
-                                    <div class="ing-gl-btn">
-                                        <form action="/grocery-list" method="post">
-                                            <input type="hidden" name="mealPlanRecId" value="<%= wrecId[index] %>">
-                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
-                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
-                                        </form>
-                                    </div>
-                                    </div>                       
-                                </div>
+                                </div>                       
                             </div>
-
+                        </div>
                     <% } %>
                     <% } else { %>
                         <span class="mp-empty"></span> 
@@ -351,20 +342,19 @@
                                                     <span class="mp-empty">This recipe hasn't been rated.</span>
                                                 <% } %>
                                             </div>
+                                            
+                                            <!-- add to grocery list button -->
+                                            <div class="mp-gl">
+                                                <form action="/grocery-list" method="post">
+                                                    <input type="hidden" name="mealPlanRecId" value="<%= mrecId[index] %>">
+                                                    <button type="submit" id="openModal" class="mp-gl-btn"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </a>
-                                    <!-- add to grocery list button -->
-                                    <div class="ing-gl-btn">
-                                        <form action="/grocery-list" method="post">
-                                            <input type="hidden" name="mealPlanRecId" value="<%= threcId[index] %>">
-                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
-                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
-                                        </form>
-                                    </div>
-                                    </div>                       
-                                </div>
+                                </div>                       
                             </div>
-
+                        </div>
                     <% } %>
                     <% } else { %>
                         <span class="mp-empty"></span> 
@@ -405,20 +395,19 @@
                                                     <span class="mp-empty">This recipe hasn't been rated.</span>
                                                 <% } %>
                                             </div>
+
+                                            <!-- add to grocery list button -->
+                                            <div class="mp-gl">
+                                                <form action="/grocery-list" method="post">
+                                                    <input type="hidden" name="mealPlanRecId" value="<%= mrecId[index] %>">
+                                                    <button type="submit" id="openModal" class="mp-gl-btn"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </a>
-                                    <!-- add to grocery list button -->
-                                    <div class="ing-gl-btn">
-                                        <form action="/grocery-list" method="post">
-                                            <input type="hidden" name="mealPlanRecId" value="<%= frecId[index] %>">
-                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
-                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
-                                        </form>
-                                    </div>
-                                    </div>                       
-                                </div>
+                                </div>                       
                             </div>
-
+                        </div>
                     <% } %>
                     <% } else { %>
                         <span class="mp-empty"></span> 
@@ -459,20 +448,19 @@
                                                     <span class="mp-empty">This recipe hasn't been rated.</span>
                                                 <% } %>
                                             </div>
+
+                                             <!-- add to grocery list button -->
+                                            <div class="mp-gl">
+                                                <form action="/grocery-list" method="post">
+                                                    <input type="hidden" name="mealPlanRecId" value="<%= mrecId[index] %>">
+                                                    <button type="submit" id="openModal" class="mp-gl-btn"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </a>
-                                    <!-- add to grocery list button -->
-                                    <div class="ing-gl-btn">
-                                        <form action="/grocery-list" method="post">
-                                            <input type="hidden" name="mealPlanRecId" value="<%= srecId[index] %>">
-                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
-                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
-                                        </form>
-                                    </div>
-                                    </div>                       
-                                </div>
+                                </div>                       
                             </div>
-
+                        </div>
                     <% } %>
                     <% } else { %>
                         <span class="mp-empty"></span> 
@@ -513,20 +501,19 @@
                                                     <span class="mp-empty">This recipe hasn't been rated.</span>
                                                 <% } %>
                                             </div>
+
+                                             <!-- add to grocery list button -->
+                                            <div class="mp-gl">
+                                                <form action="/grocery-list" method="post">
+                                                    <input type="hidden" name="mealPlanRecId" value="<%= mrecId[index] %>">
+                                                    <button type="submit" id="openModal" class="mp-gl-btn"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </a>
-                                    <!-- add to grocery list button -->
-                                    <div class="ing-gl-btn">
-                                        <form action="/grocery-list" method="post">
-                                            <input type="hidden" name="mealPlanRecId" value="<%= surecId[index] %>">
-                                            <!-- <input type="hidden" name="gList" id="gList" value=""> -->
-                                            <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
-                                        </form>
-                                    </div>
-                                    </div>                       
-                                </div>
+                                </div>                       
                             </div>
-
+                        </div>
                     <% } %>
                     <% } else { %>
                         <span class="mp-empty"></span> 
