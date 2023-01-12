@@ -774,7 +774,7 @@ pool.getConnection((err, conn) => {
                                 // console.log(aArr);
                                 aArr.forEach(a => {
                                     if(a){
-                                        console.log(a);
+                                        // console.log(a);
                                         if(allergy.includes(a)){
                                             idStr += id + '/';
                                         }
@@ -825,18 +825,31 @@ pool.getConnection((err, conn) => {
 
         function getIngId(ings) {
             return new Promise((resolve, reject) => {
-                conn.query('SELECT * FROM ing WHERE ing_name = ?', [ings], (err, iid) =>{
+                conn.query('SELECT * FROM ing WHERE ing_name LIKE ?', ['%' + ings + '%'], (err, iid) =>{
                     if(err){
                         console.log(err);
                     }
-                    else if (iid[0]) {
-                        let id = iid[0].ing_id;
-                        resolve(id);
+                    else if (iid) {
+                        if(iid.length === 1){
+                            let id = iid[0].ing_id;
+                            resolve(id);
+                        }
+                        else{
+                            let id;
+                            for (let index = 0; index < iid.length; index++) {
+                                const element = iid[index].ing_name;
+                                if(element.trim() === ings.trim()){
+                                    id = iid[index].ing_id;
+                                }  
+                            }
+                            resolve(id);
+                        }
                     }
                     else{
-                        conn.release();
-                        req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
-                        res.redirect('/recommend');
+                        resolve();
+                        // conn.release();
+                        // req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
+                        // res.redirect('/recommend');
                     }
                 })
             })
@@ -895,10 +908,15 @@ pool.getConnection((err, conn) => {
         async function getRecommRec() {
             let ings = recomm.getIngs();
             for(i of ings){
+                console.log(i);
                 const id = await getIngId(i);
-                ingsId.push(id);
+                console.log(id);
+                if(id){
+                    ingsId.push(id);
+                }
+                
             }
-            console.log(ingsId);
+            console.log("ingsId: ",ingsId);
             
             for(r of ingsId){
                 const rf = await getRecIds(r);
@@ -1006,19 +1024,52 @@ pool.getConnection((err, conn) => {
             //query to get ing ids of excluded ings
             function getExIngsId(id) {
                 return new Promise((resolve, reject) => {
-                    conn.query('SELECT * FROM ing WHERE ing_name = ?', [id], (err, iid) =>{
+                    conn.query('SELECT * FROM ing WHERE ing_name LIKE ?', ['%' + id + '%'], (err, iid) =>{
                         if(err){
                             console.log(err);
+                            conn.release();
                         }
-                        else if (iid[0]) {
-                            let id = iid[0].ing_id;
-                            resolve(id);
+                        else if(iid) {
+                            if(iid.length === 1){
+                                let id = iid[0].ing_id;
+                                resolve(id);
+                            }
+                            else{
+                                let idArr = [];
+                                let idStr = '';
+                                for (let index = 0; index < iid.length; index++) {
+                                    const element = iid[index].ing_name;
+                                    // if(element.trim() === ings.trim()){
+                                    //     id = iid[index].ing_id;
+                                    // }
+                                    if((/\s/).test(element) || element.trim() === id.trim()){
+                                        console.log(element);
+                                        let id = iid[index].ing_id;
+                                        idArr.push(id);
+                                    }
+                                    
+                                }
+                                console.log(idArr);
+                                idStr = idArr.join('/');
+                                console.log(idStr);
+                                resolve(idStr);
+                            }
                         }
                         else{
-                            conn.release();
-                            req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
-                            res.redirect('/recommend');
+                            resolve();
+                            // conn.release();
+                            // req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
+                            // res.redirect('/recommend');
                         }
+                        // else if (iid[0]) {
+                        //     let id = iid[0].ing_id;
+                        //     resolve(id);
+                        // }
+                        // else{
+                        //     conn.release();
+                        //     req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
+                        //     res.redirect('/recommend');
+                        // }
                     })
                 })
             }
@@ -1049,7 +1100,20 @@ pool.getConnection((err, conn) => {
                 for (const ex of exIngs) {
                     if(ex){
                         let exids = await getExIngsId(ex);
-                        exIngsId.push(exids);
+                        if(exids){
+                            console.log(exids);
+                            if(typeof exids === 'string'){
+                                let trmStr = exids.split('/');
+                                trmStr.forEach(element => {
+                                    exIngsId.push(parseInt(element));
+                                });
+                            }
+                            else{
+                                exIngsId.push(exids);
+                            }
+                            
+                        }
+                        
                     }
                 }
                 console.log(exIngsId); //ing id of excluded ings
