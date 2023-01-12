@@ -517,7 +517,7 @@ section{
 .filter-cont{
    display: flex;
    flex-direction: row;
-   justify-content: space-between;
+   /* flex-wrap: wrap; */
 }
 
 /* .categ-opt{
@@ -535,17 +535,21 @@ section{
 } */
 
 .select-box {
+   flex-grow: 0.5;
    position: relative;
    display: block;
-   width: 200px;
    font-size: 18px;
    color: #60666d;
+   margin: 0.5rem;
+   border: 1px solid #60666d;
+   padding: 1em;
+   border-radius: 20px;
  }
 
  
  .select-box__current {
    position: relative;
-   box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+   /* box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1); */
    cursor: pointer;
    outline: none;
  }
@@ -565,16 +569,6 @@ section{
            transform: translateY(-50%) rotate(180deg);
  } */
 
- .select-box__icon {
-   position: absolute;
-   top: 50%;
-   right: 9px;
-   -webkit-transform: translateY(-50%);
-           transform: translateY(-50%);
-   width: 15px;
-   opacity: 0.3;
-   /* transition: 0.2s ease; */
- }
 
  .select-box__value {
    display: flex;
@@ -591,8 +585,8 @@ section{
  .select-box__input-text {
    /* display: none; */
    width: 100%;
+   text-align: center;
    margin: 0;
-   padding: 15px;
    background-color: #fff;
  }
 
@@ -617,7 +611,7 @@ section{
 
  .select-box__option {
    display: block;
-   padding: 15px;
+   padding: 2rem;
    background-color: #fff;
  }
 
@@ -653,10 +647,10 @@ section{
    background-color: #fff;
    width: 105px;
 }
+
 .fil-icon::before{
    content: "\f0b0";
    display: inline-block;
-   margin: 0.2rem 0.5rem 0 0;
    color: rgb(141, 141, 141);
    font: var(--fa-font-solid);
    text-rendering: auto;
@@ -708,6 +702,7 @@ section{
 
 .box-img{
    width: 100%;
+   height: 100%;
 }
 
 .rec-usr{
@@ -2977,9 +2972,6 @@ transform: scale(1.1);
    /* .img-rec{
       height: 450px;
    } */
-   .select-box {
-      width: 170px;
-    }
  }
 
 
@@ -3133,11 +3125,6 @@ html{
       object-fit: cover;
    }
 
-   .select-box {
-      width: 140px;
-      font-size: 14px;
-    }
-
     .urv-grid{
       margin-bottom: 0;
    }
@@ -3176,22 +3163,17 @@ html{
 }
 
 @media only screen and (max-width:950px){
-   .select-box {
-      width: 140px;
-      font-size: 14px;
-    }
-
     .select-box__icon{
       width: 12px;
     }
 
-    .btn-lang{
-      width: 30px;
+    /* .btn-lang{
+      width: 40px;
     }
 
     .fil-btn{
       display: none;
-   }
+   } */
 
    .saved-container {
       grid-template-columns: repeat(2, 2fr);
@@ -3224,10 +3206,6 @@ html{
 }
 
 @media only screen and (max-width:830px){
-   .select-box {
-      width: 130px;
-      font-size: 13px;
-    }
 
     .select-box__icon{
       width: 10px;
@@ -3241,14 +3219,19 @@ html{
       font-size: 60%;
    }
 
+   .back-btn{
+      padding: 1rem 2rem 1rem 0;
+   }
+
    .userMealPlan, .userSaved, .add-recipes, .recipeResults, .userRecipeView, .grocery-cont , .user-details{
       background-color: #fff;
       margin: 0;
+      padding: 0 2.5rem 2rem;
       width:auto;
    }
 
-   .getFilter{
-      margin: 0;
+   .search-form{
+      padding: 1rem;
    }
 
    /* .filter-cont{
@@ -3256,26 +3239,13 @@ html{
       flex-wrap: wrap;
    } */
 
-   .btn-lang{
-      float: right;
-   }
-
-   .select-box {
-      margin-right: 1.2em;
-      width: 100%;
-      font-size: 13.5px;
-    }
-
     .select-box__icon{
       right: 5px;
     }
 
-    .btn-lang{
-      width: 15px;
-    }
    
-   .usr-container {
-      grid-template-columns: repeat(1, 1fr);
+    .usr-container {
+      grid-template-columns: repeat(1, 93%);
       gap: 2em;
    }
 
@@ -3285,7 +3255,7 @@ html{
    }
 
    .box-details{
-      margin: 2.3em 0 0 1.5em;
+      margin: 2.3em 1em;
    }
    
    .box-one{
@@ -3307,11 +3277,6 @@ html{
   .img-rec{
    height: 335px;
   }
-
-  .usr-saved-btn{
-      margin-right: 1.2em;
-   }
-
    .usr-view {
       display: none;
    }
@@ -3432,16 +3397,14 @@ html{
       font-size: 1.2rem;
       margin: 1em 0.5em;
    }
-   
-   .select-box {
-      margin-right: 1em;
-      width: 120px;
-      font-size: 11px;
-    }
 
-    .select-box__icon{
-      right: 3px;
-    }
+   .getFilter{
+      margin: 0.4em;
+   }
+
+   .select-box, .fil-icon, .fil-btn{
+      font-size: 1.5rem;
+   }
 
     .mp-back{
       display: none;
@@ -3507,15 +3470,19 @@ html{
    html{
       font-size: 59%;
    }
+
+   .btn-lang{
+      width: 40px;
+   }
+   .fil-btn{
+      display: none;
+   }
+
    
    .food-title{
       font-size: 1.2rem;
    }
    
-   .select-box {
-      width: 100px;
-      font-size: 12px;
-    }
 
    .select-box1 {
       font-size: 13px;
@@ -3565,11 +3532,6 @@ html{
       justify-content: center;
    }
 
-   .recipeResults{
-      padding:1.5rem;
-      justify-content: center;
-   }
-
    .user-details{
       padding:1.5rem;
       justify-content: center;
@@ -3583,10 +3545,20 @@ html{
    
 
 @media only screen and (max-width: 473px){
-   /* .select-box1 {
-      font-size: 14px;
-   } */
+   .select-box{
+      font-size: 1.1rem;
+      padding: 0.5em;
+   }
 
+   .select-box__list{
+      width: 150%;
+   }
+
+   .select-box__option{
+      padding: 1.2rem;
+      font-size: 1rem;
+   }
+   
    .sel-opt{
       font-size: 1.3em;
    }
