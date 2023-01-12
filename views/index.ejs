@@ -117,12 +117,15 @@
       <div class="box-container">
          <% if (recs.length > 0) { %>
              <% recs.forEach(rec => { %>
+               <div class="result-card">
                  <form action="" method="post" class="box">
-                     <a href="/recipes/<%= rec.rec_id%>" class="fas fa-eye"></a>
-                     <img src="/images/<%= rec.rec_image%>" alt="<%= rec.rec_name %> Image" height="150">
-                     <div class="cat"><%= rec.rec_categ %></div>
-                     <div class="name"><%= rec.rec_name %></div>
+                     <a href="/recipes/<%= rec.rec_id%>" class="box-usr">
+                        <img src="/images/<%= rec.rec_image%>" alt="<%= rec.rec_name %> Image" height="150">
+                        <div class="cat"><%= rec.rec_categ %></div>
+                        <div class="name"><%= rec.rec_name %></div>
+                     </a>
                  </form>
+               </div>
              <% }) %>
          <% } else { %>
              <p class="empty">No recipes found.</p>

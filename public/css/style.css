@@ -382,9 +382,17 @@ section{
 
 .recipes .box-container .box{
    border:var(--border);
-   padding:1.5rem;
+   padding:1.2rem;
    position: relative;
+   box-shadow: 0px 0px 15px 0px rgb(217, 217, 217);
+   cursor: pointer;
    overflow: hidden;
+}
+
+.recipes .box-container .box .box-usr{
+   color:rgb(27, 27, 27);
+   cursor: pointer;
+   text-decoration: none;
 }
 
 .recipes .box-container .box img{
@@ -394,7 +402,7 @@ section{
    margin-bottom: 1rem;
 }
 
-.recipes .box-container .box .fa-eye{
+/* .recipes .box-container .box .fa-eye{
    position: absolute;
    top:1rem;
    height: 4.5rem;
@@ -420,7 +428,7 @@ section{
 
 .recipes .box-container .box:hover .fa-eye{
    left: 1rem;
-}
+} */
 
 .recipes .box-container .box .cat{
    font-size: 1.8rem;
@@ -3542,10 +3550,6 @@ html{
 
    .hero .slide .content h3{
       font-size: 5rem;
-   }
-
-   .recipes .box-container{
-      grid-template-columns: 1fr;
    }
 
    .usr-container{
