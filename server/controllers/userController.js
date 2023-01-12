@@ -835,14 +835,33 @@ pool.getConnection((err, conn) => {
                             resolve(id);
                         }
                         else{
-                            let id;
+                            let idArr = [];
+                            let idStr = '';
                             for (let index = 0; index < iid.length; index++) {
                                 const element = iid[index].ing_name;
-                                if(element.trim() === ings.trim()){
-                                    id = iid[index].ing_id;
-                                }  
+                                // if(element.trim() === ings.trim()){
+                                //     id = iid[index].ing_id;
+                                // }
+                                if((/\s/).test(element) || element.trim() === ings.trim()){
+                                    // console.log(element);
+                                    let id = iid[index].ing_id;
+                                    idArr.push(id);
+                                }
+                                
                             }
-                            resolve(id);
+                            console.log(idArr);
+                            idStr = idArr.join('/');
+                            console.log(idStr);
+                            resolve(idStr);
+
+                            // let id;
+                            // for (let index = 0; index < iid.length; index++) {
+                            //     const element = iid[index].ing_name;
+                            //     if(element.trim() === ings.trim()){
+                            //         id = iid[index].ing_id;
+                            //     }  
+                            // }
+                            // resolve(id);
                         }
                     }
                     else{
@@ -910,10 +929,20 @@ pool.getConnection((err, conn) => {
             for(i of ings){
                 console.log(i);
                 const id = await getIngId(i);
-                console.log(id);
+                // console.log(id);
                 if(id){
-                    ingsId.push(id);
+                    // ingsId.push(id);
+                    if(typeof id === 'string'){
+                        let trmStr = id.split('/');
+                        trmStr.forEach(element => {
+                            ingsId.push(parseInt(element));
+                        });
+                    }
+                    else{
+                        ingsId.push(id);
+                    }
                 }
+
                 
             }
             console.log("ingsId: ",ingsId);
@@ -940,7 +969,7 @@ pool.getConnection((err, conn) => {
             console.log(finalRids);
             if (finalRids.length == 0) {
                 conn.release();
-                req.flash('msg', "No recipes found given the inclusion and exclusion of ingredients, and user's food restrictions and allergies!");
+                req.flash('msg', "No recipes found given the inclusion and exclusion of ingredients!");
                 res.redirect('/recommend');
             }
             else{
@@ -1043,15 +1072,15 @@ pool.getConnection((err, conn) => {
                                     //     id = iid[index].ing_id;
                                     // }
                                     if((/\s/).test(element) || element.trim() === id.trim()){
-                                        console.log(element);
+                                        // console.log(element);
                                         let id = iid[index].ing_id;
                                         idArr.push(id);
                                     }
                                     
                                 }
-                                console.log(idArr);
+                                // console.log(idArr);
                                 idStr = idArr.join('/');
-                                console.log(idStr);
+                                // console.log(idStr);
                                 resolve(idStr);
                             }
                         }
@@ -1101,7 +1130,7 @@ pool.getConnection((err, conn) => {
                     if(ex){
                         let exids = await getExIngsId(ex);
                         if(exids){
-                            console.log(exids);
+                            // console.log(exids);
                             if(typeof exids === 'string'){
                                 let trmStr = exids.split('/');
                                 trmStr.forEach(element => {
@@ -1116,7 +1145,7 @@ pool.getConnection((err, conn) => {
                         
                     }
                 }
-                console.log(exIngsId); //ing id of excluded ings
+                console.log('exings id: ', exIngsId); //ing id of excluded ings
                 
                 for (const i of exIngsId) {
                     const rf = await getRecIds(i);
@@ -1126,11 +1155,23 @@ pool.getConnection((err, conn) => {
                 //query to get ing id for inputted ings
                 let ings = recomm.getIngs();
                 for(i of ings){
-                    console.log(i);
+                    // console.log(i);
                     const id = await getIngId(i);
-                    ingsId.push(id);
+                    if(id){
+                        // ingsId.push(id);
+                        if(typeof id === 'string'){
+                            let trmStr = id.split('/');
+                            trmStr.forEach(element => {
+                                ingsId.push(parseInt(element));
+                            });
+                        }
+                        else{
+                            ingsId.push(id);
+                        }
+                    }
+                    // ingsId.push(id);
                 }
-                console.log(ingsId); //ing id of included ings
+                console.log('ingsId in ifexing: ', ingsId); //ing id of included ings
 
                 for (const i of ingsId) {
                     let r = await getFinalRecIds(i);

@@ -136,7 +136,13 @@
             console.log('gArr after jq: ', gArr);
             let newItem = document.querySelector("#newItem").value;
             if (newItem) {
-                gArr.push(newItem);
+                if(gArr.includes(newItem.trim())){
+                    alert("ingredient is already in the grocery list!");
+                }
+                else{
+                    gArr.push(newItem);
+                }
+                
             }
             console.log('gArr after newItem: ', gArr);
 
