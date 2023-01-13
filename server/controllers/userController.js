@@ -10,6 +10,7 @@ const Recipe = require('../classes/recipe');
 
 
 
+
 let otp = Math.random();
 otp = otp * 1000000;
 otp = parseInt(otp);
@@ -1502,7 +1503,7 @@ exports.userSavedRecipes = (req, res) =>{
                             res.render('saved', { title: 'Recipes', save: save, id: session.userName, msg});
                         }
                     })
-                    // getRec(conn, session.userName);
+                   
                 }})
         }
         else{
@@ -1679,8 +1680,8 @@ exports.userSavedEdit = (req, res) => {
                                 conn.release();  
                             }
                             else{
+                                conn.release();
                                 res.render('userSavedEdit', {title: 'Edit Recipe', save: row, ing: ingRow});
-                                conn.release();  
                             }
                         }) 
                     }  
@@ -2225,7 +2226,8 @@ exports.addGrocery = (req,res) => {
                             res.redirect('/mealPlan');
                         }
                         if(recId){
-                            res.redirect('/recipes/' + recId);
+                            // res.redirect('/recipes/' + recId);
+                            res.redirect('back');
                         }
                         
                     }
@@ -4344,7 +4346,7 @@ exports.saveCreatedRec = (req, res) => {
         session = req.session;
         if(session.userId){
             let msg = req.flash('msg');
-            res.render('savedCreate', {msg, id: session.userId});
+            res.render('savedCreate', {id: session.userId, msg});
         }
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -4398,7 +4400,7 @@ exports.savedSubmitCreate = (req, res) => {
                                 console.log(err, '\n');
                                 conn.release();
                             }else{
-                                savedId = result.insertId;
+                                // savedId = result.insertId;
                                 let ing = new Recipe.Ing();
                                 let ingNum = req.body.ingNum;
                                 ing.quant = JSON.parse(req.body.qval);
@@ -4406,7 +4408,6 @@ exports.savedSubmitCreate = (req, res) => {
                                 ing.unit = JSON.parse(req.body.uval);
                                 ing.ins = JSON.parse(req.body.insval);
     
-                          
                                 function insertNewIng(ingName){
                                     return new Promise((resolve, reject) => {
                                         let newIngId;
@@ -4440,9 +4441,10 @@ exports.savedSubmitCreate = (req, res) => {
     
                                     })
                                 }
+
                                 async function insertRecIng(ingName, qf, ingUnit, ingIns){
                                     const ii = await insertNewIng(ingName);
-                                    conn.query('INSERT INTO saved_recing(rec_id, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [savedId, ii, qf, ingUnit, ingIns], (err, row) => {
+                                    conn.query('INSERT INTO saved_recing(rec_id, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [newRecId, ii, qf, ingUnit, ingIns], (err, row) => {
                                         if(err){
                                             console.log(err, '\n');
                                             conn.release();
@@ -4453,41 +4455,94 @@ exports.savedSubmitCreate = (req, res) => {
                                     })
                                     
                                 }
-                                
-                                function ingLoop(i) {
-                                    return new Promise((resolve, reject) => {
-                                        let newIngStr = '';
-                                            let ingQuant = ing.getIngQuant()[i];
-                                            let ingUnit = ing.getIngUnit()[i];
-                                            let ingName = ing.getIngName()[i];
-                                            let ingIns = ing.getIngIns()[i];
-                                            let qf; 
-                                            if(parseFloat(ingQuant)){
-                                                qf = parseFloat(ingQuant);
+
+                                for(let z = 0; z < ingNum; z++){
+                                    let ingQuant = ing.getIngQuant()[z];
+                                    let ingUnit = ing.getIngUnit()[z];
+                                    let ingName = ing.getIngName()[z];
+                                    let ingIns = ing.getIngIns()[z];
+                                    let qf; 
+                                    if(parseFloat(ingQuant)){
+                                        qf = parseFloat(ingQuant);
+                                    }
+                                    else{
+                                        qf = 0;
+                                    }
+
+                                    conn.query('SELECT * FROM saved_ing WHERE ing_name = ?', [ingName], (err, rows) =>{
+                                        if(err){
+                                            console.log(err, '\n');
+                                            conn.release();
+                                        }
+                                        else if(rows[0]){
+                                            console.log();
+                                            let ii = rows[0].savedIng_id;
+                                            conn.query('INSERT INTO saved_recing(rec_id, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [newRecId, ii, qf, ingUnit, ingIns], (err, row) => {
+                                                if(err){
+                                                    console.log(err, '\n');
+                                                    conn.release();
                                                 }
-                                            else{
-                                                qf = 0;
-                                            }
-    
-                                            insertRecIng(ingName, qf, ingUnit, ingIns).then(() => {
-                                                newIngStr = ingName;
-                                                resolve(newIngStr);
-                                            });
+                                                else{
+                                                    console.log('recing added...\n');
+                                                }
+                                            })
+                                        }
+                                        else{
+                                            insertRecIng(ingName, qf, ingUnit, ingIns);
+                                        }
                                     })
                                 }
-    
-                                async function savedupdateIng() {
-                                    for (let index = 0; index < ingNum; index++) {
-                                        ingStr = await ingLoop(index);
-                                    }
-                                }
-                                
-                                savedupdateIng().then(() => {
-                                        conn.release();
-                                        req.flash('msg', 'Recipe saved!');
-                                        res.redirect('/saved'); 
+                                conn.release();
+                                req.flash('msg', 'Recipe saved!');
+                                res.redirect('/saved'); 
+                                // async function insertRecIng(ingName, qf, ingUnit, ingIns){
+                                //     const ii = await insertNewIng(ingName);
+                                //     conn.query('INSERT INTO saved_recing(rec_id, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [newRecId, ii, qf, ingUnit, ingIns], (err, row) => {
+                                //         if(err){
+                                //             console.log(err, '\n');
+                                //             conn.release();
+                                //         }
+                                //         else{
+                                //             console.log('new ing added + recing inserted...\n');
+                                //         }
+                                //     })
                                     
-                                });
+                                // }
+                                
+                                // function ingLoop(i) {
+                                //     return new Promise((resolve, reject) => {
+                                //         let newIngStr = '';
+                                //             let ingQuant = ing.getIngQuant()[i];
+                                //             let ingUnit = ing.getIngUnit()[i];
+                                //             let ingName = ing.getIngName()[i];
+                                //             let ingIns = ing.getIngIns()[i];
+                                //             let qf; 
+                                //             if(parseFloat(ingQuant)){
+                                //                 qf = parseFloat(ingQuant);
+                                //                 }
+                                //             else{
+                                //                 qf = 0;
+                                //             }
+    
+                                //             insertRecIng(ingName, qf, ingUnit, ingIns).then(() => {
+                                //                 newIngStr = ingName;
+                                //                 resolve(newIngStr);
+                                //             });
+                                //     })
+                                // }
+    
+                                // async function savedupdateIng() {
+                                //     for (let index = 0; index < ingNum; index++) {
+                                //         ingStr = await ingLoop(index);
+                                //     }
+                                // }
+                                
+                                // savedupdateIng().then(() => {
+                                //         conn.release();
+                                //         req.flash('msg', 'Recipe saved!');
+                                //         res.redirect('/saved'); 
+                                    
+                                // });
                             }
                         })
                     }
@@ -4506,6 +4561,322 @@ exports.savedSubmitCreate = (req, res) => {
     }
 }
 
+exports.getCreatedRec = (req, res) => {
+    try {
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log('error in user recipes...\n');
+                conn.release();
+            }
+            else{
+                let rId = req.params.id;
+                conn.query('SELECT * FROM saved WHERE rec_id = ?',[rId], (err, save) => {
+                    if(err){
+                        console.log('cannot fetch recipes in db...\n');
+                        conn.release();
+                    }
+                    else{
+                        let regexQuant = /[+-]?\d+(\.\d+)?/g;
+                        let regexStr = /\b(\w+)\b/g;
+                        let finalStr = '';
+                        let quantArr = [];
+                        let recIngs = [];
+                        let ingStringArr = [];
+                        let ingI = [];
+                        let insArr = [];
+                        let ingIStr = '';
+                        let ingStr = '';
+                        let qStr = 'SELECT saved_recing.*, saved_ing.ing_name FROM `saved_recing` INNER JOIN saved_ing ON saved_recing.ingId = saved_ing.savedIng_id WHERE saved_recing.rec_id = ?';
+                        function getIngs(id){
+                            return new Promise((resolve, reject) => {
+                                conn.query(qStr, [id], (err, ings) => {
+                                    if(err){
+                                        console.log(err, '\n');
+                                        conn.release();
+                                    }
+                                    else{
+                                        ings.forEach(ing => {
+                                            let ingq = ing.ingQuant;
+                                            let ingu = ing.ingUnit;
+                                            let ingi = ing.ingIns;
+                                            
+                                            if(!ing.ingQuant){
+                                                ingq = 0;
+                                            }
+                                            if(!ing.ingUnit){
+                                                ingu = '';
+                                            }
+                                            if(!ing.ingIns){
+                                                ingi = '';
+                                            }
+                                            let temp = ingq + ' ' + ingu + ' ' + ing.ing_name;
+                                            let ii = ' '+ ingi;
+                                            ingStringArr.push(temp);
+                                            ingI.push(ii);
+                                        });
+                                        ingStr = ingStringArr.join('/');
+                                        ingIStr = ingI.join('/');
+                                        let strConcat = ingStr.concat('*', ingIStr);
+                                        ingStringArr = [];
+                                        ingI = []; 
+                                        resolve(strConcat);
+                                    }
+                                })
+                            })
+                        }
+                        
+                        async function getAllRecIng(save){
+                            for(id of save){
+                                ingStr = await getIngs(id.rec_id);
+                                let strArr = ingStr.split('*');
+                                let qui = strArr[0]
+                                let ins = strArr[1];
+                                insArr = ins.split('/');
+                                let ingArr = qui.split('/');
+                                for (const i of ingArr) {
+                                    let quantNum = i.match(regexQuant);
+                                    let iStr = i.match(regexStr); 
+                                    if(Array.isArray(quantNum)){
+                                        quantArr.push(quantNum[0]);
+                                    }else{
+                                        quantArr.push(quantNum);
+                                    }
+                                    for (let index = 0; index < iStr.length; index++) {
+                                        const element = iStr[index];
+                                        if (isNaN(element)) {
+                                            finalStr += ' ' + element;
+                                        }
+                                    }
+                                    recIngs.push(finalStr);
+                                    finalStr = '';
+                                }
+                            }
+                            let msg = req.flash('msg');
+                            session = req.session;
+                            // let isRated = false;
+                            // let isSaved = false;
+                            // let isMeal = false;
+                            // let ratedArr = [];
+                            if(session.userId){
+                            conn.release();
+                            res.render('savedCreateRecView', { save: save, recIngs: recIngs, ins: insArr, quantArr: quantArr, msg, id: session.userId});
+
+                            }
+                            
+                        }
+                        getAllRecIng(save);
+                    }
+                })
+                         
+            }
+        })
+    } catch (error) {
+        res.status(500).json({ message: error.message});
+    }
+}
+
+exports.delCreatedRec = (req, res) => {
+    try {
+        session = req.session;
+        if(session.userId){
+            pool.getConnection((err, conn) => {
+                let rId = req.params.id;
+                conn.query('DELETE saved, saved_recing FROM saved_recing INNER JOIN saved WHERE saved_recing.rec_id=saved.rec_id AND saved_recing.rec_id = ?', [rId], (err, result) => {
+                    if(err){
+                        req.flash('msg', 'recipe deletion failed!')
+                        conn.release();
+                        res.redirect('/saved'); 
+                    }
+                    else{
+                        conn.release();
+                        req.flash('msg', 'recipe successfully deleted!')
+                        res.redirect('/saved'); 
+                    }
+                })
+            })
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+exports.editCreatedRec = (req,res) => {
+    try {
+        let rId = req.params.id;
+        pool.getConnection((err, conn) => {
+            if(err){
+                console.log(err, '\n');
+                conn.release();   
+            }
+            else{
+                conn.query('SELECT * FROM saved WHERE rec_id = ?', [rId], (err, row) =>{
+                    if(err){
+                        console.log(err, '\n');
+                        conn.release();  
+                    }
+                    else{
+                        conn.query('SELECT saved_recing.*, saved_ing.ing_name FROM `saved_recing` INNER JOIN saved_ing ON saved_recing.ingId = saved_ing.savedIng_id WHERE saved_recing.rec_id = ?',[rId], (err, ingRow) =>{
+                            if(err){
+                                console.log(err, '\n');
+                                conn.release();  
+                            }
+                            else{
+                                conn.release();
+                                res.render('savedCreateRecEdit', {title: 'Edit Recipe', save: row, ing: ingRow});
+                                  
+                            }
+                        }) 
+                    }  
+                })
+            }
+        })
+        }
+     catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+exports.submitEditedCreatedRec = (req, res) => {
+    try {
+        session = req.session;
+        pool.getConnection((err, conn)=>{
+            if(err){
+                console.log(err, '\n');
+                conn.release();
+            }
+            else{
+                let rId = req.params.id;
+                let rec = new Recipe.Recipe();
+                rec.name = req.body.recNameInp;
+                rec.desc = req.body.recDescInp;
+                rec.prc = req.body.recPrcInp;
+                rec.time = req.body.recTimeInp;
+                rec.srv = req.body.recSrvInp;
+                rec.mTime = req.body.recMTimeInp;
+                let mString = '';
+                if(Array.isArray(rec.getRecMTime())){
+                    rec.getRecMTime().forEach(time => {
+                        mString += time + ', ';
+                    });
+                }else{
+                    mString = rec.getRecMTime();
+                }
+                conn.query('UPDATE `saved` SET `rec_name`= ?,`rec_desc`= ?,`rec_process`= ?,`rec_time`= ?, `rec_serving`=?, `rec_mealTime`= ? WHERE rec_id = ?', [rec.getRecName(), rec.getRecDesc(), rec.getRecPrc(), rec.getRecTime(), rec.getRecSrv(), mString, rId], (err, save) => {
+                    if(err){
+                        console.log(err, '\n');
+                        conn.release();
+                    }
+                    else{
+                        conn.query('DELETE FROM saved_recing WHERE rec_id = ?', [rId], (err, row) =>{
+                            if(err){
+                                console.log(err, '\n');
+                                conn.release();
+                            }
+                            else{ 
+
+                                let ing = new Recipe.Ing();
+                                let ingNum = req.body.ingNum;
+                                ing.quant = JSON.parse(req.body.qval);
+                                ing.name = JSON.parse(req.body.idval);
+                                ing.unit = JSON.parse(req.body.uval);
+                                ing.ins = JSON.parse(req.body.insval);
+
+                                function insertNewIng(ingName){
+                                    return new Promise((resolve, reject) => {
+                                        let newIngId;
+                                        let id = Math.floor(1000 + Math.random() * 9000);
+                                        conn.query('SELECT * FROM saved_ing WHERE savedIng_id = ?', [id], (err, res) => {
+                                            if (err) {
+                                                console.log(err);
+                                            } else if(res[0]){
+                                                let newId = Math.floor(Math.random()*90000) + 10000;
+                                                newIngId =  newId;
+                                                conn.query('INSERT INTO `saved_ing`(`savedIng_id`, `ing_name`) VALUES (?, ?)', [newIngId, ingName],(err, ins) =>{
+                                                    if(err){
+                                                        console.log(err, '\n');
+                                                    } else{
+                                                        resolve(newIngId);
+                                                    }
+                                                });
+                                            }
+                                            else {
+                                                newIngId =  id;
+                                                conn.query('INSERT INTO `saved_ing`(`savedIng_id`, `ing_name`) VALUES (?, ?)', [newIngId, ingName],(err, ins) =>{
+                                                    if(err){
+                                                        console.log(err, '\n');
+                                                    } else{
+                                                        resolve(newIngId);
+                                                    }
+                                                });
+                                            }
+                                        })
+
+
+                                    })
+                                }
+
+                                async function insertRecIng(ingName, qf, ingUnit, ingIns){
+                                    const ii = await insertNewIng(ingName);
+                                    conn.query('INSERT INTO saved_recing(rec_id, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [rId, ii, qf, ingUnit, ingIns], (err, row) => {
+                                        if(err){
+                                            console.log(err, '\n');
+                                            conn.release();
+                                        }
+                                        else{
+                                            console.log('new ing added + recing inserted...\n');
+                                        }
+                                    })
+                                    
+                                }
+
+                                for(let z = 0; z < ingNum; z++){
+                                    let ingQuant = ing.getIngQuant()[z];
+                                    let ingUnit = ing.getIngUnit()[z];
+                                    let ingName = ing.getIngName()[z];
+                                    let ingIns = ing.getIngIns()[z];
+                                    let qf; 
+                                    if(parseFloat(ingQuant)){
+                                        qf = parseFloat(ingQuant);
+                                    }
+                                    else{
+                                        qf = 0;
+                                    }
+
+                                    conn.query('SELECT * FROM saved_ing WHERE ing_name = ?', [ingName], (err, rows) =>{
+                                        if(err){
+                                            console.log(err, '\n');
+                                            conn.release();
+                                        }
+                                        else if(rows[0]){
+                                            let ii = rows[0].savedIng_id;
+                                            conn.query('INSERT INTO saved_recing(rec_id, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [rId, ii, qf, ingUnit, ingIns], (err, row) => {
+                                                if(err){
+                                                    console.log(err, '\n');
+                                                    conn.release();
+                                                }
+                                                else{
+                                                    console.log('recing added...\n');
+                                                }
+                                            })
+                                        }
+                                        else{
+                                            insertRecIng(ingName, qf, ingUnit, ingIns);
+                                        }
+                                    })
+                                }
+                                conn.release();
+                                req.flash('msg', 'recipe successfully edited!')
+                                res.redirect('/saved');
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
 
 exports.generatemealPlan = (req,res) => {
     try{

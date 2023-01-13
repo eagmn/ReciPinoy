@@ -43,33 +43,32 @@
         <a class="back-btn" onclick="history.back()"><span class="rec-back">Back</span></a>
         <div class="urv-upper-content">
             <!-- # image # -->
-            <div class="urv-img">
-                <% if (saved.rec_img) { %>
-                    <img src="/images/<%= saved.rec_img%>" alt="<%= saved.rec_name %> Image" class="img-rec">
-                <% } %>
-            </div>
+            <!-- <div class="urv-img">
+                <%# if (saved.rec_img) { %>
+                    <img src="/images/<%#= saved.rec_img%>" alt="<%#= saved.rec_name %> Image" class="img-rec">
+                <%# } %>
+            </div> -->
 
             <div class="urv-grid">
                 <div class="urv-grid-header">
                     <div class="urv-title">
                         <!-- category -->
-                        <span class="rec-categ"><%= saved.rec_categ %></span>
+                        <!-- <span class="rec-categ"><%#= saved.rec_categ %></span> -->
                         <!-- recipe name -->
                         <p class="rec-name"><%= saved.rec_name %></p>
-                        <% if (saved.rec_rate) { %>
+                        <!-- <%# if (saved.rec_rate) { %>
                             <div class="star-rate">
                                 <% let rating = saved.rec_rate/saved.rec_rateCount; %> 
                                 <% rating = Math.round(rating)%> 
                                 <%= rating%>
                                 <span class="str"></span>
-                            </div>  <!-- hindi ko sya magawang star HAJDKAJKDAJKKJDKJ [eka] 
-                                                                lagyan ng star icon smth [euni]-->
-                        <% } else { %>
+                            </div>  
+                        <%# } else { %>
                             <span>This recipe hasn't been rated.</span>
-                        <% } %>
+                        <%# } %> -->
                     </div>
 
-                    <!-- # add to saved recipe # -->
+                    <!-- # add to saved recipe # gawing delete--> 
                     <div class="urv-saved-btn">
                         <form action="/saved/unsave/<%= saved.rec_id%>" method="post">
                             <br><br><button type="submit" value ="Unsave Recipe"></button>
@@ -84,11 +83,12 @@
                 <div class="urv-upper-details">
                     <!-- total time -->
                     <div class="urv-time">
-                        <p class="tt-time">TOTAL TIME</p>
+                        
                         <% if (saved.rec_time) { %>
+                            <p class="tt-time">TOTAL TIME</p>
                             <span class="tot-time"><%= saved.rec_time %></span>
                         <% } else { %>
-                            <span class="calv">Total time is not available.</span>
+                            <!-- <span class="calv">Total time is not available.</span> -->
                         <% } %> 
                     </div>
 
@@ -96,20 +96,20 @@
                     <span class="bdr-line"></span>
 
                     <!-- calories -->
-                    <div class="urv-cal">
+                    <!-- <div class="urv-cal">
                         <p class="tt-cal">CALORIES</p>
-                        <% if (saved.rec_cal) { %>
-                            <span class="cal"><%= saved.rec_cal %></span>
-                        <% } else { %>
+                        <%# if (saved.rec_cal) { %>
+                            <span class="cal"><%#= saved.rec_cal %></span>
+                        <%# } else { %>
                             <span class="calv">Calorific value is not available.</span>
-                        <% } %> 
-                    </div> 
+                        <%# } %> 
+                    </div>  -->
 
                     <!-- border line -->
-                    <span class="bdr-line"></span>
+                    <!-- <span class="bdr-line"></span> -->
                     
                     <!-- add to meal plan -->
-                    <div class="urv-add-mp">
+                    <!-- <div class="urv-add-mp">
                         <button type="button" id="mealPlanBut" class="add-mp">Add to Meal Plan</button>
                             <div id="mealPlan" class="modal">
                                 <div class="modal-content">
@@ -118,7 +118,6 @@
                                         <p class="mp-mdl">Choose Day & Meal Time</p>
                                         <form action="/mealPlan" method="post"> 
                                             <input type="text" class="mp-date" name="datetimes" />
-                                                <!-- <label for="recMTime" class="addRecLabel">Meal Time: </label> -->
                                             <div class="meal-time">
                                                 <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
                                                     <label for="mtBreakfast" class="addRecLabel">Breakfast</label>
@@ -137,14 +136,14 @@
                                     </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- recipe source -->
                 <!-- <div class="rec-src"> -->
-                <a href="<%= saved.rec_src %>" class="r-source">
+                <!-- <a href="<%= saved.rec_src %>" class="r-source">
                     <span class="src">This recipe was excepted from this source.</span>
-                </a>
+                </a> -->
                 <!-- </div> -->
             </div>
         </div>
@@ -241,25 +240,25 @@
             </div>
 
             <!-- recipe video with section line-->
-            <% if (saved.rec_vid) { %>
-                <!-- line -->
+            <%# if (saved.rec_vid) { %>
+                <!-- line
                 <div class="section-header">
                     <h3 class="vid-title">Watch</h3>
                 </div>
                 <div class="rec-vid">
-                    <iframe src="<%= saved.rec_vid %>" 
+                    <iframe src="<%#= saved.rec_vid %>" 
                         title="YouTube video player" frameborder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen>
                     </iframe>
-                </div>
-            <% } %>
+                </div> -->
+            <%# } %>
 
             <!-- border line -->
             <span class="section-line"></span>
 
             <!-- recipe ratings -->
-            <div class="rec-rating">
+            <!-- <div class="rec-rating">
                 <form action="/recipes/rate/<%= saved.rec_id%>" method="post">
                     <label class="rating-title">What do you think of this recipe?</label>
                     <div class="stars" data-rating="0">
@@ -269,38 +268,24 @@
                         <span class="star"></span>
                         <span class="star"></span>
                     </div>
-                    <% if (isRated) { %>
+                    <%# if (isRated) { %>
                         <label class="rated-lbl">You've rated this recipe already!</label>
-                        <!-- <br><br><button type="submit" disabled>Submit Rating!</button> -->
-                    <% } else { %>
-                        <input type="hidden" name="ratingCount" value="<%= saved.rec_rateCount %>">
-                        <input type="hidden" name="recRating" id="recRating" value="<%= saved.rec_rate %>">
+                    <%# } else { %>
+                        <input type="hidden" name="ratingCount" value="<%#= saved.rec_rateCount %>">
+                        <input type="hidden" name="recRating" id="recRating" value="<%#= saved.rec_rate %>">
                         <input type="hidden" name="userRate" id="userRate" value="">
                         <button type="submit" class="rating-btn">Submit Rating</button>
-                    <% } %> 
+                    <%# } %> 
                 </form>
-            </div>
+            </div> -->
         </div>
     </div>
     <% }) %>   
 
     <!-- js -->
     <script type="text/javascript">
-              let qArr = [];
+        let qArr = [];
         let ingsArr = [];
-
-        document.addEventListener('DOMContentLoaded', function(){
-            let stars = document.querySelectorAll('.star');
-            stars.forEach(function(star){
-                star.addEventListener('click', setRating); 
-            });
-            
-            let rating = parseInt(document.querySelector('.stars').getAttribute('data-rating'));
-            let target = stars[rating - 1];
-            if(target){
-                target.dispatchEvent(new MouseEvent('click'));
-            }
-        });
 
         jQuery('input[name="q[]"]').each(function() {
                 let q = this.value;
@@ -308,6 +293,67 @@
                     qArr.push(q);
                 }
         });
+
+        function getIngs() {
+            let count = 0;
+            if(ingsArr.length === 0){
+                jQuery('input[name="uiInp[]"]').each(function() {
+                let ingstr = this.value;
+                console.log(ingstr);
+                if(ingstr){
+                    let q = qArr[count];
+                    if(q){
+                        if(q == 0){
+                            let finalStr = ingstr;
+                            ingsArr.push(finalStr.trim());
+                        }
+                        else{
+                            let finalStr = q + ingstr;
+                            ingsArr.push(finalStr); 
+                        }
+                    }
+                    else{
+                        let finalStr = ingstr;
+                        ingsArr.push(finalStr.trim());
+                    }
+                }
+                count++;
+                });
+            }
+            
+
+            //$('#gList').val(JSON.stringify(ingsArr));
+        }
+
+        function addGrocery() {
+            getIngs();
+            let gListArr = [];
+            ingsArr.forEach(ic => {
+                if(ic){
+                    gListArr.push(ic);
+                }
+            });
+            
+
+            $('#gList').val(JSON.stringify(gListArr));
+        }
+    
+        //textarea
+        var textarea = document.querySelector('textarea');
+        if(textarea){
+            textarea.addEventListener('keydown', autosize);
+
+        }
+  
+        function autosize(){
+        var el = this;
+            setTimeout(function(){
+                el.style.cssText = 'height:auto; padding:0';
+                // for box-sizing other than "content-box" use:
+                // el.style.cssText = '-moz-box-sizing:content-box';
+                el.style.cssText = 'height:' + el.scrollHeight + 'px';
+            },0);
+        }
 
         const minusButton = document.getElementById('minusButton');
         const plusButton = document.getElementById('plusButton');
@@ -400,182 +446,8 @@
         });
         }
 
-        function setRating(ev){
-            let span = ev.currentTarget;
-            let stars = document.querySelectorAll('.star');
-            let match = false;
-            let num, newRating = 0;
-            stars.forEach(function(star, index){
-                if(match){
-                    star.classList.remove('rated');
-                }else{
-                    star.classList.add('rated');
-                }
-                //are we currently looking at the span that was clicked
-                if(star === span){
-                    match = true;
-                    num = index + 1;
-                }
-            });
-            let currentRating = document.getElementById('recRating').value;
-            if ((parseInt(currentRating)) != 0) {
-                // newRating = (num + parseInt(currentRating))/2;
-                newRating = (num + parseInt(currentRating));
-                // newRating = Math.round(newRating);
-                document.getElementById('userRate').value = newRating.toString();                
-                document.querySelector('.stars').setAttribute('data-rating', num);
-            }
-            else{
-                newRating = (num + parseInt(currentRating));
-                // newRating = Math.round(newRating);
-                document.getElementById('userRate').value = newRating.toString();
-                document.querySelector('.stars').setAttribute('data-rating', num);
-            }
-            
-        }
-        
-        function getIngs() {
-            let count = 0;
-            if(ingsArr.length === 0){
-                jQuery('input[name="uiInp[]"]').each(function() {
-                let ingstr = this.value;
-                console.log(ingstr);
-                if(ingstr){
-                    let q = qArr[count];
-                    if(q){
-                        if(q == 0){
-                            let finalStr = ingstr;
-                            ingsArr.push(finalStr.trim());
-                        }
-                        else{
-                            let finalStr = q + ingstr;
-                            ingsArr.push(finalStr); 
-                        }
-                    }
-                    else{
-                        let finalStr = ingstr;
-                        ingsArr.push(finalStr.trim());
-                    }
-                }
-                count++;
-                });
-            }
-            
-
-            //$('#gList').val(JSON.stringify(ingsArr));
-        }
-
-        function addGrocery() {
-            getIngs();
-            let gListArr = [];
-            ingsArr.forEach(ic => {
-                if(ic){
-                    gListArr.push(ic);
-                }
-            });
-            
-
-            $('#gList').val(JSON.stringify(gListArr));
-        }
-    
-        let modal = document.getElementById("glModal");
-        let btn = document.getElementById("openModal");
-        let span = document.getElementsByClassName("close")[0];
-
-        $(function() {
-         $('input[name="datetimes"]').daterangepicker({
-            "singleDatePicker": true,
-        "minYear": 2022,
-        "showWeekNumbers": true,
-        "timePicker": true,
-        "locale": {
-        "format": "MM/DD/YYYY hh:mm A",
-        "separator": " - ",
-        "applyLabel": "Apply",
-        "cancelLabel": "Cancel",
-        "fromLabel": "From",
-        "toLabel": "To",
-        "customRangeLabel": "Custom",
-        "weekLabel": "W",
-        "daysOfWeek": [
-            "Su",
-            "Mo",
-            "Tu",
-            "We",
-            "Th",
-            "Fr",
-            "Sa"
-        ],
-        "monthNames": [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        ],
-        "firstDay": 1
-        },
-        minDate: new Date(),
-        "opens": "center"
-        })
-        });
-
-    let mealModal = document.getElementById("mealPlan");
-        let button = document.getElementById("mealPlanBut");
-        let cls = document.getElementsByClassName("closeBut")[0];
-
-        //open the modal
-        if (button) {
-            button.onclick = function() {
-            mealModal.style.display = "block";
-        }
-        }
-
-        if(cls){
-                    //close the modal
-        cls.onclick = function() {
-            // $("#cont").empty();
-            mealModal.style.display = "none";
-        }
-        }
-
-        //close it
-        window.onclick = function(event) {
-        if (event.target == mealModal) {
-            $("#cont").empty();
-            mealModal.style.display = "none";
-        }
-        }
-
-        //textarea
-        var textarea = document.querySelector('textarea');
-        if(textarea){
-            textarea.addEventListener('keydown', autosize);
-
-        }
-
-             
-        function autosize(){
-        var el = this;
-        setTimeout(function(){
-            el.style.cssText = 'height:auto; padding:0';
-            // for box-sizing other than "content-box" use:
-            // el.style.cssText = '-moz-box-sizing:content-box';
-            el.style.cssText = 'height:' + el.scrollHeight + 'px';
-        },0);
-        }
-
     </script>
-<!-- <div class="loader">
-    <img src="/images/loader.gif" alt="">
-</div> -->
+
 
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <title><%= title %></title>
+    <link rel="icon" href="/images/logo/logo-recipinoy.png" type="image/icon type">
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+    <div class="add-recipes">
+        <a class="back-btn" onclick="history.back()"><span class="rec-back">Saved Recipes</span></a>
+        <div>
+            <% save.forEach(saved => { %>
+            <form action="/saved-rec/edit/<%= saved.rec_id %>" method="post" enctype="multipart/form-data" onsubmit="getIngs()">
+                <h3 class="title-edit">edit <%= saved.rec_name %> recipe</h3>
+
+                <!-- recipe name -->
+                <div class="edit-cont">
+                    <label for="recNameLbl" class="addRecLbl">Name: </label>
+                    <input type="text" name="recNameInp" id="recNameInp" required placeholder="type your recipe name here" maxlength="100" class="box" value="<%= saved.rec_name%>">
+                </div>
+
+                <!-- recipe description -->
+                <div class="edit-cont">
+                    <label for="recDescLbl" class="addRecLbl">Description: </label>
+                    <textarea name="recDescInp" id="recDescInp" class="textareabox" cols="30" rows="10" required placeholder="type your recipe description here" maxlength="1000"><%= saved.rec_desc%></textarea>
+                </div>
+
+                <!-- recipe process -->
+                <div class="edit-cont">
+                    <label for="recPrcLbl" class="addRecLbl">Process: </label>
+                    <textarea name="recPrcInp" id="recPrcInp" class="textareabox" cols="30" rows="10" required placeholder="type the recipe directions here" maxlength="10000"><%= saved.rec_process%></textarea>
+                </div>
+
+                <!-- recipe time process -->
+                <div class="edit-cont">
+                    <label for="recTimeLbl" class="addRecLbl">Time Process: </label>
+                    <input type="text" name="recTimeInp" id="recTimeInp" placeholder="total time (hr/min)" maxlength="20" class="box" value="<%= saved.rec_time%>">
+                </div>
+
+                <!-- recipe servings -->
+                <div class="edit-cont">
+                    <label for="recSrvLbl" class="addRecLbl">Serving: </label>
+                    <input type="text" name="recSrvInp" id="recSrvInp" placeholder="total portion" maxlength="10" class="box" value="<%= saved.rec_serving%>">
+                </div>
+
+                <!-- recipe meal time -->
+                <div class="edit-cont">
+                    <label for="recMTime" class="addRecLbl">Meal Time: </label>
+                    <input type="text" name="recMTimeInp" id="recMTimeInp" value="<%= saved.rec_mealTime%>" class="box" readonly>
+                </div>
+
+                <% }) %>
+
+                <!-- recipe ingredients-->
+                <% let counter = 0; %> 
+                <label for="recIng" class="addRecLbl">Ingredients </label>
+                
+                <!-- title of each column -->
+                <div class="ing-edit">
+                    <label for="ingQuantLbl" class="ingLbl">Quantity: </label>
+                    <label for="ingUnitLbl" class="ingLbl">Unit: </label>
+                    <label for="ingNameLbl" class="ingLabel">Ingredient: </label>
+                    <label for="ingInsLbl" class="ingLabel">Instruction: </label>  
+                </div>
+
+                <div id="ingInps" class="add-ingredients">
+                    <% ing.forEach(z => { %>
+                        <div class="user-edit">
+                        <% counter++ %>
+                            <% if (z.ingQuant == 0) { %>
+                                <input type="text" name="ingQuantInp[]" id="ingQuantInp<%= counter%>" value="" placeholder="Quantity" maxlength="10" class="s_ingredientbox">
+                            <% } else { %>
+                                <input type="text" name="ingQuantInp[]" id="ingQuantInp<%= counter%>" value="<%= z.ingQuant%>" placeholder="Quantity" maxlength="10" class="s_ingredientbox">
+                            <% } %> 
+                            <input type="text" name="ingUnitInp[]" id="ingUnitInp<%= counter%>" value="<%= z.ingUnit%>" placeholder="Unit" maxlength="10" class="s_ingredientbox">
+                            <input type="text" name="recIng[]" id="recIng<%= counter%>" value="<%= z.ing_name%>" required placeholder="Ingredient" maxlength="100" class="ingredientbox">
+                            <input type="text" name="ingInsInp[]" id="ingInsInp<%= counter%>" value="<%= z.ingIns%>" placeholder="Instruction" maxlength="500" class="ingredientbox">
+                        </div>
+                    <% }) %>
+                    <input type="hidden" id="ingNum" name="ingNum" value="<%= counter%>" >
+                    <input type="hidden" name="qval" value="" id="qval" placeholder="Quantity" maxlength="10" class="s_ingredientbox">
+                    <input type="hidden" name="idval" value="" id="idval" placeholder="Unit" maxlength="10" class="s_ingredientbox">
+                    <input type="hidden" name="uval" value="" id="uval" placeholder="Ingredient" maxlength="100" class="ingredientbox">
+                    <input type="hidden" name="insval" value="" id="insval" placeholder="Ingredient" maxlength="100" class="ingredientbox">
+                </div>
+                
+                <button id="addIngredientsBtn" type="button" class="plus-ing">Add Another Ingredient</button>
+                <button type="submit" class="ud-rec">Update Saved Recipe</button>
+            </div>
+        </form>
+    </div>    
+<!-- <div class="loader">
+    <img src="/images/loader.gif" alt="">
+</div> -->
+
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+<!-- custom js file link  -->
+<script src="/public/js/script.js"></script>
+
+
+    <script type="text/javascript">
+        $('#addIngredientsBtn').on('click', add);
+        function getIngs() {
+            let qv = [];
+            let iv = [];
+            let uv = [];
+            let insv = [];
+            jQuery('input[name="ingQuantInp[]"]').each(function() {
+                    qv.push(this.value);
+            });
+            jQuery('input[name="recIng[]"]').each(function() {
+                let ingstr = this.value.toLowerCase();
+                iv.push(ingstr);
+            });
+            jQuery('input[name="ingUnitInp[]"]').each(function() {
+                
+                uv.push(this.value);
+            });
+            jQuery('input[name="ingInsInp[]"]').each(function() {
+    
+                insv.push(this.value);
+            });
+
+            $('#qval').val(JSON.stringify(qv));
+            $('#idval').val(JSON.stringify(iv));
+            $('#uval').val(JSON.stringify(uv));
+            $('#insval').val(JSON.stringify(insv));
+
+        }
+
+        function add() {
+            console.log('add button clicked....');
+            let newIngNum = parseInt($('#ingNum').val()) + 1;
+
+            let quantInp = '<input type="text" name="ingQuantInp[]" id="ingQuantInp'+ newIngNum +' "placeholder="Quantity" maxlength="10"  class="s_ingredientbox">';
+            let ingInp = '<input type="text" name="recIng[]" id="recIng'+ newIngNum +' "required placeholder="Ingredient" maxlength="100" class="ingredientbox">';
+            let unitInp = '<input type="text" name="ingUnitInp[]" id="ingUnitInp'+ newIngNum +' "placeholder="Unit" maxlength="10" class="s_ingredientbox">';
+            let insInp = '<input type="text" name="ingInsInp[]" id="ingInsInp'+ newIngNum+' "placeholder="Instruction" maxlength="500" class="ingredientbox">';
+
+            $('#ingInps').append('<div class="user-edit">' + quantInp + unitInp + ingInp + insInp + '</div>');
+
+            $('#ingNum').val(newIngNum);    
+        }
+    </script>
+</body>
+</html>

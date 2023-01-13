@@ -54,6 +54,11 @@ router.get('/mealPlan/delete/:id', userController.mealPlanRecDelete);
 router.get('/saved-rec', userController.saveCreatedRec);
 router.post('/saved-rec', userController.savedSubmitCreate);
 router.post('/mealPlan/generate', userController.generatemealPlan);
+router.get('/saved-rec/:id', userController.getCreatedRec);
+router.get('/saved-rec/edit/:id', userController.editCreatedRec);
+router.post('/saved-rec/edit/:id', userController.submitEditedCreatedRec); 
+router.get('/saved-rec/delete/:id', userController.delCreatedRec);
+
 
 //admin routes
 router.get('/admin', adminController.adminPage);
