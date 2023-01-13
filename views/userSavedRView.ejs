@@ -17,8 +17,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link type="text/css" href="/css/bootstrap-timepicker.min.css" />
-    <script type="text/javascript" src="/js/bootstrap-timepicker.min.js"></script>
+
     <% let i = 0; %> 
     <% let ingArr = []; %> 
     <% let srv = 0; %>
@@ -166,25 +165,12 @@
                             
                         <!-- add to grocery list button -->
                         <div class="ing-gl-btn">
-                            <button type="button" id="openModal" class="gl-btn">add to grocery list</button>
-                            <!-- The Modal -->
-                            <div id="glModal" class="modal">
-                                <!-- Modal content -->
-                                <div class="modal-content">
-                                    <span class="close">&times;</span>
-                                    <p class="rec-name-mdl"><%= saved.rec_name %></p>
-                                    <p class="ing-mdl">Ingredients</p>
-                                    <!-- border line -->
-                                    <span class="line-mdl"></span>
-                                    <form action="/grocery-list" method="post" onsubmit="addGrocery()">
-                                        <input type="hidden" name="recId" value="<%= saved.rec_id %>">
-                                        <input type="hidden" name="gList" id="gList" value="">
-                                        <div id="ingList"></div>
-                                        <button type="submit" class="add-mdl">add ingredients</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                            <form action="/grocery-list" method="post" onsubmit="addGrocery()">
+                                <input type="hidden" name="recId" value="<%= saved.rec_id %>">
+                                <input type="hidden" name="gList" id="gList" value="">
+                                <button type="submit" id="openModal" class="gl-btn">add to grocery list</button>
+                            </form>
+                </div>
                     </div>
 
                     <!-- serving -->
@@ -212,32 +198,34 @@
                         <input id="ingCount" value="<%= recIngs.length%>" type="hidden">
                         <% for( let index = 0; index < recIngs.length; index++ ) { %>
                             <input type="hidden" name="uiInp[]" value="<%=recIngs[index]%>">
-                            <% if (srv == 1) { %>
-                                <% if (quantArr[index] != 0) { %>
-                                    <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
-                                    <li><span id="quantSpan<%= index + 1%>"><%= quantArr[index]%></span>
-                                    <span><%=recIngs[index]%><%=ins[index] %></span></li>
-                                <% } else { %>
-                                    <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
-                                    <li><span id="quantSpan<%= index + 1%>"></span>
+                                <% if (srv == 1) { %>
+                                    <% if (quantArr[index] != 0) { %>
+                                        <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
+                                        <li><span id="quantSpan<%= index + 1%>"><%= quantArr[index]%></span>
                                         <span><%=recIngs[index]%><%=ins[index] %></span></li>
+                                    <% } else { %>
+                                        <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
+                                        <li><span id="quantSpan<%= index + 1%>"></span>
+                                            <span><%=recIngs[index]%><%=ins[index] %></span></li>
+                                    <% } %>
+                                    
+                                <% } else { %>
+                                    <% let newQuant = quantArr[index];%>
+                                    <% newQuant = newQuant / srv; %>
+                                    <% newQuant = newQuant.toFixed(2); %>  
+        
+                                    <% if (quantArr[index] != 0) { %>
+                                        <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
+                                        <li><span id="quantSpan<%= index + 1%>"><%= quantArr[index]%></span>
+                                        <span><%=recIngs[index]%><%=ins[index] %></span></li>
+                                    <% } else { %>
+                                        <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
+                                        <li><span id="quantSpan<%= index + 1%>"></span>
+                                            <span><%=recIngs[index]%><%=ins[index] %></span></li>
+                                    <% } %>
                                 <% } %>
-                                
-                            <% } else { %>
-                                <% let newQuant = quantArr[index];%>
-                                <% newQuant = newQuant / srv; %>
-                                <% newQuant = newQuant.toFixed(2); %>  
 
-                                <% if (quantArr[index] != 0) { %>
-                                    <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
-                                    <li><span id="quantSpan<%= index + 1%>"><%= quantArr[index]%></span>
-                                    <span><%=recIngs[index]%><%=ins[index] %></span></li>
-                                <% } else { %>
-                                    <input type="hidden" name="q[]" value="<%=quantArr[index]%>">
-                                    <li><span id="quantSpan<%= index + 1%>"></span>
-                                        <span><%=recIngs[index]%><%=ins[index] %></span></li>
-                                <% } %>
-                            <% } %>
+
                         <% } %>
                     </div>
                 </div>
@@ -479,14 +467,14 @@
         }
 
         function addGrocery() {
+            getIngs();
             let gListArr = [];
-            let cont = document.querySelector('#ingList');
-            let ingChecked = cont.querySelectorAll('input[name="ingsCb[]"]');
-            ingChecked.forEach(ic => {
-                if(ic.checked){
-                    gListArr.push(ic.value);
+            ingsArr.forEach(ic => {
+                if(ic){
+                    gListArr.push(ic);
                 }
             });
+            
 
             $('#gList').val(JSON.stringify(gListArr));
         }
@@ -495,29 +483,29 @@
         let btn = document.getElementById("openModal");
         let span = document.getElementsByClassName("close")[0];
 
-        //open the modal
-        btn.onclick = function() {
-            getIngs();
-            ingsArr.forEach(ia => {
-                let input = '<div class="list-mdl" style="text-align:justify; font-size: 1.3em; margin:0.7em auto 0.7em;"><input type="checkbox" name="ingsCb[]" value="' + ia + '" style="transform: scale(2); margin: 0 0.5em 0 2.5em; cursor: pointer;">&nbsp;&nbsp;&nbsp;<label for="ingCheckbox" style="width: 80%; font-weight: normal;">' + ia + '</label><br></div><span class="bdr-mdl" style="display: block; border-top: 1px solid black; height: 1px; width: 100%; margin: 0 auto; opacity: 0.1;"></span></div>'
-                $("#ingList").append(input);
-            });
-            modal.style.display = "block";
-        }
+        // //open the modal
+        // btn.onclick = function() {
+        //     getIngs();
+        //     ingsArr.forEach(ia => {
+        //         let input = '<div class="list-mdl" style="text-align:justify; font-size: 1.3em; margin:0.7em auto 0.7em;"><input type="checkbox" name="ingsCb[]" value="' + ia + '" style="transform: scale(2); margin: 0 0.5em 0 2.5em; cursor: pointer;">&nbsp;&nbsp;&nbsp;<label for="ingCheckbox" style="width: 80%; font-weight: normal;">' + ia + '</label><br></div><span class="bdr-mdl" style="display: block; border-top: 1px solid black; height: 1px; width: 100%; margin: 0 auto; opacity: 0.1;"></span></div>'
+        //         $("#ingList").append(input);
+        //     });
+        //     modal.style.display = "block";
+        // }
 
-        //close the modal
-        span.onclick = function() {
-            $("#ingList").empty();
-            modal.style.display = "none";
-        }
+        // //close the modal
+        // span.onclick = function() {
+        //     $("#ingList").empty();
+        //     modal.style.display = "none";
+        // }
 
-        //close it
-        window.onclick = function(event) {
-        if (event.target == modal) {
-            $("#ingList").empty();
-            modal.style.display = "none";
-        }
-        }
+        // //close it
+        // window.onclick = function(event) {
+        // if (event.target == modal) {
+        //     $("#ingList").empty();
+        //     modal.style.display = "none";
+        // }
+        // }
 
         $(function() {
          $('input[name="datetimes"]').daterangepicker({
@@ -569,14 +557,18 @@
         let cls = document.getElementsByClassName("closeBut")[0];
 
         //open the modal
-        button.onclick = function() {
+        if (button) {
+            button.onclick = function() {
             mealModal.style.display = "block";
         }
+        }
 
-        //close the modal
+        if(cls){
+                    //close the modal
         cls.onclick = function() {
             // $("#cont").empty();
             mealModal.style.display = "none";
+        }
         }
 
         //close it
@@ -589,8 +581,11 @@
 
         //textarea
         var textarea = document.querySelector('textarea');
+        if(textarea){
+            textarea.addEventListener('keydown', autosize);
 
-        textarea.addEventListener('keydown', autosize);
+        }
+
              
         function autosize(){
         var el = this;
@@ -603,9 +598,9 @@
         }
 
     </script>
-<div class="loader">
+<!-- <div class="loader">
     <img src="/images/loader.gif" alt="">
-</div>
+</div> -->
 
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 

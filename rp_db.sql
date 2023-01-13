@@ -3,12 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2022 at 07:05 AM
+-- Generation Time: Jan 13, 2023 at 04:48 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
-
-CREATE DATABASE rp_db;
-USE rp_db;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -464,7 +461,7 @@ INSERT INTO `ing` (`ing_id`, `ing_name`, `ing_restrict`, `ing_allergy`) VALUES
 -- Table structure for table `mealplan`
 --
 
-CREATE TABLE `mealPlan` (
+CREATE TABLE `mealplan` (
   `mealPlan_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `rec_id` int(11) NOT NULL,
@@ -481,11 +478,19 @@ CREATE TABLE `mealPlan` (
 -- Dumping data for table `mealplan`
 --
 
-INSERT INTO `mealPlan` (`mealPlan_id`, `user_id`, `rec_id`, `month`, `day`, `time`, `sDay`, `weekCount`, `dateTime`, `dayMonth`) VALUES
+INSERT INTO `mealplan` (`mealPlan_id`, `user_id`, `rec_id`, `month`, `day`, `time`, `sDay`, `weekCount`, `dateTime`, `dayMonth`) VALUES
 (21, 5, 7, 'Nov', 6, '6:24am', 'Sunday', 44, '11/06/2022 06:24 AM', '610'),
 (22, 5, 6, 'Nov', 8, '9:52am', 'Tuesday', 45, '11/08/2022 09:52 AM', '810'),
 (23, 5, 1, 'Dec', 18, '8:00pm', 'Sunday', 50, '12/18/2022 08:00 PM', '1811'),
-(24, 6, 2, 'Dec', 21, '11:39am', 'Wednesday', 51, '12/21/2022 11:39 AM', '2111');
+(25, 10, 134, 'Dec', 30, '3:20pm', 'Friday', 52, '12/30/2022 03:20 PM', '3011'),
+(26, 6, 9, 'Dec', 30, '8:25pm', 'Friday', 52, '12/30/2022 08:25 PM', '3011'),
+(27, 2, 134, 'Dec', 19, '4:38pm', 'Monday', 51, '12/19/2022 04:38 PM', '1911'),
+(28, 5, 8, 'Dec', 19, '12:42am', 'Monday', 51, '12/19/2022 12:42 PM', '1911'),
+(29, 15, 9, 'Dec', 20, '12:24am', 'Tuesday', 51, '12/20/2022 12:24 PM', '2011'),
+(30, 3, 135, 'Jan', 4, '1:00pm', 'Wednesday', 1, '01/04/2023 01:00 PM', '40'),
+(31, 5, 3, 'Jan', 14, '1:59pm', 'Saturday', 2, '01/14/2023 01:59 PM', '140'),
+(32, 5, 130, 'Jan', 19, '7:06am', 'Thursday', 3, '01/19/2023 07:06 AM', '190'),
+(33, 5, 8, 'Jan', 15, '2:40pm', 'Sunday', 2, '01/15/2023 02:40 PM', '150');
 
 -- --------------------------------------------------------
 
@@ -522,8 +527,8 @@ INSERT INTO `rec` (`rec_id`, `rec_name`, `rec_desc`, `rec_process`, `rec_categ`,
 (5, 'Papaitan', 'Traditional Filipino bitter soup made from cow’s innards. This is a special delicacy in the Northern part of the Philippines.', '1. Wash beef tripe and small intestine. Boil with ginger and dried bay leaves for 45 minutes. Remove from the pot and let it cool down. Slice into bite-size pieces. \n2. Heat oil in a pan. Sauté onion, garlic, and ginger until onion softens. \n3. Add beef heart and kidney. Sauté until it turns light brown. \n4. Put the tripe and small intestines into the pot. Cook for 2 minutes. \n5. Pour water into the pot. Let is boil. Adjust heat to low. Continue boiling until beef heart and kidney tenderizes. \n6. Add beef liver and bile. Stir. Cook for 15 minutes in medium heat. \n7. Add Knorr Sinigang sa Sampaloc Recipe Mix. \n8. Put long green peppers into the pot and season with salt and ground black pepper. Stir. Cook for 2 minutes. \n9. Transfer to a serving bowl. Serve hot.', 'Luzon', '1 hour and 30 minutes', '1', 'https://panlasangpinoy.com/beef-papaitan-pinapaitang-baka/#recipe', 'https://www.youtube.com/embed/9T_YSWrGask', '', 'Lunch, Dinner', 'papaitan.jpg', 3, 1),
 (6, 'Dinengdeng', 'Dinengdeng or inabraw is a Filipino vegetable dish that originated from the Ilocos region in the Philippines. It is composed of different vegetables that are usually grown in one’s backyard. This dish has a similarity with bulanglang and laswa; the obvious difference of Dinengdeng is the use of fried or grilled fish. Another notable difference is the addition of “bagoong isda”.', '1. Bring water to a boil in a large cooking pot. \n2. Add the ginger, onion, and tomato. Cook covered for 5 minutes. \n3. Pour-in the bagoong isda. Stir. \n4. Add okra and string beans. Stir and add the ampalaya. Cook in medium heat for 7 to 10 minutes. \n5. Put-in the squash flower and malunggay leaves. 6. Cook for 3 to 5 minutes. \nAdd the grilled milk fish. Let it stay for 3 to 5 minutes to add flavor to the dish. \n7. Serve. Share and enjoy!', 'Luzon', '45 minutes', '1', 'https://panlasangpinoy.com/dinengdeng-recipe/#recipe', 'https://www.youtube.com/embed/o5CAtb5DSv0', '', 'Lunch, Dinner', 'dinengdeng.jpg', 1, 1),
 (7, 'Royal Bibingka', 'Royal Bibingka is not your regular bibingka. It is a popular rice cake that originated from Vigan, Ilocos Sur. It resembles a piece of mamon, or perhaps a Pinoy cheese cupcake at first glance, but it is a different piece of goodness that should not be ignored.', '1. Preheat oven to 350F. \n2. Combine the glutinous rice flour, sweet rice flour, and sugar in a bowl. Whisk until well blended. Set aside. \n3. In a clean bowl, beat the eggs, pour the evaporated milk and coconut milk and then continue to beat until all the ingredients are well incorporated. \n4. Gradually add the rice flour mixture to the bowl with wet ingredients and continue to whisk until the texture becomes soft. \n5. Brush margarine into the aluminum molds and then pour the mixture equally between all molds. Temporarily cover the molds with foil. \n6. Bake for 18 minutes. \n7. Remove the cover. Brush with more margarine and sprinkle cheese on top. Put back in the oven and continue to bake in 350F for 22 minutes. Set the oven to broil and broil for 8 minutes.', 'Luzon', '1 hour', '1', 'https://panlasangpinoy.com/royal-bibingka/#recipe', 'https://www.youtube.com/embed/herhjkHoajY', '', 'Breakfast, Meryenda', 'royal_bibingka.jpg', 0, 0),
-(8, 'Bicol Express', 'Bicol Express is the ultimate comfort food! With pork cubes cooked in coconut milk and chili peppers, it\'s rich, creamy, spicy and delicious! Serve with steamed rice for a hearty and big flavored meal!', '1. In a wide pot over medium heat, heat oil. \n2. Add onions and garlic and cook, stirring occasionally, until softened. \n3. Add pork and cook, stirring occasionally, until lightly browned. \n4. Add shourimp paste and cook, stirring occasionally, for about 1 to 2 minutes. \n5. Add coconut milk, water, and chili peppers. Bring to a simmer and cook for about 35 to 35 minutes or until pork is tender and liquid is reduced and begins to render fat. \n6. Add finger chilies and cook, stirring regularly, for about 1 to 2 minutes. \n7. Add coconut cream and continue to simmer until thickened and begins to render fat. \n8. Season with salt and pepper to taste. Serve hot.', 'Luzon', '1 hour and 10 minutes', '1', 'https://www.kawalingpinoy.com/bicol-express/#wprm-recipe-container-18335', 'https://www.youtube.com/embed/YCtl8YVtyzg', '1102 kCal', 'Lunch, Dinner', 'bicol_express.jpg', 0, 0),
-(9, 'Laing', 'Laing made of dried taro leaves cooked with pork belly, coconut milk, and chili peppers is easy to make and sure to deliver big flavors. This classic Bicolano dish is creamy, spicy and delicious with steamed rice!', '1. Go thourough the dried leaves, and shoured into pieces. Inspect for any other stray leaves accidentally mixed in during the drying process and discard. \n2. Remove and discard the dark green layers of the lemongrass until you get to the lighter green part. 3. Using the back of a knife, pound ends of stalks to release flavor and then chop. \n3. In a wide pan over medium heat, heat oil. Add onions, garlic, and ginger and cook, stirring occasionally, until softened and aromatic. \n4. Add pork and cook until lightly browned. Season with pepper to taste. \n5. Add shourimp paste and cook, stirring occasionally, for about 1 to 2 minutes. \n6. Add coconut milk and bring to a simmer. \n7. Add lemongrass and chili peppers. \n8. Add gabi leaves and with the spoon, push down into the liquid until moistened. Do not stir for the first 15 to 20 minutes. \n9. Lower heat, cover, and cook for about 25 to 30 minutes or until pork is fully cooked and leaves have softened. \n10. Add coconut cream and continue to cook for about 10 to 15 minutes or mixture is almost dry and begins to render fat. Season with salt to taste.', 'Luzon', '1 hour and 15 minutes', '1', 'https://www.kawalingpinoy.com/laing/#wprm-recipe-container-29178', 'https://www.youtube.com/embed/PX4SmyNlbJg', '927 kCal', 'Lunch, Dinner', 'laing.jpg', 0, 0),
+(8, 'Bicol Express', 'Bicol Express is the ultimate comfort food! With pork cubes cooked in coconut milk and chili peppers, it\'s rich, creamy, spicy and delicious! Serve with steamed rice for a hearty and big flavored meal!', '1. In a wide pot over medium heat, heat oil. \n2. Add onions and garlic and cook, stirring occasionally, until softened. \n3. Add pork and cook, stirring occasionally, until lightly browned. \n4. Add shourimp paste and cook, stirring occasionally, for about 1 to 2 minutes. \n5. Add coconut milk, water, and chili peppers. Bring to a simmer and cook for about 35 to 35 minutes or until pork is tender and liquid is reduced and begins to render fat. \n6. Add finger chilies and cook, stirring regularly, for about 1 to 2 minutes. \n7. Add coconut cream and continue to simmer until thickened and begins to render fat. \n8. Season with salt and pepper to taste. Serve hot.', 'Luzon', '1 hour and 10 minutes', '1', 'https://www.kawalingpinoy.com/bicol-express/#wprm-recipe-container-18335', 'https://www.youtube.com/embed/YCtl8YVtyzg', '1102 kCal', 'Lunch, Dinner', 'bicol_express.jpg', 3, 1),
+(9, 'Laing', 'Laing made of dried taro leaves cooked with pork belly, coconut milk, and chili peppers is easy to make and sure to deliver big flavors. This classic Bicolano dish is creamy, spicy and delicious with steamed rice!', '1. Go thourough the dried leaves, and shoured into pieces. Inspect for any other stray leaves accidentally mixed in during the drying process and discard. \n2. Remove and discard the dark green layers of the lemongrass until you get to the lighter green part. 3. Using the back of a knife, pound ends of stalks to release flavor and then chop. \n3. In a wide pan over medium heat, heat oil. Add onions, garlic, and ginger and cook, stirring occasionally, until softened and aromatic. \n4. Add pork and cook until lightly browned. Season with pepper to taste. \n5. Add shourimp paste and cook, stirring occasionally, for about 1 to 2 minutes. \n6. Add coconut milk and bring to a simmer. \n7. Add lemongrass and chili peppers. \n8. Add gabi leaves and with the spoon, push down into the liquid until moistened. Do not stir for the first 15 to 20 minutes. \n9. Lower heat, cover, and cook for about 25 to 30 minutes or until pork is fully cooked and leaves have softened. \n10. Add coconut cream and continue to cook for about 10 to 15 minutes or mixture is almost dry and begins to render fat. Season with salt to taste.', 'Luzon', '1 hour and 15 minutes', '1', 'https://www.kawalingpinoy.com/laing/#wprm-recipe-container-29178', 'https://www.youtube.com/embed/PX4SmyNlbJg', '927 kCal', 'Lunch, Dinner', 'laing.jpg', 2, 1),
 (10, 'Nilupak na Kamoteng Kahoy', 'Nilupak is a Filipino sticky rice cake prepared by mashing and pounding sweetened cassava. It gives a soft and creamy feeling with hints of love and sweetness. This kakanin is usually topped with grated cheese which compliments the sweetness of the soft rice cake. It is commonly eaten as a midday snack or an afternoon dessert. One bite of this soft snack will melt your heart and will leave you wanting for more.', '1. Wash and peel the cassava. Cut into smaller pieces and remove the root-like part at the center of the cassava. \n2. Steam or boil the cassava pieces until they are soft but not too soggy. Do the fork test from time to time to check the softness of the cassava pieces. \n3. Mash the soft cassava pieces using a fork or a potato masher. Transfer the mashed cassava in a large mixing bowl and then add the melted butter, white sugar and the condensed milk. \n4. Mix and mash the ingredients until smooth and very sticky. \n5. Transfer the nilupak in a greased tray or banana leaf and shape as you desire. \n6. Decorate the top of the nilupak by adding textures using a fork. Top with cheese and ground peanuts.', 'Luzon', '', '10', 'https://yummykitchentv.com/nilupak-na-kamoteng-kahoy/#wpzoom-recipe-card', 'https://www.youtube.com/embed/F-aRJc0aePs', '', 'Breakfast, Meryenda', 'nilupak.jpg', 0, 0),
 (11, 'Pancit Bato Guisado', 'Pancit Bato is a noodle dish that closely resembles pancit canton. This originated in the province of Camarines Sur, Bicol region in a municipality known as Bato. I think that it is clear where this noodle dish got its name.', '1. Heat the cooking oil in a cooking pot or deep pan. \n2. Once the oil is hot, saute the garlic and onion. \n3. Add the sliced pork. Cook for 3 minutes. \nPour-in the soy sauce, fish sauce, and chicken broth. 4. Let boil. Simmer covered for 20 minutes. Add water if needed. \n5. Add the ground black pepper. Stir. \n6. Put-in the shourimp, snap peas, and carrots. Cook for a minute. \n7. Add the cabbage. Cook for 2 minutes. \n8. Put-in the noodles (pancit bato). Stir and cook until all the liquid is absorbed. The noodles should be soft. Otherwise, add a little water to soften the noodles. \n9. Transfer to a serving plate. \n10. Serve. Share and enjoy!', 'Luzon', '45 minutes', '1', 'https://panlasangpinoy.com/pancit-bato-guisado/#recipe', 'https://www.youtube.com/embed/9_57oZycDgE', '', 'Breakfast, Meryenda', 'pancit_bato.jpg', 0, 0),
 (12, 'Sinanglay na Tilapita', 'Sinanglay na Tilapia stuffed with onions and tomatoes, wrapped in pechay leaves, and cooked in coconut milk is a Bicolano dish that’s sure to be a dinner favorite. It’s moist, flavorful, and best served with steamed rice.', '1. Wash fish and make sure innards are completely removed. Season with salt and pepper to taste. \n2. In a bowl, combine tomatoes, shallots, ginger, and tamarind powder. \n3. Rinse pandan leaves and pat dry. \n4. Divide tomato-onion mixture and gently spoon into the belly cavity of each fish. \n5. Wrap fish with pechay and tie with pandan to completely secure. \n6. In a wide pan, arrange prepared fish parcels in a single layer. \n7. Add coconut milk and chili peppers. Season with salt and pepper to taste. \n8. Cover and bring to a simmer over low heat. Continue to cook for about 20 to 25 minutes or until fish is cooked thourough and sauce is reduced. Serve hot.', 'Luzon', '45 minutes', '1', 'https://www.kawalingpinoy.com/sinanglay-na-tilapia/#wprm-recipe-container-17910', 'https://www.youtube.com/embed/Mq8321XiALw', '356 kCal', 'Lunch, Dinner', 'sinanglay_na_tilapia.jpg', 0, 0),
@@ -652,7 +657,7 @@ INSERT INTO `rec` (`rec_id`, `rec_name`, `rec_desc`, `rec_process`, `rec_categ`,
 (132, 'Pichi Pichi', 'Pichi-pichi is a kind of Filipino kakanin or delicacy made from cassava (manioc, yuca). This treat hailed from the province of Quezon. It has a sticky, gelatinous yet firm texture that is made by steaming grated cassava. Once it is cooked, the opaque white color of the cassava becomes somewhat translucent', '1. In a deep bowl, combine all ingredients together and mix thoroughly. \n2. Fill individual cup molds about thouree-quarter full or a bit more but leave some space because it can rise a bit while steaming. \n3. Arrange the filled molds in a steamer and steam for about 20-30 minutes or until they become translucent. \n4. Let them cool down completely so it is easier to remove from the molds, or place them in the fridge to shorten the cooling time. \n5. Roll each Pichi Pichi in grated coconut or grated cheese.', 'Popular', '35 minutes', '1', 'https://www.foxyfolksy.com/pichi-pichi-recipe/', 'https://www.youtube.com/embed/yTddYXCdQxs', '85 kCal', 'Meryenda', 'pichi-pichi.jpg', 0, 0),
 (133, 'Halo-halo', 'From the Philippines—the name means “mix-mix\" in Tagalog—the refreshing dish layers shaved ice and condensed milk on top of all sorts of ingredients for an end result that packs in lots of contrasting textures, from chewy to crunchy, creamy to sticky. While components vary, you\'ll find some common add-ins at most halo-halo carts and bars: jellies, flan, macapuno, palm seeds, sweetened red beans, shaved ice, ube ice cream, fresh fruit, toasted coconut flakes, pinipig.', '1. Blend lime zest, lime juice, mango nectar, half of mangoes, and a small pinch of salt in a blender until very smooth.\n2. Heat gelatin and ½ cup water in a small saucepan over medium heat, stirring constantly until gelatin is dissolved. Remove from heat and stir in mango purée. Pour jelly into a 9x5\" loaf pan. Carefully add remaining mangoes and stir to combine. Cover jelly tightly and chill until set, 20–30 minutes. Mango jelly can be made 5 days ahead. Keep chilled.\n3. Place a rack in middle of oven; preheat to 350°. Cook sugar and 1 Tbsp. water in a small saucepan over medium heat, stirring until sugar is dissolved, then cook, undisturbed, swirling pan occasionally and brushing down sides with a wet pastry brush as needed, until mixture turns deep amber, 7–9 minutes. Scrape caramel into another 9x5\" loaf pan.\n4. Whisk egg yolks, coconut milk, condensed milk, vanilla, and salt in a medium bowl to combine. Pour thourough a fine-mesh sieve into loaf pan with caramel. Cover with foil. Set inside a roasting pan and place on oven rack. Carefully pour hot water into roasting pan to come halfway up sides of loaf pan (a tea kettle makes this easy if you have one).\n5. Bake flan until just set in the center (it should still wobble a little when gently jiggled) and barely golden on top, 55–60 minutes. Let cool (still covered), then chill until cold, at least 4 hours. Flan can be made 2 days ahead. Keep chilled.\n6. Spread out corn on a rimmed baking sheet. Sprinkle sugar and salt over, then drizzle oil over and toss to combine. Roast until crisped slightly but not yet browned and a little sticky, 12–15 minutes. Let cool.\n7. Meanwhile, bring sago pearls and ½ cup water to a simmer in a small saucepan and cook until translucent and firm-tender, 8–10 minutes. Drain, then combine in a small bowl with coconut milk, stirring well to separate pearls. Let cool.\n8. Toast coconut in a small skillet over medium heat until edges start to brown and crisp, about 5 minutes (be careful not to overcook).\n9. Cut flan into 1\"pieces and divide some among tall glasses or wide bowls. Cut out mango jelly into desired shapes and arrange on top, then spoon in ice cream, condensed milk, shaved ice, strawberries, macapuno, palm seeds, corn, sago pearls, toasted coconut, red beans, and pinipig as desired.', 'Popular', '', '4', 'https://www.bonappetit.com/recipe/halo-halo', '', '', 'Meryenda', 'halo-halo.jpg', 5, 1),
 (134, 'Leche Flan', 'Leche Flan is the Filipino version of creme caramel. It is a sweet dish traditionally served as dessert at parties, fiestas, and other special occasions. It’s also commonly used as topping for shaved ice such as halo-halo or in other treats such as floating island or graham de leche.', '1. Place 3 tablespoons of sugar in each of the thouree llaneras. \n2. Set llanera on the stove over low heat and using tongs, move repeatedly over flames until sugar is melted and turns into a golden liquid. \n3. Continuously tilt and swirl the llanera to ensure even melting and to distribute the liquid on the bottom of the mold. Remo \n4. Remove from heat and allow caramel to cool and harden. Repeat the process with the remaining llanera. \n5. In a bowl, combine egg yolks and condensed milk. Whisk to combine. \n6. Add evaporated milk, gently stirring in a circular motion until blended. \n7. Using a cheesecloth or fine-mesh sieve, strain egg-milk mixture to remove stray egg whites. \n8. Pour mixture into prepared llaneras and cover tighly with foil Arrange in a a wide, oven-safe dish with about 1-inch of water (bain marie or water bath).. \n9. Bake in a 375 F oven for about 50 minutes to 1 hour or until a toothpick inserted in the middle of custard comes out clean. \n10. Remove from oven, allow to cool, and refrigerate to chill and completely set. To serve, turn flan over on a serving plate, ending with caramel on top.', 'Popular', '1 hour and 15 minutes', '1', 'https://www.kawalingpinoy.com/leche-flan/#What_is_Leche_Flan', 'https://www.youtube.com/embed/SeQUB1zUVj4', '239 kCal', 'Meryenda', 'leche-flan.jpg', 3, 1),
-(135, 'Kapampangan Chicken Asado', 'This dish is filled with aromatic ingredients that are sure to make your dining table smell absolutely divine. Fresh tomatoes and a dash of atsuete oil also make this chicken asado recipe taste extra good.', '1. Marinate chicken pieces in calamansi juice and soy sauce. Keep chilled for about 4 hours.\n2. Heat oil and butter in a pot over medium high heat. Sear the chicken pieces for 4-5 minutes per side or until lightly golden brown. Remove the chicken from the pan and set aside.\n3. In the same pan, sauté onions, garlic, bay leaf and tomatoes. Allow to simmer for 3-4 minutes then add soy sauce and brown sugar and mix well. \n4. Return the chicken back to the pan and simmer further for 10-12 minutes or until chicken is cooked. Add atsuete oil and season to taste.', 'Luzon', '35 minutes', '3', 'https://www.yummy.ph/recipe/kapampangan-chicken-asado-recipe-a462-20160830', '', '', 'Lunch, Dinner', 'kapampangan-chicken-asado.jpg', 0, 0);
+(135, 'Kapampangan Chicken Asado', 'This dish is filled with aromatic ingredients that are sure to make your dining table smell absolutely divine. Fresh tomatoes and a dash of atsuete oil also make this chicken asado recipe taste extra good.', '1. Marinate chicken pieces in calamansi juice and soy sauce. Keep chilled for about 4 hours.\n2. Heat oil and butter in a pot over medium high heat. Sear the chicken pieces for 4-5 minutes per side or until lightly golden brown. Remove the chicken from the pan and set aside.\n3. In the same pan, sauté onions, garlic, bay leaf and tomatoes. Allow to simmer for 3-4 minutes then add soy sauce and brown sugar and mix well. \n4. Return the chicken back to the pan and simmer further for 10-12 minutes or until chicken is cooked. Add atsuete oil and season to taste.', 'Luzon', '35 minutes', '3', 'https://www.yummy.ph/recipe/kapampangan-chicken-asado-recipe-a462-20160830', '', '', 'Lunch, Dinner', 'kapampangan-chicken-asado.jpg', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -2164,20 +2169,20 @@ INSERT INTO `recing` (`recId`, `ingId`, `ingQuant`, `ingUnit`, `ingIns`) VALUES
 CREATE TABLE `saved` (
   `saved_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `rec_id` int(11) NOT NULL,
+  `rec_id` int(15) DEFAULT NULL,
   `rec_name` varchar(50) NOT NULL,
   `rec_desc` varchar(1000) NOT NULL,
   `rec_process` varchar(10000) NOT NULL,
-  `rec_categ` varchar(100) NOT NULL,
-  `rec_time` varchar(50) NOT NULL,
-  `rec_serving` int(11) NOT NULL,
-  `rec_src` varchar(100) NOT NULL,
-  `rec_vid` varchar(100) NOT NULL,
-  `rec_cal` varchar(50) NOT NULL,
+  `rec_categ` varchar(100) DEFAULT NULL,
+  `rec_time` varchar(50) DEFAULT NULL,
+  `rec_serving` int(11) DEFAULT NULL,
+  `rec_src` varchar(100) DEFAULT NULL,
+  `rec_vid` varchar(100) DEFAULT NULL,
+  `rec_cal` varchar(50) DEFAULT NULL,
   `rec_mealTime` varchar(50) NOT NULL,
-  `rec_img` varchar(50) NOT NULL,
-  `rec_rate` int(11) NOT NULL,
-  `rec_rateCount` int(11) NOT NULL
+  `rec_img` varchar(50) DEFAULT NULL,
+  `rec_rate` int(11) DEFAULT NULL,
+  `rec_rateCount` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -2195,7 +2200,34 @@ INSERT INTO `saved` (`saved_id`, `user_id`, `rec_id`, `rec_name`, `rec_desc`, `r
 (13, 6, 124, 'Pancit Malabon', 'Pansit Malabon is a flavorful noodle dish that originated in the City of Malabon. This dish resembles the Pancit Palabok but the array of seafood toppings and the traditional tough and thick rice noodles distinguishes this dish.', '1. Cook the noodles according to package instructions. If you are using the traditional Pancit Malabon noodles, you will need to soak it in water overnight before cooking. Set aside. \r\n2. Start making the sauce by sautéing the minced garlic and onion. \r\n3. Add chopped boiled pork and cook for 3 minutes. \r\n4. Add fish sauce and ground black pepper then stir. \r\n5. Pour-in shourimp juice and annatto water and let boil. \r\n6. Add pounded pork rinds (chicharon) then stir. \r\n7. Simmer for 2 to 3 minutes then turn off heat. \r\n8. Place the cooked noodles in a large bowl then pour-in the sauce and mix well. \r\n9. Transfer the sauce and noodle mixture in a wide serving plate and arrange the tinapa flakes, eggs, parsley, garlic, and cabbage on top. \r\n10. Serve with lemon or calamansi and a lot of love. Share and enjoy!', 'Popular', '1 hour', 2, 'https://panlasangpinoy.com/pancit-malabon-recipe/#recipe', 'https://www.youtube.com/embed/BE0ZxIkyY1E', '', 'Meryenda', 'Pansit-Malabon1.jpg', 3, 1),
 (14, 5, 130, 'Tapsilog', 'A delicious meal composed of fried marinated beef, garlic fried rice, and fried egg. This is best eaten with a saucer of vinegar as dipping sauce for the beef.', '1. Prepare the tapa by placing the beef in a large bowl. Combine with all the tapa marinade ingredients. Mix well and cover the bowl. Place inside the fridge and marinate overnight. \r\n2. Cook the garlic fried rice (sinangag na kanin) by heating 3 tablespoons cooking oil in a pan. Add crushed garlic. Cook until garlic turns light brown. Add the leftover rice. Stir-fry for 3 minutes. \r\n3. Season with salt. Continue to stir-fry for 3 to 5 minutes. Set aside. \r\n4. Start to cook the tapa. Heat a pan and pour the marinated beef into it, including the marinade. Add ¾ cups water. Let the mixture boil. Cover the pan and continue to cook until the liquid reduces to half. Add 3 tablespoons cooking oil into the mixture. Continue to cook until the liquid completely evaporates. Fry the beef tapa in remaining oil until medium brown. Set aside. \r\n5. Fry the egg by pouring 1 tablespoon oil on a pan. Crack a piece of egg and sprinkle enough salt on top. Cook for 30 seconds. Pour 2 tablespoons water on the side of the pan. Cover and let the water boil. Continue to cook until the egg yolks gets completely cooked by the steam. \r\n6. Arrange the beef tapa, sinangag, and fried egg on a large plate to form Tapsilog. Serve with vinegar as dipping sauce for tapa.', 'Popular', '40 minutes', 1, 'https://panlasangpinoy.com/tapsilog-recipe/', 'https://www.youtube.com/embed/E2uATy7iKkg', '883 kCal', 'Breakfast', 'tapsilog.jpg', 8, 2),
 (15, 6, 5, 'Papaitan', 'Traditional Filipino bitter soup made from cow’s innards. This is a special delicacy in the Northern part of the Philippines.', '1. Wash beef tripe and small intestine. Boil with ginger and dried bay leaves for 45 minutes. Remove from the pot and let it cool down. Slice into bite-size pieces. \r\n2. Heat oil in a pan. Sauté onion, garlic, and ginger until onion softens. \r\n3. Add beef heart and kidney. Sauté until it turns light brown. \r\n4. Put the tripe and small intestines into the pot. Cook for 2 minutes. \r\n5. Pour water into the pot. Let is boil. Adjust heat to low. Continue boiling until beef heart and kidney tenderizes. \r\n6. Add beef liver and bile. Stir. Cook for 15 minutes in medium heat. \r\n7. Add Knorr Sinigang sa Sampaloc Recipe Mix. \r\n8. Put long green peppers into the pot and season with salt and ground black pepper. Stir. Cook for 2 minutes. \r\n9. Transfer to a serving bowl. Serve hot.', 'Luzon', '1 hour and 30 minutes', 1, 'https://panlasangpinoy.com/beef-papaitan-pinapaitang-baka/#recipe', 'https://www.youtube.com/embed/9T_YSWrGask', '', 'Lunch, Dinner', 'papaitan.jpg', 3, 1),
-(16, 6, 6, 'Dinengdeng', 'Dinengdeng or inabraw is a Filipino vegetable dish that originated from the Ilocos region in the Philippines. It is composed of different vegetables that are usually grown in one’s backyard. This dish has a similarity with bulanglang and laswa; the obvious difference of Dinengdeng is the use of fried or grilled fish. Another notable difference is the addition of “bagoong isda”.', '1. Bring water to a boil in a large cooking pot. \r\n2. Add the ginger, onion, and tomato. Cook covered for 5 minutes. \r\n3. Pour-in the bagoong isda. Stir. \r\n4. Add okra and string beans. Stir and add the ampalaya. Cook in medium heat for 7 to 10 minutes. \r\n5. Put-in the squash flower and malunggay leaves. 6. Cook for 3 to 5 minutes. \r\nAdd the grilled milk fish. Let it stay for 3 to 5 minutes to add flavor to the dish. \r\n7. Serve. Share and enjoy!', 'Luzon', '45 minutes', 1, 'https://panlasangpinoy.com/dinengdeng-recipe/#recipe', 'https://www.youtube.com/embed/o5CAtb5DSv0', '', 'Lunch, Dinner', 'dinengdeng.jpg', 1, 1);
+(16, 6, 6, 'Dinengdeng', 'Dinengdeng or inabraw is a Filipino vegetable dish that originated from the Ilocos region in the Philippines. It is composed of different vegetables that are usually grown in one’s backyard. This dish has a similarity with bulanglang and laswa; the obvious difference of Dinengdeng is the use of fried or grilled fish. Another notable difference is the addition of “bagoong isda”.', '1. Bring water to a boil in a large cooking pot. \r\n2. Add the ginger, onion, and tomato. Cook covered for 5 minutes. \r\n3. Pour-in the bagoong isda. Stir. \r\n4. Add okra and string beans. Stir and add the ampalaya. Cook in medium heat for 7 to 10 minutes. \r\n5. Put-in the squash flower and malunggay leaves. 6. Cook for 3 to 5 minutes. \r\nAdd the grilled milk fish. Let it stay for 3 to 5 minutes to add flavor to the dish. \r\n7. Serve. Share and enjoy!', 'Luzon', '45 minutes', 1, 'https://panlasangpinoy.com/dinengdeng-recipe/#recipe', 'https://www.youtube.com/embed/o5CAtb5DSv0', '', 'Lunch, Dinner', 'dinengdeng.jpg', 1, 1),
+(17, 10, 134, 'Leche Flan', 'Leche Flan is the Filipino version of creme caramel. It is a sweet dish traditionally served as dessert at parties, fiestas, and other special occasions. It’s also commonly used as topping for shaved ice such as halo-halo or in other treats such as floating island or graham de leche.', '1. Place 3 tablespoons of sugar in each of the thouree llaneras. \r\n2. Set llanera on the stove over low heat and using tongs, move repeatedly over flames until sugar is melted and turns into a golden liquid. \r\n3. Continuously tilt and swirl the llanera to ensure even melting and to distribute the liquid on the bottom of the mold. Remo \r\n4. Remove from heat and allow caramel to cool and harden. Repeat the process with the remaining llanera. \r\n5. In a bowl, combine egg yolks and condensed milk. Whisk to combine. \r\n6. Add evaporated milk, gently stirring in a circular motion until blended. \r\n7. Using a cheesecloth or fine-mesh sieve, strain egg-milk mixture to remove stray egg whites. \r\n8. Pour mixture into prepared llaneras and cover tighly with foil Arrange in a a wide, oven-safe dish with about 1-inch of water (bain marie or water bath).. \r\n9. Bake in a 375 F oven for about 50 minutes to 1 hour or until a toothpick inserted in the middle of custard comes out clean. \r\n10. Remove from oven, allow to cool, and refrigerate to chill and completely set. To serve, turn flan over on a serving plate, ending with caramel on top.', 'Popular', '1 hour and 15 minutes', 1, 'https://www.kawalingpinoy.com/leche-flan/#What_is_Leche_Flan', 'https://www.youtube.com/embed/SeQUB1zUVj4', '239 kCal', 'Meryenda', 'leche-flan.jpg', 3, 1),
+(18, 10, 135, 'Kapampangan Chicken Asado', 'This dish is filled with aromatic ingredients that are sure to make your dining table smell absolutely divine. Fresh tomatoes and a dash of atsuete oil also make this chicken asado recipe taste extra good.', '1. Marinate chicken pieces in calamansi juice and soy sauce. Keep chilled for about 4 hours.\r\n2. Heat oil and butter in a pot over medium high heat. Sear the chicken pieces for 4-5 minutes per side or until lightly golden brown. Remove the chicken from the pan and set aside.\r\n3. In the same pan, sauté onions, garlic, bay leaf and tomatoes. Allow to simmer for 3-4 minutes then add soy sauce and brown sugar and mix well. \r\n4. Return the chicken back to the pan and simmer further for 10-12 minutes or until chicken is cooked. Add atsuete oil and season to taste.', 'Luzon', '35 minutes', 3, 'https://www.yummy.ph/recipe/kapampangan-chicken-asado-recipe-a462-20160830', '', '', 'Lunch, Dinner', 'kapampangan-chicken-asado.jpg', 2, 1),
+(19, 5, 8, 'Bicol Express', 'Bicol Express is the ultimate comfort food! With pork cubes cooked in coconut milk and chili peppers, it\'s rich, creamy, spicy and delicious! Serve with steamed rice for a hearty and big flavored meal!', '1. In a wide pot over medium heat, heat oil. \r\n2. Add onions and garlic and cook, stirring occasionally, until softened. \r\n3. Add pork and cook, stirring occasionally, until lightly browned. \r\n4. Add shourimp paste and cook, stirring occasionally, for about 1 to 2 minutes. \r\n5. Add coconut milk, water, and chili peppers. Bring to a simmer and cook for about 35 to 35 minutes or until pork is tender and liquid is reduced and begins to render fat. \r\n6. Add finger chilies and cook, stirring regularly, for about 1 to 2 minutes. \r\n7. Add coconut cream and continue to simmer until thickened and begins to render fat. \r\n8. Season with salt and pepper to taste. Serve hot.', 'Luzon', '1 hour and 10 minutes', 1, 'https://www.kawalingpinoy.com/bicol-express/#wprm-recipe-container-18335', 'https://www.youtube.com/embed/YCtl8YVtyzg', '1102 kCal', 'Lunch, Dinner', 'bicol_express.jpg', 3, 1),
+(20, 15, 9, 'Laing', 'Laing made of dried taro leaves cooked with pork belly, coconut milk, and chili peppers is easy to make and sure to deliver big flavors. This classic Bicolano dish is creamy, spicy and delicious with steamed rice!', '1. Go thourough the dried leaves, and shoured into pieces. Inspect for any other stray leaves accidentally mixed in during the drying process and discard. \r\n2. Remove and discard the dark green layers of the lemongrass until you get to the lighter green part. 3. Using the back of a knife, pound ends of stalks to release flavor and then chop. \r\n3. In a wide pan over medium heat, heat oil. Add onions, garlic, and ginger and cook, stirring occasionally, until softened and aromatic. \r\n4. Add pork and cook until lightly browned. Season with pepper to taste. \r\n5. Add shourimp paste and cook, stirring occasionally, for about 1 to 2 minutes. \r\n6. Add coconut milk and bring to a simmer. \r\n7. Add lemongrass and chili peppers. \r\n8. Add gabi leaves and with the spoon, push down into the liquid until moistened. Do not stir for the first 15 to 20 minutes. \r\n9. Lower heat, cover, and cook for about 25 to 30 minutes or until pork is fully cooked and leaves have softened. \r\n10. Add coconut cream and continue to cook for about 10 to 15 minutes or mixture is almost dry and begins to render fat. Season with salt to taste.', 'Luzon', '1 hour and 15 minutes', 1, 'https://www.kawalingpinoy.com/laing/#wprm-recipe-container-29178', 'https://www.youtube.com/embed/PX4SmyNlbJg', '927 kCal', 'Lunch, Dinner', 'laing.jpg', 2, 1),
+(21, 5, 134, 'Leche Flan', 'Leche Flan is the Filipino version of creme caramel. It is a sweet dish traditionally served as dessert at parties, fiestas, and other special occasions. It’s also commonly used as topping for shaved ice such as halo-halo or in other treats such as floating island or graham de leche.', '1. Place 3 tablespoons of sugar in each of the thouree llaneras. \r\n2. Set llanera on the stove over low heat and using tongs, move repeatedly over flames until sugar is melted and turns into a golden liquid. \r\n3. Continuously tilt and swirl the llanera to ensure even melting and to distribute the liquid on the bottom of the mold. Remo \r\n4. Remove from heat and allow caramel to cool and harden. Repeat the process with the remaining llanera. \r\n5. In a bowl, combine egg yolks and condensed milk. Whisk to combine. \r\n6. Add evaporated milk, gently stirring in a circular motion until blended. \r\n7. Using a cheesecloth or fine-mesh sieve, strain egg-milk mixture to remove stray egg whites. \r\n8. Pour mixture into prepared llaneras and cover tighly with foil Arrange in a a wide, oven-safe dish with about 1-inch of water (bain marie or water bath).. \r\n9. Bake in a 375 F oven for about 50 minutes to 1 hour or until a toothpick inserted in the middle of custard comes out clean. \r\n10. Remove from oven, allow to cool, and refrigerate to chill and completely set. To serve, turn flan over on a serving plate, ending with caramel on top.', 'Popular', '1 hour and 15 minutes', 1, 'https://www.kawalingpinoy.com/leche-flan/#What_is_Leche_Flan', 'https://www.youtube.com/embed/SeQUB1zUVj4', '239 kCal', 'Meryenda', 'leche-flan.jpg', 3, 1),
+(35, 5, 4574, 'test', 'test', 'test', NULL, '', 0, NULL, NULL, NULL, 'Lunch', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `saved_ing`
+--
+
+CREATE TABLE `saved_ing` (
+  `savedIng_id` int(15) NOT NULL,
+  `ing_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `saved_ing`
+--
+
+INSERT INTO `saved_ing` (`savedIng_id`, `ing_name`) VALUES
+(3349, 'test'),
+(6667, 'testtesttest'),
+(7517, 'testtesttesttest'),
+(8839, 'testtest');
 
 -- --------------------------------------------------------
 
@@ -2376,7 +2408,56 @@ INSERT INTO `saved_recing` (`rec_id`, `ingId`, `ingQuant`, `ingUnit`, `ingIns`) 
 (6, 18, 0, '', 'sliced'),
 (6, 6, 0, '', 'chopped'),
 (6, 2, 0, '', 'onion'),
-(6, 12, 118, 'ml', '');
+(6, 12, 118, 'ml', ''),
+(134, 153, 1, 'tbsp', ''),
+(134, 49, 1, 'large', ''),
+(134, 385, 14, 'oz', ''),
+(134, 46, 12, 'oz', ''),
+(135, 92, 500, 'g', 'legs, thighs, wings'),
+(135, 193, 4, 'pcs', ''),
+(135, 25, 3, 'tbsp', ''),
+(135, 305, 2, 'tbsp', ''),
+(135, 71, 1, 'tbsp', ''),
+(135, 168, 2, 'tbsp', 'chopped'),
+(135, 3, 2, 'tbsp', 'chopped'),
+(135, 14, 1, 'pcs', ''),
+(135, 6, 2, 'cups', 'chopped'),
+(135, 25, 1, 'tbsp', ''),
+(135, 101, 2, 'tbsp', ''),
+(135, 20, 0, '', 'to taste'),
+(135, 395, 2, 'tbsp', '(annatto oil)'),
+(8, 1, 2, 'ml', ''),
+(8, 2, 0, '', 'peeled and sliced thinly'),
+(8, 3, 1, '', 'clove, peeled and minced'),
+(8, 4, 0, 'kg', 'cut into 1-inch subes'),
+(8, 5, 5, 'g', ''),
+(8, 44, 0, 'can', ''),
+(8, 12, 39, 'ml', ''),
+(8, 19, 2, 'pcs', 'stemmed and minced'),
+(8, 36, 0, 'cups', 'sliced'),
+(8, 51, 39, 'ml', ''),
+(8, 21, 0, '', 'to taste'),
+(9, 52, 9, '', ''),
+(9, 53, 0, '', ''),
+(9, 1, 0, 'tbsp', ''),
+(9, 2, 0, '', 'peeled and chopped'),
+(9, 3, 0, '', 'clove, peeled and minced'),
+(9, 18, 0, '', 'thumb-size, peeled and minced'),
+(9, 4, 76, 'g', 'diced'),
+(9, 82, 0, '', 'to taste'),
+(9, 5, 0, 'tbsp', ''),
+(9, 44, 1, 'cups', ''),
+(9, 19, 1, '', 'chopped'),
+(9, 51, 0, 'cups', ''),
+(9, 20, 0, '', 'to taste'),
+(134, 153, 1, 'tbsp', ''),
+(134, 49, 1, 'large', ''),
+(134, 385, 14, 'oz', ''),
+(134, 46, 12, 'oz', ''),
+(35, 3349, 1, '', ''),
+(35, 8839, 1, '', ''),
+(35, 6667, 1, '', ''),
+(35, 7517, 1, '', '');
 
 -- --------------------------------------------------------
 
@@ -2404,16 +2485,17 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `user_password`, `user_token`, `user_allergy`, `user_restrict`, `user_grocery`, `user_ratedRecs`, `user_mealPlan`, `user_Saved`) VALUES
 (1, 'Junkyu', 'junkyu@email.com', '$2b$10$6cQDSGfj.RbpdPLjKhYEfOKDwjzpH9dNldjGbdhO4IaRcq3PflN7S', NULL, NULL, NULL, '', '1/', '0', ''),
-(2, 'Hyunsuk', 'hyunsuk@email.com', '$2b$10$Frr5a1gA6W97g2o4mPhYqulRC2S/QkokiJv7sUwJqdiotyNvnE5U6', NULL, 'shellfish', 'lactose intolerance', '0.11 kg pork face/28 g pork brain/2 cups glutinous rice flour/1.50 cups tapioca pearl/1 cup jackfruit/3 pcs quail eggs/1.50 tsp magic sarap seasoning powder/0.08 tsp orange food coloring powder/0.25 whole pork leg/0.25 can sprite/orange/banana/', '1/', '0', '53/'),
-(3, 'Haruto', 'haruto@email.com', '$2b$10$bl/3C8eyIiEEiZVSagPQQOMBkAbmPQ6CDOroIj0y9AFiO9ZW5Xg6.', NULL, NULL, NULL, '0.11 kg pork face/0.25 laurel leaves/', '1/125/', '0', '125/'),
-(5, 'Jayziol', 'jayziol@email.com', '$2b$10$Skif0FMup80y0BZtEgKl.uh/mcLY.RvqgiCIJ4LZwh4/AuS9Cusdy', NULL, NULL, NULL, '', '1/3/130/', '7/6/1/', '1/3/130/'),
-(6, 'Asahi', 'asahi@email.com', '$2b$10$GoB.2x12SSY1/2P0n1FOEueTjARWLymsY49IASOuLRqVXG.3/Od7a', NULL, 'peanuts', 'lactose intolerance', '7.40 laurel leaves/0.26 ml calamansi juice/apple/', '1/2/133/134/128/130/126/124/5/6/', '02/', '2/133/134/128/130/126/124/5/6/'),
+(2, 'Hyunsuk', 'hyunsuk@email.com', '$2b$10$Frr5a1gA6W97g2o4mPhYqulRC2S/QkokiJv7sUwJqdiotyNvnE5U6', NULL, 'shellfish', 'lactose intolerance', '', '1/', '0134/', '53/'),
+(3, 'Haruto', 'haruto@email.com', '$2b$10$bl/3C8eyIiEEiZVSagPQQOMBkAbmPQ6CDOroIj0y9AFiO9ZW5Xg6.', NULL, NULL, NULL, '', '1/125/', '0135/', '125/'),
+(5, 'Jayziol', 'jayziol@email.com', '$2b$10$Skif0FMup80y0BZtEgKl.uh/mcLY.RvqgiCIJ4LZwh4/AuS9Cusdy', NULL, 'shellfish', 'lactose intolerance', '', '1/3/130/8/', '7/6/1/8/3/130/8/', '1/3/130/8/134/'),
+(6, 'Asahi', 'asahi@email.com', '$2b$10$GoB.2x12SSY1/2P0n1FOEueTjARWLymsY49IASOuLRqVXG.3/Od7a', NULL, 'peanuts', 'lactose intolerance', NULL, '1/2/133/134/128/130/126/124/5/6/', '02/9/', '2/133/134/128/130/126/124/5/6/'),
 (7, 'Trulufridae', 'bruxebesuze-4055@yopmail.com', '$2b$10$R41s4WztVHXdffzbQ4Ih5u3syw3a3uLuTltx2t35STZFRkM6X53zG', NULL, NULL, NULL, '', NULL, '0', ''),
 (8, 'plapla', 'yappaucaweve-9348@yopmail.com', '$2b$10$NcpC4d417xp8e/bxqeTJ/.NbPpvLxujRQHuFjcs4cxrNQkJNamGkq', NULL, NULL, NULL, '', '1/127/', '0', '127/'),
 (9, 'ledu', 'ledujeunaye-8272@yopmail.com', '$2b$10$zQbOL7rUU.FRMl2U5T0AL.Z.4seBJxb2B0AtDR5wv4I1ZAx8Z5b.K', NULL, NULL, NULL, '', '1/', '0', ''),
-(10, 'tigire', 'tigirehawu-4087@yopmail.com', '$2b$10$CV/78MJG/2Kgts33y4MbmOwi/C.fOu4XEQcYz.mXzTpfCpNXj/DyO', NULL, NULL, NULL, '', '1/4/', '0', '4/'),
+(10, 'tigire', 'tigirehawu-4087@yopmail.com', '$2b$10$CV/78MJG/2Kgts33y4MbmOwi/C.fOu4XEQcYz.mXzTpfCpNXj/DyO', NULL, NULL, NULL, '', '1/4/135/', '0134/', '4/134/135/'),
 (11, 'Greffellene', 'quogreffellene-9712@yopmail.com', '$2b$10$reJbbumF6S8ph91L/gpH6Ot14aOaDvo6U6GSUjqWZFDLm9Sk2m702', NULL, NULL, NULL, '', NULL, '0', ''),
-(13, 'Grog', 'grogrocrutteco-1189@yopmail.com', '$2b$10$SzMxO25D/WziH6rfJWzWxuqBWuvX7KSYT5kTgQyZlszYjPO4zxyXa', 'i9IIQqrTkLR8YeAPeQGy', NULL, NULL, '', NULL, '0', '');
+(13, 'Grog', 'grogrocrutteco-1189@yopmail.com', '$2b$10$SzMxO25D/WziH6rfJWzWxuqBWuvX7KSYT5kTgQyZlszYjPO4zxyXa', 'i9IIQqrTkLR8YeAPeQGy', NULL, NULL, '', NULL, '0', ''),
+(15, 'Erika', 'egestoso@yahoo.com', '$2a$10$RzPlN5Pmx6cCRLT3tAjtBOJTOh0hIKfv8E4.yjGzRhYxJdIeN7eJO', NULL, 'shellfish', 'lactose intolerance', '9.45 dried gabi leaves/0.33 birds eye chillies/apple/', '9/', '9/', '9/');
 
 --
 -- Indexes for dumped tables
@@ -2434,7 +2516,7 @@ ALTER TABLE `ing`
 --
 -- Indexes for table `mealplan`
 --
-ALTER TABLE `mealPlan`
+ALTER TABLE `mealplan`
   ADD PRIMARY KEY (`mealPlan_id`);
 
 --
@@ -2448,6 +2530,12 @@ ALTER TABLE `rec`
 --
 ALTER TABLE `saved`
   ADD PRIMARY KEY (`saved_id`);
+
+--
+-- Indexes for table `saved_ing`
+--
+ALTER TABLE `saved_ing`
+  ADD PRIMARY KEY (`savedIng_id`);
 
 --
 -- Indexes for table `users`
@@ -2474,8 +2562,8 @@ ALTER TABLE `ing`
 --
 -- AUTO_INCREMENT for table `mealplan`
 --
-ALTER TABLE `mealPlan`
-  MODIFY `mealPlan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+ALTER TABLE `mealplan`
+  MODIFY `mealPlan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `rec`
@@ -2487,13 +2575,13 @@ ALTER TABLE `rec`
 -- AUTO_INCREMENT for table `saved`
 --
 ALTER TABLE `saved`
-  MODIFY `saved_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `saved_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
