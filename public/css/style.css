@@ -569,6 +569,16 @@ section{
            transform: translateY(-50%) rotate(180deg);
  } */
 
+ .select-box__icon {
+   position: absolute;
+   top: 50%;
+   right: 9px;
+   -webkit-transform: translateY(-50%);
+           transform: translateY(-50%);
+   width: 15px;
+   opacity: 0.3;
+   /* transition: 0.2s ease; */
+ }
 
  .select-box__value {
    display: flex;
@@ -776,11 +786,18 @@ section{
    justify-content: center;
 }
 .select-box1 {
+   flex-grow: 1;
    position: relative;
    display: block;
-   width: 100%;
+   margin: 1rem;
    font-size: 18px;
    color: #60666d;
+ }
+
+ .select-box__input-text1{
+   width: 100%;
+   margin: 0;
+   background-color: #fff;
  }
 
  .sel-opt{
