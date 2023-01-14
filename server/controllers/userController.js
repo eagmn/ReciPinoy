@@ -4365,7 +4365,6 @@ exports.savedSubmitCreate = (req, res) => {
                     rec.name = req.body.recNameInp;
                     rec.desc = req.body.recDescInp;
                     rec.prc = req.body.recPrcInp;
-                    rec.categ = req.body.recCateg;
                     rec.time = req.body.recTimeInp;
                     rec.srv = req.body.recSrvInp;
                     rec.mTime = req.body.recMTimeInp;
@@ -4385,22 +4384,21 @@ exports.savedSubmitCreate = (req, res) => {
                         } else if(res[0]){
                             let newId = Math.floor(Math.random()*90000) + 10000;
                             newRecId = newId;
-                            insertFunc(session.userId, newRecId, rec.getRecName(), rec.getRecDesc(), rec.getRecPrc(), rec.getRecCateg(), rec.getRecTime(), rec.getRecSrv(), mString);
+                            insertFunc(session.userId, newRecId, rec.getRecName(), rec.getRecDesc(), rec.getRecPrc(), rec.getRecTime(), rec.getRecSrv(), mString);
                         }
                         else {
                             newRecId = id;
-                            insertFunc(session.userId, newRecId, rec.getRecName(), rec.getRecDesc(), rec.getRecPrc(), rec.getRecCateg(), rec.getRecTime(), rec.getRecSrv(), mString);
+                            insertFunc(session.userId, newRecId, rec.getRecName(), rec.getRecDesc(), rec.getRecPrc(), rec.getRecTime(), rec.getRecSrv(), mString);
                         }
                     })
 
 
-                    function insertFunc(userId, newRecId, RecName, RecDesc, RecPrc, RecCateg, RecTime, RecSrv, mString) {
-                        conn.query('INSERT INTO saved(user_id, rec_id, rec_name, rec_desc, rec_process, rec_categ, rec_time, rec_serving, rec_mealTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [userId, newRecId, RecName, RecDesc, RecPrc, RecCateg, RecTime, RecSrv, mString], (err, result) => {
+                    function insertFunc(userId, newRecId, RecName, RecDesc, RecPrc, RecTime, RecSrv, mString) {
+                        conn.query('INSERT INTO saved(user_id, rec_id, rec_name, rec_desc, rec_process, rec_time, rec_serving, rec_mealTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [userId, newRecId, RecName, RecDesc, RecPrc, RecTime, RecSrv, mString], (err, result) => {
                             if(err){
                                 console.log(err, '\n');
                                 conn.release();
                             }else{
-                                // savedId = result.insertId;
                                 let ing = new Recipe.Ing();
                                 let ingNum = req.body.ingNum;
                                 ing.quant = JSON.parse(req.body.qval);
@@ -4495,54 +4493,6 @@ exports.savedSubmitCreate = (req, res) => {
                                 conn.release();
                                 req.flash('msg', 'Recipe saved!');
                                 res.redirect('/saved'); 
-                                // async function insertRecIng(ingName, qf, ingUnit, ingIns){
-                                //     const ii = await insertNewIng(ingName);
-                                //     conn.query('INSERT INTO saved_recing(rec_id, ingId, ingQuant, ingUnit, ingIns) VALUES (?, ?, ?, ?, ?)', [newRecId, ii, qf, ingUnit, ingIns], (err, row) => {
-                                //         if(err){
-                                //             console.log(err, '\n');
-                                //             conn.release();
-                                //         }
-                                //         else{
-                                //             console.log('new ing added + recing inserted...\n');
-                                //         }
-                                //     })
-                                    
-                                // }
-                                
-                                // function ingLoop(i) {
-                                //     return new Promise((resolve, reject) => {
-                                //         let newIngStr = '';
-                                //             let ingQuant = ing.getIngQuant()[i];
-                                //             let ingUnit = ing.getIngUnit()[i];
-                                //             let ingName = ing.getIngName()[i];
-                                //             let ingIns = ing.getIngIns()[i];
-                                //             let qf; 
-                                //             if(parseFloat(ingQuant)){
-                                //                 qf = parseFloat(ingQuant);
-                                //                 }
-                                //             else{
-                                //                 qf = 0;
-                                //             }
-    
-                                //             insertRecIng(ingName, qf, ingUnit, ingIns).then(() => {
-                                //                 newIngStr = ingName;
-                                //                 resolve(newIngStr);
-                                //             });
-                                //     })
-                                // }
-    
-                                // async function savedupdateIng() {
-                                //     for (let index = 0; index < ingNum; index++) {
-                                //         ingStr = await ingLoop(index);
-                                //     }
-                                // }
-                                
-                                // savedupdateIng().then(() => {
-                                //         conn.release();
-                                //         req.flash('msg', 'Recipe saved!');
-                                //         res.redirect('/saved'); 
-                                    
-                                // });
                             }
                         })
                     }
