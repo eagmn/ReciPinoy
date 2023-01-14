@@ -41,7 +41,7 @@
     <div class="userRecipeView">
         <!-- back button -->
         <a class="back-btn" onclick="history.back()"><span class="rec-back">Back</span></a>
-        <div class="urv-upper-content">
+        <div class="saved-rec-view">
             <!-- # image # -->
             <!-- <div class="urv-img">
                 <%# if (saved.rec_img) { %>
@@ -52,27 +52,15 @@
             <div class="urv-grid">
                 <div class="urv-grid-header">
                     <div class="urv-title">
-                        <!-- category -->
-                        <!-- <span class="rec-categ"><%#= saved.rec_categ %></span> -->
-                        <!-- recipe name -->
                         <p class="rec-name"><%= saved.rec_name %></p>
-                        <!-- <%# if (saved.rec_rate) { %>
-                            <div class="star-rate">
-                                <% let rating = saved.rec_rate/saved.rec_rateCount; %> 
-                                <% rating = Math.round(rating)%> 
-                                <%= rating%>
-                                <span class="str"></span>
-                            </div>  
-                        <%# } else { %>
-                            <span>This recipe hasn't been rated.</span>
-                        <%# } %> -->
                     </div>
 
                     <!-- # add to saved recipe # gawing delete--> 
                     <div class="urv-saved-btn">
-                        <form action="/saved/unsave/<%= saved.rec_id%>" method="post">
-                            <br><br><button type="submit" value ="Unsave Recipe"></button>
-                        </form>
+                        <!-- <form action="/saved/unsave/<%= saved.rec_id%>" method="post">
+                            <button type="submit" class="btnUnsave"></button>
+                        </form> -->
+                        <a href="/saved/delete/<%= saved.rec_id %>" class="btnUnsave"></a>
                     </div>
                 </div>
 
@@ -94,22 +82,9 @@
 
                     <!-- border line -->
                     <span class="bdr-line"></span>
-
-                    <!-- calories -->
-                    <!-- <div class="urv-cal">
-                        <p class="tt-cal">CALORIES</p>
-                        <%# if (saved.rec_cal) { %>
-                            <span class="cal"><%#= saved.rec_cal %></span>
-                        <%# } else { %>
-                            <span class="calv">Calorific value is not available.</span>
-                        <%# } %> 
-                    </div>  -->
-
-                    <!-- border line -->
-                    <!-- <span class="bdr-line"></span> -->
                     
                     <!-- add to meal plan -->
-                    <!-- <div class="urv-add-mp">
+                    <div class="urv-add-mp">
                         <button type="button" id="mealPlanBut" class="add-mp">Add to Meal Plan</button>
                             <div id="mealPlan" class="modal">
                                 <div class="modal-content">
@@ -119,14 +94,22 @@
                                         <form action="/mealPlan" method="post"> 
                                             <input type="text" class="mp-date" name="datetimes" />
                                             <div class="meal-time">
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
                                                     <label for="mtBreakfast" class="addRecLabel">Breakfast</label>
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
+                                                </div>
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
                                                     <label for="mtLunch" class="addRecLabel">Lunch</label>
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Meryenda">
+                                                </div>
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Meryenda">
                                                     <label for="mtLunch" class="addRecLabel">Meryenda</label>
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
+                                                </div>
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
                                                     <label for="mtDinner" class="addRecLabel">Dinner</label>
+                                                </div>
                                             </div>
                                             <input type="hidden" name="recID" value="<%= saved.rec_id %>">
                                             <input type="hidden" name="recName" id="recName" value="<%= saved.rec_name %>">
@@ -136,15 +119,9 @@
                                     </div>
                             </div>
                         </div>
-                    </div> -->
-                </div>
+                    </div>
 
-                <!-- recipe source -->
-                <!-- <div class="rec-src"> -->
-                <!-- <a href="<%= saved.rec_src %>" class="r-source">
-                    <span class="src">This recipe was excepted from this source.</span>
-                </a> -->
-                <!-- </div> -->
+                </div>
             </div>
         </div>
 
@@ -238,46 +215,6 @@
                 </div>
 
             </div>
-
-            <!-- recipe video with section line-->
-            <%# if (saved.rec_vid) { %>
-                <!-- line
-                <div class="section-header">
-                    <h3 class="vid-title">Watch</h3>
-                </div>
-                <div class="rec-vid">
-                    <iframe src="<%#= saved.rec_vid %>" 
-                        title="YouTube video player" frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
-                </div> -->
-            <%# } %>
-
-            <!-- border line -->
-            <span class="section-line"></span>
-
-            <!-- recipe ratings -->
-            <!-- <div class="rec-rating">
-                <form action="/recipes/rate/<%= saved.rec_id%>" method="post">
-                    <label class="rating-title">What do you think of this recipe?</label>
-                    <div class="stars" data-rating="0">
-                        <span class="star"></span>
-                        <span class="star"></span>
-                        <span class="star"></span>
-                        <span class="star"></span>
-                        <span class="star"></span>
-                    </div>
-                    <%# if (isRated) { %>
-                        <label class="rated-lbl">You've rated this recipe already!</label>
-                    <%# } else { %>
-                        <input type="hidden" name="ratingCount" value="<%#= saved.rec_rateCount %>">
-                        <input type="hidden" name="recRating" id="recRating" value="<%#= saved.rec_rate %>">
-                        <input type="hidden" name="userRate" id="userRate" value="">
-                        <button type="submit" class="rating-btn">Submit Rating</button>
-                    <%# } %> 
-                </form>
-            </div> -->
         </div>
     </div>
     <% }) %>   
@@ -444,6 +381,78 @@
                 }
             }
         });
+        }
+
+        $(function() {
+         $('input[name="datetimes"]').daterangepicker({
+            "singleDatePicker": true,
+        "minYear": 2022,
+        "showWeekNumbers": true,
+        "timePicker": true,
+        "locale": {
+        "format": "MM/DD/YYYY hh:mm A",
+        "separator": " - ",
+        "applyLabel": "Apply",
+        "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "W",
+        "daysOfWeek": [
+            "Su",
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa"
+        ],
+        "monthNames": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ],
+        "firstDay": 1
+        },
+        minDate: new Date(),
+        "opens": "center"
+        })
+        });
+
+        let mealModal = document.getElementById("mealPlan");
+        let button = document.getElementById("mealPlanBut");
+        let cls = document.getElementsByClassName("closeBut")[0];
+
+        //open the modal
+        if (button) {
+            button.onclick = function() {
+            mealModal.style.display = "block";
+        }
+        }
+
+        if(cls){
+                    //close the modal
+        cls.onclick = function() {
+            // $("#cont").empty();
+            mealModal.style.display = "none";
+        }
+        }
+
+        //close it
+        window.onclick = function(event) {
+        if (event.target == mealModal) {
+            $("#cont").empty();
+            mealModal.style.display = "none";
+        }
         }
 
     </script>

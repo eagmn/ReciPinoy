@@ -42,77 +42,69 @@
     <div class="userSaved">
         <a href="/" class="back-btn"><span class="rec-back">Home</span></a>
 
-        <span class="saved-title">My Saved Recipes</span>
-        <button type="button" class="userBtn"> <a href="/saved-rec" class="a-btn">Create Recipe</a></button>&nbsp;
+        <div class="saved-header">
+            <span class="saved-title">My Saved Recipes</span>
 
+
+            <button type="button" class="create-btn"> <a href="/saved-rec" class="c-btn">Create Recipe</a></button>
+        </div>
         <!-- border line -->
         <span class="saved-line"></span>
 
         <form action="/saved" method="post" class="saved-container">
-            <!--<div id="sortResults">
-                <select name="recent" id="recent" onchange="this.form.submit()">
-                    <option value="" disabled selected>sort to newest</option>
-                    <option value="newest">newest</option>
-                    <option value="oldest">oldest</option>
-                </select>-->
                     <% save.forEach( saved => { %>
                         <% let strId = saved.rec_id.toString(); %> 
                         <% if (strId.length <= 3) { %>
                             <!-- <div class="saved-card"> -->
                                 <div class="each-card">
-                                    <div class="img-clr">
-                                        <a href="/saved/delete/<%= saved.rec_id %>" class="btnDel"></a>
-                                        <img src="/images/<%= saved.rec_img%>" alt="<%= saved.rec_name %> Image" class="saved-img">
-                                    </div>
+                                    
     
                                         <div class="details">
                                             <div class="saved-hdr">
                                                 <!-- category -->
                                                 <span class="saved-categ"><%= saved.rec_categ %></span>
-                                                <!-- <div class="saved-buttons"> -->
-                                                    <a href="/saved/edit/<%= saved.rec_id %>" class="btnEdit"></a>
-                                                    <!-- <a href="/saved/delete/<%= saved.rec_id %>" class="btnDel"></a> -->
-                                                <!-- </div> -->
-                                            </div>
     
-                                            <div class="food-title">
-                                                <a href="/saved/<%= saved.rec_id%>"><%= saved.rec_name %></a>
-                                            </div>
-                                            <% if (saved.rec_rate) { %>
-                                                
-                                                <div class="saved-rate">
-                                                    <% let rating = saved.rec_rate/saved.rec_rateCount; %> 
-                                                    <% rating = Math.round(rating)%> 
-                                                    <%= rating%>
-                                                    <span class="str"></span>
+    
+                                                <div class="food-title">
+                                                    <a href="/saved/<%= saved.rec_id%>"><%= saved.rec_name %></a>
                                                 </div>
-                                            <% } else { %>
-                                                    <span class="saved-rate">This recipe hasn't been rated.</span>
-                                                <% } %>
-                                                <!-- </div> -->
+                                                <% if (saved.rec_rate) { %>
+                                                    
+                                                    <div class="saved-rate">
+                                                        <% let rating = saved.rec_rate/saved.rec_rateCount; %> 
+                                                        <% rating = Math.round(rating)%> 
+                                                        <%= rating%>
+                                                        <span class="str"></span>
+                                                    </div>
+                                                <% } else { %>
+                                                        <span class="saved-rate">This recipe hasn't been rated.</span>
+                                                    <% } %>
+                                                
+                                            </div>
+                                            <a href="/saved/edit/<%= saved.rec_id %>" class="btnEdit"></a>
+                                        </div>
+
+                                        <div class="img-clr">
+                                            <a href="/saved/delete/<%= saved.rec_id %>" class="btnDel"></a>
+                                            <img src="/images/<%= saved.rec_img%>" alt="<%= saved.rec_name %> Image" class="saved-img">
                                         </div>
                                 </div>
                          <% } else { %>
                                 <div class="each-card">
-                                    <div class="img-clr">
-                                        <a href="/saved-rec/delete/<%= saved.rec_id %>" class="btnDel"></a>
-                                        <!-- <img src="/images/<%= saved.rec_img%>" alt="<%= saved.rec_name %> Image" class="saved-img"> -->
-                                    </div>
-    
                                         <div class="details">
                                             <div class="saved-hdr">
-                                                <!-- category -->
-                                                <!-- <span class="saved-categ"><%= saved.rec_categ %></span> -->
-                                                <!-- <div class="saved-buttons"> -->
-                                                    <a href="/saved-rec/edit/<%= saved.rec_id %>" class="btnEdit"></a>
-                                                    <!-- <a href="/saved/delete/<%= saved.rec_id %>" class="btnDel"></a> -->
-                                                <!-- </div> -->
+                                                <div class="food-title">
+                                                    <a href="/saved/<%= saved.rec_id%>"><%= saved.rec_name %></a>
+                                                </div>
+                                               
+                                                
                                             </div>
-    
-                                            <div class="food-title">
-                                                <a href="/saved-rec/<%= saved.rec_id%>"><%= saved.rec_name %></a>
-                                            </div>
-                                                <!-- </div> -->
+                                            <a href="/saved/edit/<%= saved.rec_id %>" class="btnEdit"></a>
+                                        </div>
+                                        
+                                        <div class="img-clr">
+                                            <a href="/saved/delete/<%= saved.rec_id %>" class="btnDel"></a>
+                                        
                                         </div>
                                 </div>
                         <% } %>

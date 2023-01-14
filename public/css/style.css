@@ -816,6 +816,11 @@ section{
    width: 90%;
 }
 
+.saved-header{
+   display: flex;
+   flex-direction: row;
+}
+
 .saved-title{
    display: block;
    flex-grow: 1;
@@ -825,6 +830,21 @@ section{
    font-size: 2.5rem;
    font-weight: normal;
    text-transform: uppercase;
+}
+
+.create-btn{
+   display: block;
+   font-size: 2rem;
+   padding:1rem 1.2rem;
+   margin: 1rem;
+   cursor: pointer;
+   background-color: var(--green);
+   text-transform: uppercase;
+}
+
+.c-btn{
+   text-decoration: none;
+   color:var(--white);
 }
 
 .saved-line{
@@ -849,8 +869,9 @@ section{
 
 .each-card {
    display: flex;
-   flex-direction: column;
+   flex-direction: column-reverse;
    /* margin: 2em 5em; */
+   min-height: 100%;
    box-shadow: 0px 0px 10px 0px rgb(217, 217, 217);
 }
 
@@ -890,12 +911,14 @@ section{
 
 .details{
    display: flex;
-   flex-direction: column;
+   flex-direction: row;
    padding-bottom: 1.5rem;
+   padding-top: 2rem;
 }
 
 .saved-hdr{
    display: flex;
+   flex-direction: column;
 }
 
 .saved-categ{
@@ -904,7 +927,6 @@ section{
    font-weight: normal;
    font-size: 1.2rem;
    color: rgb(142, 142, 142);
-   padding: 2.5rem 0 0.5rem;
    margin-left: 1em;
 }
 
@@ -916,13 +938,13 @@ section{
 
 .btnEdit::before{
    content: "\f044";
-   display: inline-block;
    margin: 0.2rem 0.5rem 0 0;
    color: var(--green);
    font: var(--fa-font-solid);
    text-rendering: auto;
    -webkit-font-smoothing: antialiased;
    cursor:pointer;
+   float: right;
 }
 
 
@@ -930,6 +952,7 @@ section{
    background-color: #fff;
    font-size: 2rem;
    margin: 1.2rem 0.5rem 0.5rem 0;
+   flex-grow: 1;
 
 }
 
@@ -937,6 +960,7 @@ section{
    /* font-size: 3em; */
    margin-left:  1.2rem;
    padding-bottom: 1rem;
+   padding-top: 1rem;
    font-weight: 450;
    font-size: 1.8rem;
 }
@@ -955,6 +979,30 @@ section{
    padding-bottom: 2.5rem;
 }
 
+/* .saved-container .each-card1 .img-clr1 .btnDel1::before{
+   content: "\f00d";
+   display: inline-block;
+   font: var(--fa-font-solid);
+   text-rendering: auto;
+   -webkit-font-smoothing: antialiased;
+   cursor:pointer;
+}
+
+.saved-container .each-card1 .img-clr1 .btnDel1 {
+   position: absolute;
+   top: 0;
+   right: 0;
+   width: 28px;
+   height: 28px;
+   background: rgb(255, 255, 255);
+   color: var(--black);
+   text-align: center;
+   line-height: 28px;
+   font-size: 20px;
+   cursor: pointer;
+   z-index: 1;
+   transition: all 200ms ease;
+} */
 
 /*--------------------------------------------------------------
 # SAVED RECIPES - EDIT RECIPE PAGE
@@ -1120,7 +1168,38 @@ section{
    text-transform: uppercase;
 }
 
+ /*--------------------------------------------------------------
+# SAVED RECIPES - CREATE RECIPE - RECIPE VIEW
+--------------------------------------------------------------*/
 
+.saved-rec-view{
+   text-align: center;
+}
+
+.btnUnsave::before{
+   content: "\f00d";
+   display: inline-block;
+   font: var(--fa-font-solid);
+   text-rendering: auto;
+   -webkit-font-smoothing: antialiased;
+   cursor:pointer;
+}
+
+.btnUnsave {
+   /* position: absolute;
+   top: 0;
+   right: 0; */
+   width: 28px;
+   height: 28px;
+   background: rgb(255, 255, 255);
+   color: var(--black);
+   text-align: center;
+   line-height: 28px;
+   font-size: 20px;
+   cursor: pointer;
+   /* z-index: 1; */
+   transition: all 200ms ease;
+}
 
 
 /*--------------------------------------------------------------
@@ -2841,7 +2920,6 @@ transform: scale(1.1);
 .box-mtime{
    display: flex;
    flex-direction: row;
-   align-items: center;
 }
 
  /* checkbox for meal plan button */

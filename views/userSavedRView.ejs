@@ -120,14 +120,22 @@
                                             <input type="text" class="mp-date" name="datetimes" />
                                                 <!-- <label for="recMTime" class="addRecLabel">Meal Time: </label> -->
                                             <div class="meal-time">
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
                                                     <label for="mtBreakfast" class="addRecLabel">Breakfast</label>
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
+                                                </div>
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
                                                     <label for="mtLunch" class="addRecLabel">Lunch</label>
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Meryenda">
+                                                </div>
+                                                <div class="box-mtime">
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Meryenda">
                                                     <label for="mtLunch" class="addRecLabel">Meryenda</label>
-                                                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
+                                                </div>
+                                                <div class="box-mtime">  
+                                                    <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
                                                     <label for="mtDinner" class="addRecLabel">Dinner</label>
+                                                </div>
                                             </div>
                                             <input type="hidden" name="recID" value="<%= saved.rec_id %>">
                                             <input type="hidden" name="recName" id="recName" value="<%= saved.rec_name %>">
