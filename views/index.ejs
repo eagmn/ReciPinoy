@@ -114,23 +114,49 @@
 
       <h1 class="title" id=recipe_page>latest recipes</h1>
       
-      <div class="box-container">
+      <div class="usr-container">
          <% if (recs.length > 0) { %>
              <% recs.forEach(rec => { %>
                <div class="result-card">
-                 <form action="" method="post" class="box">
-                     <a href="/recipes/<%= rec.rec_id%>" class="box-usr">
-                        <img src="/images/<%= rec.rec_image%>" alt="<%= rec.rec_name %> Image" height="150">
-                        <div class="cat"><%= rec.rec_categ %></div>
-                        <div class="name"><%= rec.rec_name %></div>
-                     </a>
-                 </form>
+                  <form action="" method="post">
+                  <div class="box-card">
+                     <!-- img -->
+                     <div class="box-header">
+                        <a href="/recipes/<%= rec.rec_id%>">
+                           <img src="/images/<%= rec.rec_image%>" alt="<%= rec.rec_name %> Image" class="box-img">
+                           </a>
+                     </div>
+                     <!-- details -->
+                     <div class="box-details">
+                     <a href="/recipes/<%= rec.rec_id%>" class="rec-usr">
+                         <div class="box-one">
+                             <div class="name-cont">
+                                 <!-- category -->
+                                 <span class="box-categ"><%= rec.rec_categ %></span>
+                                 <!-- recipe name -->
+                                 <p class="box-name"><%= rec.rec_name %></p>
+                                 <!-- rating -->
+                                 <% if (rec.rec_rate) { %>
+                                     <div class="box-rate">
+                                         <% let rating = rec.rec_rate/rec.rec_rateCount; %> 
+                                         <% rating = Math.round(rating)%> 
+                                         <%= rating%>
+                                         <span class="str"></span>
+                                     </div>
+                                 <% } else { %>
+                                     <span class="box-not">This recipe hasn't been rated.</span>
+                                 <% } %>
+                             </div>
+                         </div>
+                     </a>                       
+                     </div>  
+                  </form>                
                </div>
-             <% }) %>
-         <% } else { %>
-             <p class="empty">No recipes found.</p>
-             <% } %>
-     </div>
+            </div>
+            <% }) %>
+      <% } %>
+      </div>
+   
       
    
       <!-- <div class="more-btn">
