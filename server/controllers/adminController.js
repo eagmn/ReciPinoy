@@ -253,7 +253,7 @@ exports.submitRecipe = (req, res) => {
                             }else{
                                 mString = rec.getRecMTime();
                             }
-                            if(rec.getRecImg().mimetype == "image/jpeg" || rec.getRecImg().mimetype == "image/png"){
+                            if(rec.getRecImg().mimetype == "image/jpeg" || rec.getRecImg().mimetype == "image/png" || rec.getRecImg().mimetype == "image/webp"){
                                 rec.getRecImg().mv('images/' + recImgName, (err) => {
                                     if(err){
                                         res.status(500).send(err);
@@ -587,7 +587,7 @@ try {
                         }else{
                             mString = rec.getRecMTime();
                         }
-                        if(rec.getRecImg().mimetype == "image/jpeg" || rec.getRecImg().mimetype == "image/png"){
+                        if(rec.getRecImg().mimetype == "image/jpeg" || rec.getRecImg().mimetype == "image/png" || rec.getRecImg().mimetype == "image/webp"){
                             rec.getRecImg().mv('images/' + recImgName, (err) => {
                                 if(err){
                                     res.status(500).send(err);
