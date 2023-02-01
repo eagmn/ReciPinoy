@@ -148,7 +148,7 @@ exports.getRegData = (req,res) => {
                             transporter.sendMail(mailOptions, (error, info) => {
                                 if (error) {
                                     console.log(error);
-                                    conn.release();
+                                    // conn.release();
                                 }
 
                                 conn.release();
