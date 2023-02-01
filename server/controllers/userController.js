@@ -27,6 +27,7 @@ let transporter = nodemailer.createTransport({
     auth: {
         user: 'pvblcml@gmail.com',
         pass: 'zfaugmmgmahgwamg',
+        // pass: 'qcakxfyiwxpvpszp'
     }
 
 });
@@ -150,9 +151,12 @@ exports.getRegData = (req,res) => {
                                     console.log(error);
                                     // conn.release();
                                 }
+                                else{
+                                    conn.release();
+                                    res.redirect('/verify');
+                                }
 
-                                conn.release();
-                                res.redirect('/verify');
+                                
                             });
 
                           
