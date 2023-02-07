@@ -369,7 +369,8 @@ exports.userSendPwdEmail = (req, res) => {
                             from: 'pvblcml@gmail.com',
                             to: userEmail,
                             subject: 'ReciPinoy Reset Password Link',
-                            html: '<p>You requested for reset password, kindly use this <a href="http://localhost:3000/reset-password?token=' + token + '"><strong>link</strong></a> to reset your password</p>'
+                            // html: '<p>You requested for reset password, kindly use this <a href="http://localhost:3000/reset-password?token=' + token + '"><strong>link</strong></a> to reset your password</p>'
+                            html: '<p>You requested for reset password, kindly use this <a href="https://recipinoy.onrender.com/reset-password?token=' + token + '"><strong>link</strong></a> to reset your password</p>'
                             
                         };
                         transporter.sendMail(mailOptions, (error, info) => {
@@ -419,7 +420,9 @@ exports.userUpdatePwd = (req, res) =>{
         if(password !== passwordConf){
             req.flash('msg', 'Passwords does not match!');
             //alert('Passwords does not match');
-            res.redirect('http://localhost:3000/reset-password?token=' + token + '');    
+            // res.redirect('http://localhost:3000/reset-password?token=' + token + '');    
+            res.redirect('https://recipinoy.onrender.com/reset-password?token=' + token + '');    
+
         }
         else{
             pool.getConnection((err, conn) =>{
