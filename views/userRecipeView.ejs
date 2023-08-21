@@ -43,8 +43,7 @@
 
     <!-- header -->
     <%- include('./partials/userNav'); %>
-    <%#- include('./partials/guestNav'); %>
- 
+
     <div class="userRecipeView">
         <!-- back button -->
         <a class="back-btn" onclick="history.back()"></a>
@@ -67,8 +66,7 @@
                                 <% rating = Math.round(rating)%> 
                                 <%= rating%>
                                 <span class="str"></span>
-                            </div>  <!-- hindi ko sya magawang star HAJDKAJKDAJKKJDKJ [eka] 
-                                                                lagyan ng star icon smth [euni]-->
+                            </div>  
                         <% } else { %>
                             <span class="star-rate">This recipe hasn't been rated.</span>
                         <% } %>
@@ -147,7 +145,6 @@
                                         <p class="mp-mdl">Choose Day & Meal Time</p>
                                         <form action="/mealPlan" method="post"> 
                                             <input type="text" class="mp-date" name="datetimes" />
-                                                <!-- <label for="recMTime" class="addRecLabel">Meal Time: </label> -->
                                             <div class="meal-time">
                                                 <div class="box-mtime">
                                                     <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
@@ -178,11 +175,9 @@
                 </div>
 
                 <!-- recipe source -->
-                <!-- <div class="rec-src"> -->
                 <a href="<%= rec.rec_src %>" class="r-source">
                     <span class="src">This recipe was excerpted from this source.</span>
                 </a>
-                <!-- </div> -->
             </div>
         </div>
 
@@ -308,7 +303,6 @@
                     </div>
                     <% if (isRated) { %>
                         <label class="rated-lbl">You've rated this recipe already!</label>
-                        <!-- <br><br><button type="submit" disabled>Submit Rating!</button> -->
                     <% } else { %>
                         <input type="hidden" name="ratingCount" value="<%= rec.rec_rateCount %>">
                         <input type="hidden" name="recRating" id="recRating" value="<%= rec.rec_rate %>">
@@ -348,7 +342,6 @@
 
         const minusButton = document.getElementById('minusButton');
         const plusButton = document.getElementById('plusButton');
-        // const srvField = document.getElementById('servingInp').value;
         if(minusButton){
             minusButton.disabled = true;
             minusButton.addEventListener('click', event => {
@@ -449,7 +442,6 @@
                 }else{
                     star.classList.add('rated');
                 }
-                //are we currently looking at the span that was clicked
                 if(star === span){
                     match = true;
                     num = index + 1;
@@ -457,15 +449,12 @@
             });
             let currentRating = document.getElementById('recRating').value;
             if ((parseInt(currentRating)) != 0) {
-                // newRating = (num + parseInt(currentRating))/2;
                 newRating = (num + parseInt(currentRating));
-                // newRating = Math.round(newRating);
                 document.getElementById('userRate').value = newRating.toString();                
                 document.querySelector('.stars').setAttribute('data-rating', num);
             }
             else{
                 newRating = (num + parseInt(currentRating));
-                // newRating = Math.round(newRating);
                 document.getElementById('userRate').value = newRating.toString();
                 document.querySelector('.stars').setAttribute('data-rating', num);
             }
@@ -499,8 +488,6 @@
                 });
             }
             
-
-            //$('#gList').val(JSON.stringify(ingsArr));
         }
 
         function addGrocery() {
@@ -519,30 +506,6 @@
         let modal = document.getElementById("glModal");
         let btn = document.getElementById("openModal");
         let span = document.getElementsByClassName("close")[0];
-
-        //open the modal
-        // btn.onclick = function() {
-        //     getIngs();
-        //     ingsArr.forEach(ia => {
-        //         let input = '<div class="list-mdl" style="text-align:justify; font-size: 1.3em; margin:0.7em auto 0.7em;"><input type="checkbox" name="ingsCb[]" value="' + ia + '" style="transform: scale(2); margin: 0 0.5em 0 2.5em; cursor: pointer;">&nbsp;&nbsp;&nbsp;<label for="ingCheckbox" style="width: 80%; font-weight: normal;">' + ia + '</label><br></div><span class="bdr-mdl" style="display: block; border-top: 1px solid black; height: 1px; width: 100%; margin: 0 auto; opacity: 0.1;"></span></div>'
-        //         $("#ingList").append(input);
-        //     });
-        //     modal.style.display = "block";
-        // }
-
-        //close the modal
-        // span.onclick = function() {
-        //     $("#ingList").empty();
-        //     modal.style.display = "none";
-        // }
-
-        //close it
-        // window.onclick = function(event) {
-        // if (event.target == modal) {
-        //     $("#ingList").empty();
-        //     modal.style.display = "none";
-        // }
-        // }
 
         $(function() {
          $('input[name="datetimes"]').daterangepicker({
@@ -600,7 +563,6 @@
 
         //close the modal
         cls.onclick = function() {
-            // $("#cont").empty();
             mealModal.style.display = "none";
         }
 
@@ -621,18 +583,12 @@
         var el = this;
         setTimeout(function(){
             el.style.cssText = 'height:auto; padding:0';
-            // for box-sizing other than "content-box" use:
-            // el.style.cssText = '-moz-box-sizing:content-box';
             el.style.cssText = 'height:' + el.scrollHeight + 'px';
         },0);
         }
 
 
     </script>
-
-<!-- <div class="loader">
-    <img src="/images/loader.gif" alt="">
-</div> -->
 
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 

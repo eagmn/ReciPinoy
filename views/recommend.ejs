@@ -8,7 +8,7 @@
 
     <link rel="icon" href="/images/logo/logo-recipinoy.png" type="image/icon type">
 
-    <!-- para sa input ng ing -->
+    <!-- for ing input -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -24,12 +24,6 @@
     <title><%=title  %> </title>
 </head>
 <body>
-        <!-- loader -->
-        <!-- <div class="loader">
-            <img src="/images/loader.gif" alt="">
-        </div> -->
-    <!-- user header -->
-    <%#- include('./partials/guestNav'); %>
     <%- include('./partials/userNav'); %>
     
     <div class ="recipeResults">
@@ -115,7 +109,7 @@
         let xv = [];
         let clickCount = 0, ingNum = 0;
 
-        $(document).ready(function() { //https://github.com/ashwanibakshi/autocompletesearch
+        $(document).ready(function() { 
         $(".ingsInp").autocomplete({ 
            source:function(req,res){
                $.ajax({
@@ -270,7 +264,6 @@
         function removeIng(ing) {
             clickCount++;
             ing.parentNode.removeChild(ing);
-            // console.log("ing: ", ing);
             let ingCount = ingNum - clickCount;
             console.log("ingCount: ", ingCount);
             ingStr = [];

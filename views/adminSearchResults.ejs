@@ -24,9 +24,7 @@
 
     <!-- search filter -->
     <div class="getFilter">
-        <!-- <span class="filter-title">Filter: </span> -->
         <form action="/admin/recipes/search/filter" method="post" class="filter-cont">
-
             <!-- dish type -->
             <div class="select-box">
                 <div class="select-box__current" tabindex="1">
@@ -174,55 +172,15 @@
             <button type="submit" class="btn-lang">
               <span class="fil-icon"></span>
               <span class="fil-btn">Filter</span></button>
-
-
-
-                <!-- <select name="recDishInp" id="recDishInp" class="categ-opt" onchange="this.form.submit()">
-                    <option value="" disabled selected>Dish Type</option>
-                    <option value="Breakfast">Breakfast</option>
-                    <option value="Lunch">Lunch</option>
-                    <option value="Meryenda">Meryenda</option>
-                    <option value="Dinner">Dinner</option>
-                </select>
-
-               
-                <select name="recCateg" id="recCateg" class="categ-opt" onchange="this.form.submit()">
-                    <option value="" disabled selected>Category</option>
-                    <option value="Luzon">Luzon</option>
-                    <option value="Visayas">Visayas</option>
-                    <option value="Mindanao">Mindanao</option>
-                    <option value="Popular">Popular</option>
-                </select>
-
-                
-                <select name="recTimeInp" id="recTimeInp" class="categ-opt" onchange="this.form.submit()">
-                    <option value="" disabled selected>Cooking Time</option>
-                    <option value="30">Less than 30 minutes</option>
-                    <option value="31">Between 30 minutes to 1 hour</option>
-                    <option value="1 hr and 30 minutes">Between 1 hour to 1 hour and 30 minutes</option>
-                    <option value="1 hr and 31 minutes">More than 2 hours</option>
-                </select>
-
-                
-                <select name="recCal" id="recCal" class="categ-opt" onchange="this.form.submit()">
-                    <option value="" disabled selected>Calorie</option>
-                    <option value="400">Less than 400 calories</option>
-                    <option value="800">Between 401 calories to 800 calories</option>
-                    <option value="801">Between 801 calories to 1200 calories</option>
-                    <option value="1201">More than 1200 calories</option>
-                </select> -->
         </form> 
     </div>
 
     <div class="box-container">
         <% if (recs.length > 0) { %>
-            <%#recs.forEach(rec => { %>
                 <table border="3">
                     <thead>
                         <th>Image</th>
                         <th>Name</th>
-                        <!-- <th>Description</th>
-                        <th>Process</th> -->
                         <th>Category</th>
                         <th>Time</th>
                         <th>Serving</th>
@@ -230,8 +188,6 @@
                         <th>Video</th>
                         <th>Calories</th>
                         <th>Meal Time</th>
-                        <!-- <th>Rate</th>
-                        <th>Ingredients</th> -->
                         <th>Actions</th>
                     </thead>
                     <tbody>
@@ -245,8 +201,6 @@
                                 <% } %>
                             </td>
                             <td><%= rec.rec_name %> </td>
-                            <!-- <td><%= rec.rec_desc %></td>
-                            <td><%= rec.rec_process %></td> -->
                             <td><%= rec.rec_categ %></td>
                             <td>
                                 <% if (rec.rec_time) { %>
@@ -270,20 +224,6 @@
                                 <% } %>
                             </td>
                             <td><%= rec.rec_mealTime %></td>
-                            <!-- <td>
-                                <% if (rec.rec_rate) { %>
-                                    <%= rec.rec_rate %>
-                                <% } %>
-                            </td> -->
-                            <!-- ing -->
-                            <!-- <% if (i < recIngs.length) { %>
-                                <% ingArr = recIngs[i].split("/") %> 
-                                <td>
-                                <% for( let index = 0; index < ingArr.length; index++ ) { %>
-                                    <%= ingArr[index]%><br> 
-                                <% } %> 
-                                </td>
-                            <% i++; } %>  -->
                             <!-- actions -->
                             <td>
                                 <a href="/admin/recipes/<%= rec.rec_id %>" class="recview-btn">View Recipe</a>
@@ -294,7 +234,6 @@
                         <%}) %>
                     </tbody>
                 </table>
-            <%# }) %>
         <% } else { %>
             <p class="empty">No recipes found.</p>
             <% } %>

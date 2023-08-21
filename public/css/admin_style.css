@@ -52,7 +52,6 @@ html{
 
 body{
    background-color: var(--light-bg);
-   /* padding-bottom: 7rem; */
 }
 
 section{
@@ -776,20 +775,6 @@ section{
    z-index: 2;
 }
 
-/* .categ-opt{
-   align-items: center;
-   border: 2px solid var(--green);
-   border-radius: 20px;
-   background-color: transparent;
-   color: var(--black);
-   padding: 1em;
-   font-weight: 600;
-   font-size: 1em;
-   line-height: 5px; 
-   text-transform: uppercase;
-   letter-spacing: 1px;
-} */
-
 .select-box {
    position: relative;
    display: block;
@@ -816,11 +801,6 @@ section{
    cursor: pointer;
  }
 
- /* .select-box__current:focus .select-box__icon {
-   -webkit-transform: translateY(-50%) rotate(180deg);
-           transform: translateY(-50%) rotate(180deg);
- } */
-
  .select-box__icon {
    position: absolute;
    top: 50%;
@@ -829,7 +809,6 @@ section{
            transform: translateY(-50%);
    width: 15px;
    opacity: 0.3;
-   /* transition: 0.2s ease; */
  }
 
  .select-box__value {
@@ -845,7 +824,6 @@ section{
  }
 
  .select-box__input-text {
-   /* display: none; */
    width: 100%;
    margin: 0;
    padding: 15px;
@@ -858,16 +836,6 @@ section{
    padding: 0;
    list-style: none;
    opacity: 0;
-   /* -webkit-animation-name: HideList;
-           animation-name: HideList;
-   -webkit-animation-duration: 0.5s;
-           animation-duration: 0.5s;
-   -webkit-animation-delay: 0.5s;
-           animation-delay: 0.5s;
-   -webkit-animation-fill-mode: forwards;
-           animation-fill-mode: forwards;
-   -webkit-animation-timing-function: step-start;
-           animation-timing-function: step-start; */
    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
  }
 

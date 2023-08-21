@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="icon" href="/images/logo/logo-recipinoy.png" type="image/icon type">
     
-     <!-- para sa input ng ing -->
+     <!-- for ing input -->
      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -22,12 +22,6 @@
     <title><%= title %> </title>
 </head>
 <body>
-        <!-- loader -->
-        <!-- <div class="loader">
-            <img src="/images/loader.gif" alt="">
-        </div> -->
-    <!-- user header -->
-    <%#- include('./partials/guestNav'); %>
     <%- include('./partials/userNav'); %>
 
     <div class ="recipeResults">
@@ -56,7 +50,6 @@
                         <div id="ingDiv" style="text-align: center;">
                             <ul id="ingCont">
                                 <% for( let index = 0; index < ings.length; index++ ) { %>
-                                    <!-- mukhang button to dapat yung li since clickable sya -->
                                     <li name="ingLi[]" onclick="removeIng(this)"><%= ings[index] %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="color:red;">X</b></li> 
                                     <input type="hidden" name="ings[]" id="ing<%= index+1 %>" value="<%= ings[index] %>">
                                     <input type="hidden" name="ingNum" id="ingNum" value="<%= index+1 %>">
@@ -96,7 +89,6 @@
                         <div id="exIngDiv" style="text-align: center;">
                             <ul id="exIngCont">
                                 <% for( let index = 0; index < exIngs.length; index++ ) { %>
-                                    <!-- mukhang button to dapat yung li since clickable sya -->
                                     <% if (exIngs[index]) { %>
                                        <li name="exIngLi[]" onclick="removeExIng(this)"><%= exIngs[index] %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="color:red;">X</b></li> 
                                        <input type="hidden" name="exIng[]" id="exIng<%= index+1 %>" value="<%= exIngs[index] %>">
@@ -134,9 +126,7 @@
     <br>
     <h5>Recommended Recipes</h5>
         <div class="usr-container">
-                <%# let count = 10; %> 
                 <% for( let index = 0; index < recId.length; index++ ) { %>
-                    <%# if (index < count) { %>
                         <div class="result-card">
                             <div class="box-card">
                             <!-- img -->
@@ -169,8 +159,6 @@
                             </div>
                             </div>
                         </div>
-                    <%# } %>
-
                 <% } %>
         </div>
     </div>
@@ -183,7 +171,7 @@
         
         let deletedIng = [];
         let deletedExIng = [];
-        $(document).ready(function() {   //https://github.com/ashwanibakshi/autocompletesearch
+        $(document).ready(function() {   
             $(".ingsInp").autocomplete({  
             source:function(req,res){
                 $.ajax({
@@ -223,10 +211,6 @@
                 form.style.display = "none";
             }
         }
-
-
-        // console.log(tempExIng);
-        // console.log(tempIng);
 
         function add() {
             let tempIng = [];

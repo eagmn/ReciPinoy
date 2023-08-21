@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <link rel="icon" href="/images/logo/logo-recipinoy.png" type="image/icon type">
 
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-
-    <!-- custom css file link  -->
-    <!-- <link rel="stylesheet" href="/public/css/style.css"> -->
 
     <!-- bootstrap for modal -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -36,7 +32,6 @@
 
     <!-- header -->
     <%- include('./partials/userNav'); %>
-    <%#- include('./partials/guestNav'); %>
  
     <div class="userRecipeView">
         <!-- back button -->
@@ -62,8 +57,7 @@
                                 <% rating = Math.round(rating)%> 
                                 <%= rating%>
                                 <span class="str"></span>
-                            </div>  <!-- hindi ko sya magawang star HAJDKAJKDAJKKJDKJ [eka] 
-                                                                lagyan ng star icon smth [euni]-->
+                            </div>  
                         <% } else { %>
                             <span>This recipe hasn't been rated.</span>
                         <% } %>
@@ -118,7 +112,6 @@
                                         <p class="mp-mdl">Choose Day & Meal Time</p>
                                         <form action="/mealPlan" method="post"> 
                                             <input type="text" class="mp-date" name="datetimes" />
-                                                <!-- <label for="recMTime" class="addRecLabel">Meal Time: </label> -->
                                             <div class="meal-time">
                                                 <div class="box-mtime">
                                                     <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
@@ -149,11 +142,9 @@
                 </div>
 
                 <!-- recipe source -->
-                <!-- <div class="rec-src"> -->
                 <a href="<%= saved.rec_src %>" class="r-source">
                     <span class="src">This recipe was excepted from this source.</span>
                 </a>
-                <!-- </div> -->
             </div>
         </div>
 
@@ -279,7 +270,6 @@
                     </div>
                     <% if (isRated) { %>
                         <label class="rated-lbl">You've rated this recipe already!</label>
-                        <!-- <br><br><button type="submit" disabled>Submit Rating!</button> -->
                     <% } else { %>
                         <input type="hidden" name="ratingCount" value="<%= saved.rec_rateCount %>">
                         <input type="hidden" name="recRating" id="recRating" value="<%= saved.rec_rate %>">
@@ -419,7 +409,6 @@
                 }else{
                     star.classList.add('rated');
                 }
-                //are we currently looking at the span that was clicked
                 if(star === span){
                     match = true;
                     num = index + 1;
@@ -427,15 +416,12 @@
             });
             let currentRating = document.getElementById('recRating').value;
             if ((parseInt(currentRating)) != 0) {
-                // newRating = (num + parseInt(currentRating))/2;
                 newRating = (num + parseInt(currentRating));
-                // newRating = Math.round(newRating);
                 document.getElementById('userRate').value = newRating.toString();                
                 document.querySelector('.stars').setAttribute('data-rating', num);
             }
             else{
                 newRating = (num + parseInt(currentRating));
-                // newRating = Math.round(newRating);
                 document.getElementById('userRate').value = newRating.toString();
                 document.querySelector('.stars').setAttribute('data-rating', num);
             }
@@ -469,8 +455,6 @@
                 });
             }
             
-
-            //$('#gList').val(JSON.stringify(ingsArr));
         }
 
         function addGrocery() {
@@ -549,7 +533,6 @@
         if(cls){
                     //close the modal
         cls.onclick = function() {
-            // $("#cont").empty();
             mealModal.style.display = "none";
         }
         }
@@ -574,16 +557,11 @@
         var el = this;
         setTimeout(function(){
             el.style.cssText = 'height:auto; padding:0';
-            // for box-sizing other than "content-box" use:
-            // el.style.cssText = '-moz-box-sizing:content-box';
             el.style.cssText = 'height:' + el.scrollHeight + 'px';
         },0);
         }
 
     </script>
-<!-- <div class="loader">
-    <img src="/images/loader.gif" alt="">
-</div> -->
 
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 

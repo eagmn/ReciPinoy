@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <link rel="icon" href="/images/logo/logo-recipinoy.png" type="image/icon type">
 
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-
-    <!-- custom css file link  -->
-    <!-- <link rel="stylesheet" href="/public/css/style.css"> -->
 
     <!-- bootstrap for modal -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -36,30 +32,18 @@
 
     <!-- header -->
     <%- include('./partials/userNav'); %>
-    <%#- include('./partials/guestNav'); %>
  
     <div class="userRecipeView">
         <!-- back button -->
         <a class="back-btn" onclick="history.back()"><span class="rec-back">Back</span></a>
         <div class="saved-rec-view">
-            <!-- # image # -->
-            <!-- <div class="urv-img">
-                <%# if (saved.rec_img) { %>
-                    <img src="/images/<%#= saved.rec_img%>" alt="<%#= saved.rec_name %> Image" class="img-rec">
-                <%# } %>
-            </div> -->
-
             <div class="urv-grid">
                 <div class="urv-grid-header">
                     <div class="urv-title">
                         <p class="rec-name"><%= saved.rec_name %></p>
                     </div>
 
-                    <!-- # add to saved recipe # gawing delete--> 
                     <div class="urv-saved-btn">
-                        <!-- <form action="/saved/unsave/<%= saved.rec_id%>" method="post">
-                            <button type="submit" class="btnUnsave"></button>
-                        </form> -->
                         <a href="/saved/delete/<%= saved.rec_id %>" class="btnUnsave"></a>
                     </div>
                 </div>
@@ -76,7 +60,6 @@
                             <p class="tt-time">TOTAL TIME</p>
                             <span class="tot-time"><%= saved.rec_time %></span>
                         <% } else { %>
-                            <!-- <span class="calv">Total time is not available.</span> -->
                         <% } %> 
                     </div>
 
@@ -258,8 +241,6 @@
                 });
             }
             
-
-            //$('#gList').val(JSON.stringify(ingsArr));
         }
 
         function addGrocery() {
@@ -286,8 +267,6 @@
         var el = this;
             setTimeout(function(){
                 el.style.cssText = 'height:auto; padding:0';
-                // for box-sizing other than "content-box" use:
-                // el.style.cssText = '-moz-box-sizing:content-box';
                 el.style.cssText = 'height:' + el.scrollHeight + 'px';
             },0);
         }
@@ -442,7 +421,6 @@
         if(cls){
                     //close the modal
         cls.onclick = function() {
-            // $("#cont").empty();
             mealModal.style.display = "none";
         }
         }

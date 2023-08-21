@@ -43,8 +43,6 @@
         <thead>
             <th>Image</th>
             <th>Name</th>
-            <!-- <th>Description</th>
-            <th>Process</th> -->
             <th>Category</th>
             <th>Time</th>
             <th>Serving</th>
@@ -52,8 +50,6 @@
             <th>Video</th>
             <th>Calories</th>
             <th>Meal Time</th>
-            <!-- <th>Rate</th>
-            <th>Ingredients</th> -->
             <th>Actions</th>
         </thead>
         <tbody>
@@ -67,8 +63,6 @@
                     <% } %>
                 </td>
                 <td><%= rec.rec_name %> </td>
-                <!-- <td><%= rec.rec_desc %></td>
-                <td><%= rec.rec_process %></td> -->
                 <td><%= rec.rec_categ %></td>
                 <td>
                     <% if (rec.rec_time) { %>
@@ -92,20 +86,6 @@
                     <% } %>
                 </td>
                 <td><%= rec.rec_mealTime %></td>
-                <!-- <td>
-                    <% if (rec.rec_rate) { %>
-                        <%= rec.rec_rate %>
-                    <% } %>
-                </td> -->
-                <!-- ing -->
-                <!-- <% if (i < recIngs.length) { %>
-                    <% ingArr = recIngs[i].split("/") %> 
-                    <td>
-                    <% for( let index = 0; index < ingArr.length; index++ ) { %>
-                        <%= ingArr[index]%><br> 
-                    <% } %> 
-                    </td>
-                <% i++; } %>  -->
                 <!-- actions -->
                 <td>
                     <a href="/admin/recipes/<%= rec.rec_id %>" class="recview-btn">View Recipe</a>

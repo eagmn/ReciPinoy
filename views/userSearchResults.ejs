@@ -24,12 +24,6 @@
     <meta name="description" content="ReciPinoy: Selected Filipino Cuisines Recommender Web Application">
 </head>
 <body>
-      <!-- loader -->
-      <!-- <div class="loader">
-        <img src="/images/loader.gif" alt="">
-    </div> -->
-    <!-- guest dashboard section starts  -->
-    <%#- include('./partials/logoOnlyNav'); %>
     <%- include('./partials/userNav'); %>
 
     <div class="recipeResults">
@@ -48,7 +42,6 @@
         <!-- search form section ends -->
         <!-- search filter -->
         <div class="getFilter">
-            <!-- <span class="filter-title">Filter: </span> -->
             <form action="/search/filter" method="post" class="filter-cont">
 
                 <!-- dish type -->
@@ -56,7 +49,6 @@
                     <div class="select-box__current" tabindex="1">
                       <div class="select-box__value">
                         <label class="select-box__input-text">Dish Type</label>
-                        <!-- <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/> -->
                       </div>
                     </div>
                     
@@ -91,7 +83,6 @@
                     <div class="select-box__current" tabindex="1">
                       <div class="select-box__value">
                         <label class="select-box__input-text">Category</label>
-                        <!-- <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/> -->
                       </div>
                     </div>
                     <ul class="select-box__list">
@@ -128,7 +119,6 @@
                     <div class="select-box__current" tabindex="1">
                       <div class="select-box__value">
                         <label class="select-box__input-text">Cooking Time</label>
-                        <!-- <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/> -->
                       </div>
                     </div>
                     <ul class="select-box__list">
@@ -165,7 +155,6 @@
                     <div class="select-box__current" tabindex="1">
                       <div class="select-box__value">
                         <label class="select-box__input-text">Calorie</label>
-                        <!-- <img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/> -->
                       </div>
                     </div>
                     <ul class="select-box__list">
@@ -210,9 +199,7 @@
                         <form action="" method="post" class="box-card">
                             <!-- img -->
                             <div class="box-header">
-                                <!-- <a href="/recipes/<%= rec.rec_id%>"> -->
                                 <img src="/images/<%= rec.rec_image%>"  class="box-img" alt="<%= rec.rec_name %> Image">
-                                <!-- </a> -->
                             </div>
                             <!-- details -->
                             <div class="box-details">

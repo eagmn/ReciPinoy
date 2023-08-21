@@ -27,7 +27,6 @@ let transporter = nodemailer.createTransport({
     auth: {
         user: 'pvblcml@gmail.com',
         pass: 'zfaugmmgmahgwamg',
-        // pass: 'qcakxfyiwxpvpszp'
     }
 
 });
@@ -149,7 +148,6 @@ exports.getRegData = (req,res) => {
                             transporter.sendMail(mailOptions, (error, info) => {
                                 if (error) {
                                     console.log(error);
-                                    // conn.release();
                                 }
                                 else{
                                     conn.release();
@@ -325,7 +323,6 @@ exports.userVerified = async(req,res) => {
         else {
             req.flash('msg', 'Incorrect OTP! Please try again!');
             res.redirect('/verify');
-            //res.render('otpVerify', { title: 'Verify your email', msg: 'otp is incorrect'});
         }
     }
     catch(error){
@@ -369,7 +366,6 @@ exports.userSendPwdEmail = (req, res) => {
                             from: 'pvblcml@gmail.com',
                             to: userEmail,
                             subject: 'ReciPinoy Reset Password Link',
-                            // html: '<p>You requested for reset password, kindly use this <a href="http://localhost:3000/reset-password?token=' + token + '"><strong>link</strong></a> to reset your password</p>'
                             html: '<p>You requested for reset password, kindly use this <a href="https://recipinoy.onrender.com/reset-password?token=' + token + '"><strong>link</strong></a> to reset your password</p>'
                             
                         };
@@ -390,7 +386,6 @@ exports.userSendPwdEmail = (req, res) => {
                             else{
                                 conn.release();
                                 req.flash('msg', 'Email for password reset is sent!');
-                               // console.log('Reset password email is sent...\n');
                                 res.redirect('/');
                             }
                         })
@@ -419,8 +414,6 @@ exports.userUpdatePwd = (req, res) =>{
         let passwordConf = req.body.newPwdInpConf;
         if(password !== passwordConf){
             req.flash('msg', 'Passwords does not match!');
-            //alert('Passwords does not match');
-            // res.redirect('http://localhost:3000/reset-password?token=' + token + '');    
             res.redirect('https://recipinoy.onrender.com/reset-password?token=' + token + '');    
 
         }
@@ -446,7 +439,6 @@ exports.userUpdatePwd = (req, res) =>{
                                             conn.release();
                                         }
                                         else{
-                                            //console.log('password updated! \n');
                                             req.flash('msg', 'You can now login with your new password!');
                                             conn.release();
                                             res.redirect('/login');
@@ -610,7 +602,6 @@ exports.userRecipeView = (req, res) => {
                             let isRated = false;
                             let isSaved = false;
                             let isMeal = false;
-                            // let ratedArr = [];
                             if(session.userId){
                                 conn.query('SELECT user_ratedRecs, user_Saved, user_mealPlan FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                     if(err){
@@ -676,7 +667,6 @@ exports.UnsavedButton = (req, res) =>{
                         console.log('not deleted');
                         conn.release();
                         res.redirect('/recipes/' + id); 
-                        // conn.release();
                     }
                     else{
                         conn.query('DELETE FROM saved_recing WHERE rec_id =?', [id]);
@@ -778,11 +768,8 @@ pool.getConnection((err, conn) => {
                             const restrict = ing[index].ing_restrict;
                             const id = ing[index].ing_id;
                             if(aArr.length > 0){
-                                // console.log(allergy);
-                                // console.log(aArr);
                                 aArr.forEach(a => {
                                     if(a){
-                                        // console.log(a);
                                         if(allergy.includes(a)){
                                             idStr += id + '/';
                                         }
@@ -847,11 +834,7 @@ pool.getConnection((err, conn) => {
                             let idStr = '';
                             for (let index = 0; index < iid.length; index++) {
                                 const element = iid[index].ing_name;
-                                // if(element.trim() === ings.trim()){
-                                //     id = iid[index].ing_id;
-                                // }
                                 if((/\s/).test(element) || element.trim() === ings.trim()){
-                                    // console.log(element);
                                     let id = iid[index].ing_id;
                                     idArr.push(id);
                                 }
@@ -861,22 +844,10 @@ pool.getConnection((err, conn) => {
                             idStr = idArr.join('/');
                             console.log(idStr);
                             resolve(idStr);
-
-                            // let id;
-                            // for (let index = 0; index < iid.length; index++) {
-                            //     const element = iid[index].ing_name;
-                            //     if(element.trim() === ings.trim()){
-                            //         id = iid[index].ing_id;
-                            //     }  
-                            // }
-                            // resolve(id);
                         }
                     }
                     else{
                         resolve();
-                        // conn.release();
-                        // req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
-                        // res.redirect('/recommend');
                     }
                 })
             })
@@ -920,7 +891,6 @@ pool.getConnection((err, conn) => {
                         let categ = recs[0].rec_categ;
                         let rate = recs[0].rec_rate;
                         let count = recs[0].rec_rateCount;
-                        //console.log(id);
                         recName.push(name);
                         recId.push(id);
                         recImage.push(image);
@@ -937,9 +907,7 @@ pool.getConnection((err, conn) => {
             for(i of ings){
                 console.log(i);
                 const id = await getIngId(i);
-                // console.log(id);
                 if(id){
-                    // ingsId.push(id);
                     if(typeof id === 'string'){
                         let trmStr = id.split('/');
                         trmStr.forEach(element => {
@@ -1002,7 +970,7 @@ pool.getConnection((err, conn) => {
                         console.log('ids of restrict ing');
                         console.log(idFilter);
                         for (const i of idFilter) {
-                            const id = await getUserRecIds(i); //rec ids tht has the restriction and allergy ings
+                            const id = await getUserRecIds(i); //rec ids that has the restriction and allergy ings
                         }
                         
                         console.log('rec ids of id filter');
@@ -1076,37 +1044,19 @@ pool.getConnection((err, conn) => {
                                 let idStr = '';
                                 for (let index = 0; index < iid.length; index++) {
                                     const element = iid[index].ing_name;
-                                    // if(element.trim() === ings.trim()){
-                                    //     id = iid[index].ing_id;
-                                    // }
                                     if((/\s/).test(element) || element.trim() === id.trim()){
-                                        // console.log(element);
                                         let id = iid[index].ing_id;
                                         idArr.push(id);
                                     }
                                     
                                 }
-                                // console.log(idArr);
                                 idStr = idArr.join('/');
-                                // console.log(idStr);
                                 resolve(idStr);
                             }
                         }
                         else{
                             resolve();
-                            // conn.release();
-                            // req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
-                            // res.redirect('/recommend');
                         }
-                        // else if (iid[0]) {
-                        //     let id = iid[0].ing_id;
-                        //     resolve(id);
-                        // }
-                        // else{
-                        //     conn.release();
-                        //     req.flash('msg', 'There is an invalid ingredient! Look for misspelled word and try again!');
-                        //     res.redirect('/recommend');
-                        // }
                     })
                 })
             }
@@ -1121,7 +1071,6 @@ pool.getConnection((err, conn) => {
                                 const element = recs[index].recId;
                                 rIds.push(element);
                             }
-                            //let r = recs[0].recId;
                             resolve();
                         }
                         else{
@@ -1138,7 +1087,6 @@ pool.getConnection((err, conn) => {
                     if(ex){
                         let exids = await getExIngsId(ex);
                         if(exids){
-                            // console.log(exids);
                             if(typeof exids === 'string'){
                                 let trmStr = exids.split('/');
                                 trmStr.forEach(element => {
@@ -1163,10 +1111,8 @@ pool.getConnection((err, conn) => {
                 //query to get ing id for inputted ings
                 let ings = recomm.getIngs();
                 for(i of ings){
-                    // console.log(i);
                     const id = await getIngId(i);
                     if(id){
-                        // ingsId.push(id);
                         if(typeof id === 'string'){
                             let trmStr = id.split('/');
                             trmStr.forEach(element => {
@@ -1177,13 +1123,11 @@ pool.getConnection((err, conn) => {
                             ingsId.push(id);
                         }
                     }
-                    // ingsId.push(id);
                 }
                 console.log('ingsId in ifexing: ', ingsId); //ing id of included ings
 
                 for (const i of ingsId) {
                     let r = await getFinalRecIds(i);
-                    //recTempIds.push(r);
                 }
                 console.log(rIds); // rec ids of included ings
                 for (let index = 0; index < recIds.length; index++) {
@@ -1197,20 +1141,6 @@ pool.getConnection((err, conn) => {
                     }
                     
                 }
-
-                // toFindDuplicates(rIds);
-                // let cVal = Object.values(counts);
-                // let mx = Math.max(...cVal);
-                
-                // for (let index = mx; index > 0; --index) {
-                //     let matched = Object.keys(counts).filter(function(key) {
-                //         return counts[key] === index;
-                //     });
-                //     matched.forEach(m => {
-                //         let pint = parseInt(m);
-                //         finalRids.push(pint);
-                //     });
-                // }
 
                 toFindDuplicates(rIds);
                 let cVal = Object.values(counts);
@@ -1256,7 +1186,7 @@ pool.getConnection((err, conn) => {
                             console.log('ids of restrict ing');
                             console.log(idFilter);
                             for (const i of idFilter) {
-                                const id = await getUserRecIds(i); //rec ids tht has the restriction and allergy ings
+                                const id = await getUserRecIds(i); //rec ids that has the restriction and allergy ings
                             }
                             
                             console.log('rec ids of id filter');
@@ -1451,7 +1381,6 @@ exports.userSaveRec = (req, res) =>{
                                     conn.release();
                                 }
                                 else{
-                                    // console.log(rec_id);
                                     conn.query('INSERT INTO saved(user_id, rec_id, rec_name, rec_desc, rec_process, rec_categ, rec_time, rec_serving, rec_src, rec_vid, rec_cal, rec_mealTime, rec_img, rec_rate, rec_rateCount) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?)', [userid, id, name, desc, pr, categ, time, serving, src, vid, cal, mealTime, img, rate, rateCount], (err, row) => {
                                         if(err){
                                             console.log(err);
@@ -1618,7 +1547,6 @@ exports.userSavedRView = (req, res) => {
                             let isRated = false;
                             let isSaved = false;
                             let isMeal = false;
-                            // let ratedArr = [];
                             if(session.userId){
                                 conn.query('SELECT user_ratedRecs, user_Saved, user_mealPlan FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                     if(err){
@@ -1680,7 +1608,6 @@ exports.userSavedEdit = (req, res) => {
                         conn.release();  
                     }
                     else{
-                        //console.log(row);
                         conn.query('SELECT saved_recing.*, ing_name FROM `saved_recing` INNER JOIN ing ON saved_recing.ingId=ing.ing_id WHERE rec_id = ?',[rId], (err, ingRow) =>{
                             if(err){
                                 console.log(err, '\n');
@@ -1839,7 +1766,6 @@ exports.userSavedDelete = (req, res) => {
                     }
                     else{
                         conn.query('DELETE FROM saved_recing WHERE rec_id =?', [id]);
-                        //conn.query('DELETE user_Saved FROM user WHERE rec_id LIKE ?', [id]);
                         conn.query('SELECT user_Saved FROM users WHERE user_id = ?', [session.userId], (err, saved) => {
                             if(err){
                                 console.log(err);
@@ -2206,10 +2132,8 @@ exports.addGrocery = (req,res) => {
                                 ingStringArr.push(temp.trim());
                             });
                             
-                            // conn.release();
                             console.log('arr: ', ingStringArr);
                             ingStringArr.forEach(g => {
-                                // console.log(g);
                                 gListStr += g + '/';
                             });
                             resolve(gListStr);
@@ -2233,7 +2157,6 @@ exports.addGrocery = (req,res) => {
                             res.redirect('/mealPlan');
                         }
                         if(recId){
-                            // res.redirect('/recipes/' + recId);
                             res.redirect('back');
                         }
                         
@@ -2784,7 +2707,6 @@ exports.mealPlan = (req, res) =>{
                                         res.redirect('/recipes/' + id); 
                                     }
                                     })
-                                    // conn.release();
                                 }
                             })
 
@@ -3180,7 +3102,6 @@ exports.mealPlanRecView = (req, res) => {
                             session = req.session;
                             let isRated = false;
                             let isSaved = false;
-                            // let ratedArr = [];
                             if(session.userId){
                                 conn.query('SELECT user_ratedRecs, user_Saved, user_mealPlan FROM users WHERE user_id = ?', [session.userId], (err, rated) => {
                                     if(err){
@@ -3238,10 +3159,8 @@ exports.mealPlanRecDelete = (req, res) => {
                         console.log('not deleted');
                         conn.release();
                         res.redirect('/mealplan'); 
-                        // conn.release();
                     }
                     else{
-                        //conn.query('DELETE user_mealPlan FROM user WHERE rec_id LIKE ?', [id]);
                         conn.query('SELECT user_mealPlan FROM users WHERE user_id = ?', [session.userId], (err, mealPlan) => {
                             if(err){
                                 console.log(err);
@@ -3619,18 +3538,15 @@ exports.mealPlanPastBut = (req, res) => {
                     console.log(first);
                     let startDate = new Date(curr.setDate(first));
                     console.log(startDate);
-                    //startDate = ""+startDate.getFullYear()+"/"+ (startDate.getMonth() + 1) + "/" + startDate.getDate() 
                     startDate = ""+startDate.getDate();
                     
                     return startDate;
-                   //alert(startDate+" ,   "+endDate)
                 };
                 function getLastDay(){
                     let curr = new Date; // get current date
                     let first = curr.getDate() - curr.getDay()-12; // First day is the day of the month - the day of the week
                     let last = first + 5; // last day is the first day + 5
                     let endDate = new Date(curr.setDate(last));
-                    //endDate = "" + (endDate.getMonth() + 1) + "/" + endDate.getDate() + "/" + endDate.getFullYear();
                     endDate = ""+endDate.getDate();
                     return endDate;
                 }
@@ -4203,7 +4119,6 @@ exports.mealPlanEditButton = (req, res) => {
                                 res.redirect('/mealPlan/' + id); 
                             }
                             })
-                            // conn.release();
                         }
                     })
                 }
@@ -4230,7 +4145,6 @@ exports.userSearchSaveUnsaved = (req, res) =>{
                         console.log('not deleted');
                         conn.release();
                         res.redirect('/recipes/' + id); 
-                        // conn.release();
                     }
                     else{
                         conn.query('DELETE FROM saved_recing WHERE rec_id =?', [id]);
@@ -4288,7 +4202,6 @@ exports.userSearchSave = (req, res) =>{
                 let mealTime = req.body.recMealtime;
                 let img = req.body.recImg;
                 let rate = req.body.recRate;
-                // console.log(rec_id);
                 if(err){
                     console.log(err);
                     conn.release();
@@ -4311,7 +4224,6 @@ exports.userSearchSave = (req, res) =>{
                                     conn.release();
                                 }
                                 else{
-                                    // console.log(rec_id);
                                     conn.query('INSERT INTO saved(user_id, rec_id, rec_name, rec_desc, rec_process, rec_categ, rec_time, rec_serving, rec_src, rec_vid, rec_cal, rec_mealTime, rec_img, rec_rate) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [userid, id, name, desc, pr, categ, time, serving, src, vid, cal, mealTime, img, rate], (err, row) => {
                                         if(err){
                                             console.log(err);
@@ -4610,10 +4522,6 @@ exports.getCreatedRec = (req, res) => {
                             }
                             let msg = req.flash('msg');
                             session = req.session;
-                            // let isRated = false;
-                            // let isSaved = false;
-                            // let isMeal = false;
-                            // let ratedArr = [];
                             if(session.userId){
                             conn.release();
                             res.render('savedCreateRecView', { save: save, recIngs: recIngs, ins: insArr, quantArr: quantArr, msg, id: session.userId});
@@ -4921,8 +4829,6 @@ exports.generatemealPlan = (req,res) => {
                                 const restrict = ing[index].ing_restrict;
                                 const id = ing[index].ing_id;
                                 if(aArr.length > 0){
-                                    // console.log(allergy);
-                                    // console.log(aArr);
                                     aArr.forEach(a => {
                                         if(a){
                                             console.log(a);
@@ -5113,7 +5019,7 @@ exports.generatemealPlan = (req,res) => {
                     console.log('ids of restrict ing');
                     console.log(idFilter);
                     for (const i of idFilter) {
-                        const id = await getUserRecIds(i); //rec ids tht has the restriction and allergy ings
+                        const id = await getUserRecIds(i); //rec ids that has the restriction and allergy ings
                     }
 
                     console.log('rec ids of id filter');

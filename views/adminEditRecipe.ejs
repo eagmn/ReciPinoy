@@ -48,28 +48,6 @@
             <input type="text" name="recCalInp" id="recCalInp" placeholder="calorific value" maxlength="10" class="servingbox" value="<%= r.rec_cal%>"><br><br>
         <label for="recMTime" class="addRecLabel">Meal Time: </label>
             <input type="text" name="recMTimeInp" id="recMTimeInp" value="<%= r.rec_mealTime%>" class="timebox"><br>
-            <%# if (r.rec_cal == 'Breakfast') { %>
-                <!-- <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast" checked>
-                <label for="mtBreakfast">Breakfast</label>
-                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
-                <label for="mtLunch">Lunch</label>
-                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
-                <label for="mtDinner">Dinner</label><br><br> -->
-            <%#} else if (r.rec_cal == 'Lunch') { %>
-                <!-- <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
-                <label for="mtBreakfast">Breakfast</label>
-                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch" checked>
-                <label for="mtLunch">Lunch</label>
-                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
-                <label for="mtDinner">Dinner</label><br><br> -->
-            <%#} else { %>
-                <!-- <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
-                <label for="mtBreakfast">Breakfast</label>
-                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
-                <label for="mtLunch">Lunch</label>
-                <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner" checked>
-                <label for="mtDinner">Dinner</label><br><br> -->
-            <%# } %> 
         <label for="recImageLbl" class="addRecLabel">Image: </label>
             <input type="file" name="recImgInp" required accept="image/jpg, image/jpeg, image/png, image/webp" class="mediumbox"><br><br>
         <% }) %>
@@ -150,23 +128,6 @@
 
             $('#ingNum').val(newIngNum);    
         }
-        // function checkQuant(q) {
-
-        //     if(typeof q == 'number' && !isNaN(q)){
-
-        //         if (Number.isInteger(q)) {
-        //             return true;
-        //         }
-        //         else {
-        //             return true;
-        //         }
-        //     } 
-        //     else {
-        //         // //console.log(`${x} is not a number`);
-        //         // alert('invalid quantity!!');
-        //         return false;
-        //     }
-        // }
     </script>
 </body>
 </html>

@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 
-    <!-- para sa input ng ing -->
+    <!-- for ing input -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -27,12 +27,7 @@
     <title><%= title %> </title>
 </head>
 <body>
-        <!-- loader -->
-        <!-- <div class="loader">
-            <img src="/images/loader.gif" alt="">
-        </div> -->
-    <!-- user header -->
-    <%#- include('./partials/guestNav'); %>
+
     <%- include('./partials/userNav'); %>
 
     <div class="userMealPlan">
@@ -58,9 +53,7 @@
 
             <!-- recipe card -->
             <div class="mp-slider owl-carousel">
-                <%# let count = 10; %> 
                 <% for( let index = 0; index < brecId.length; index++ ) { %>
-                    <%# if (index < count) { %>
                         <div class="mp-card">
                             <div class="card-cont">
                                 <div class="mp-header">
@@ -94,9 +87,7 @@
                                 </div>
                             </div>
                         </div>
-                    <%# } %>
                 <% } %>
-                <!--<%# } %>-->
             </div>
 
             <!-- day headers: monday, tues -->
@@ -104,9 +95,7 @@
 
             <!-- recipe card -->
             <div class="mp-slider owl-carousel">
-                <%# let count = 10; %> 
                 <% for( let index = 0; index < lrecId.length; index++ ) { %>
-                    <%# if (index < count) { %>
                         <div class="mp-card">
                             <div class="card-cont">
                                 <div class="mp-header">
@@ -140,9 +129,7 @@
                                 </div>
                             </div>
                         </div>
-                    <%# } %>
                 <% } %>
-                <!--<%# } %>-->
             </div>
 
             <!-- day headers: monday, tues -->
@@ -150,9 +137,7 @@
 
             <!-- recipe card -->
             <div class="mp-slider owl-carousel">
-                <%# let count = 10; %> 
                 <% for( let index = 0; index < drecId.length; index++ ) { %>
-                    <%# if (index < count) { %>
                         <div class="mp-card">
                             <div class="card-cont">
                                 <div class="mp-header">
@@ -186,9 +171,7 @@
                                 </div>
                             </div>
                         </div>
-                    <%# } %>
                 <% } %>
-            <!---<%# } %>-->
             </div>
         </div>
     </div>

@@ -86,37 +86,12 @@
                 <div class="edit-cont">
                     <label for="recMTime" class="addRecLbl">Meal Time: </label>
                     <input type="text" name="recMTimeInp" id="recMTimeInp" value="<%= saved.rec_mealTime%>" class="box" readonly>
-                    <%# if (r.rec_cal == 'Breakfast') { %>
-                        <!-- <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast" checked>
-                        <label for="mtBreakfast">Breakfast</label>
-                        <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
-                        <label for="mtLunch">Lunch</label>
-                        <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
-                        <label for="mtDinner">Dinner</label><br><br> -->
-                    <%#} else if (r.rec_cal == 'Lunch') { %>
-                        <!-- <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
-                        <label for="mtBreakfast">Breakfast</label>
-                        <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch" checked>
-                        <label for="mtLunch">Lunch</label>
-                        <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner">
-                        <label for="mtDinner">Dinner</label><br><br> -->
-                    <%#} else { %>
-                        <!-- <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Breakfast">
-                        <label for="mtBreakfast">Breakfast</label>
-                        <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Lunch">
-                        <label for="mtLunch">Lunch</label>
-                        <input type="checkbox" id="recMTimeInp" name="recMTimeInp" value="Dinner" checked>
-                        <label for="mtDinner">Dinner</label><br><br> -->
-                    <%# } %> 
                 </div>
 
                 <!-- recipe image -->
                 <div class="edit-cont">
                     <label for="recImageLbl" class="addRecLbl">Image: </label>
                     <input type="file" name="recImgInp" required accept="image/jpg, image/jpeg, image/png, image/webp" class="box">
-                    <!-- <% if (saved.rec_img) { %>
-                        <img src="/images/<%= saved.rec_img%>" alt="<%= saved.rec_name %> Image" class="img-rec">
-                    <% } %><br><br> -->
                 </div>
                 <% }) %>
 
@@ -159,9 +134,6 @@
             </div>
         </form>
     </div>    
-<!-- <div class="loader">
-    <img src="/images/loader.gif" alt="">
-</div> -->
 
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 

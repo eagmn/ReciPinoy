@@ -29,15 +29,8 @@ app.use(fileUpload());
 app.use(flash());
 app.set('view engine', 'ejs');
 
-
 const routes = require('./server/routes/route');
 
-// const adminRoutes = require('./server/routes/adminRouter');
-
-// app.use('/', routes);
-// app.use('/admin', adminRoutes);
-
-// bagong insert
 const logger = (req, res, next) => {
     const method = req.method;
     const url = req.url;
@@ -47,11 +40,6 @@ const logger = (req, res, next) => {
   
 }
 app.use('/', logger, routes);
-
-// app.use((req, res, next) => {
-//     res.setHeader('Cache-Control', 'no-cache');
-//     next();
-// });
 
 app.listen(port, () =>{
     console.log(`Listening on port ${port}...`);

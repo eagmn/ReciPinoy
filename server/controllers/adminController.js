@@ -32,8 +32,6 @@ exports.getAdminData = (req, res) => {
                 let admin = new User.AdminLogin;
                 admin.email = req.body.adminEmailInp;
                 admin.password = req.body.adminPasswordInp;
-                //let email = req.body.adminEmailInp;
-                //let password = req.body.adminPasswordInp;
                 conn.query('SELECT * FROM admins WHERE admin_email = ?', [admin.getLoginEmail()], (err, result) =>{
                     
                     if(err){
@@ -54,9 +52,7 @@ exports.getAdminData = (req, res) => {
 
                                 }
                                 else{
-                                    // res.send({ message: 'invalid credentials!!!'});
                                     req.flash('msg', 'Invalid credentials!')
-                                    //console.log('Invalid credentials!\n');
                                     conn.release();
                                     res.redirect('/admin');
                                 }
@@ -122,7 +118,6 @@ exports.adminLogout = (req, res) => {
             req.session.destroy();
             console.log('session admin destroy');
             console.log(req.session, '\n');
-            //conn.destroy();
             res.redirect('/');
             
         }
@@ -427,7 +422,6 @@ exports.updateIng = (req,res) =>{
                 }
             })
         }
-        // conn.release();
         req.flash('msg', 'New recipe added!');
         res.redirect('/admin/recipes'); 
 
@@ -482,11 +476,9 @@ exports.adminRecipeDelete = (req, res) => {
                 let rId = req.params.id;
                 conn.query('DELETE rec, recing FROM recing INNER JOIN rec WHERE recing.recId=rec.rec_id AND recing.recId = ?', [rId], (err, result) => {
                     if(err){
-                        // console.log('not deleted');
                         req.flash('msg', 'recipe deletion failed!')
                         conn.release();
                         res.redirect('/admin/recipes'); 
-                        // conn.release();
                     }
                     else{
                         conn.release();
@@ -525,7 +517,6 @@ exports.adminRecipeEdit = (req, res) => {
                             conn.release();  
                         }
                         else{
-                            //console.log(row);
                             conn.query('SELECT recing.*, ing_name FROM `recing` INNER JOIN ing ON recing.ingId=ing.ing_id WHERE recing.recId = ?',[rId], (err, ingRow) =>{
                                 if(err){
                                     console.log(err, '\n');
@@ -534,7 +525,6 @@ exports.adminRecipeEdit = (req, res) => {
                                 else{
                                     conn.release();
                                     res.render('adminEditRecipe', {title: 'Edit Recipe', rec: row, ing: ingRow});
-                                    // conn.release();  
                                 }
                             })
                            
@@ -752,8 +742,6 @@ exports.adminSearch = (req, res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Search Results', recs: result, recIngs: recIngs});
                             }
                             getAllRecIng(result);
@@ -822,7 +810,6 @@ exports.adminRecipeView = (req,res) => {
                                                     ingStringArr.push(temp);
                                                 });
                                                 ingStr = ingStringArr.join('/');
-                                                //tempArr.push(ingStr);
                                                 ingStringArr = []; 
                                                 resolve(ingStr);
                                             }
@@ -834,7 +821,6 @@ exports.adminRecipeView = (req,res) => {
                                     ingStr = await getIngs(id.rec_id);
                                     recIngs.push(ingStr);
                                 }
-                                //console.log(recIngs);
                                 conn.release();
                                 res.render('adminRecipeView', { title: recs.rec_name, recs: recs, recIngs: recIngs});
                             }
@@ -939,8 +925,6 @@ exports.getFilter = (req,res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
                             }
                             getAllRecIng(filter);
@@ -1000,8 +984,6 @@ exports.getFilter = (req,res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
                             }
                             getAllRecIng(filter);
@@ -1061,8 +1043,6 @@ exports.getFilter = (req,res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
                             }
                             getAllRecIng(filter);
@@ -1122,8 +1102,6 @@ exports.getFilter = (req,res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
                             }
                             getAllRecIng(filter);
@@ -1185,8 +1163,6 @@ exports.getFilter = (req,res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
                             }
                             getAllRecIng(filter);
@@ -1246,8 +1222,6 @@ exports.getFilter = (req,res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
                             }
                             getAllRecIng(filter);
@@ -1307,8 +1281,6 @@ exports.getFilter = (req,res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
                             }
                             getAllRecIng(filter);
@@ -1368,8 +1340,6 @@ exports.getFilter = (req,res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
                             }
                             getAllRecIng(filter);
@@ -1450,8 +1420,6 @@ exports.getFilter = (req,res) => {
                                     recIngs.push(ingStr);
                                 }
                                 conn.release();
-                                //let msg = req.flash('msg');
-                                //res.render('adminRecipe', { title: 'Recipes', recs: recs, recIngs: recIngs, msg});
                                 res.render('adminSearchResults', {title: 'Filter Results', recs: filter, recIngs: recIngs, id: session.userName});
                             }
                             getAllRecIng(filter);

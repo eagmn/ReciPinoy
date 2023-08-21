@@ -197,7 +197,6 @@ const deleteCache = async (key) => {
   
 const deleteOldCaches = async () => {
     const cacheKeepList = dyCache;
-    // const dyCacheKeepList = dyCache;      || !dyCacheKeepList.includes(key)
     const keyList = await caches.keys();
     const cachesToDelete = keyList.filter((key) => !cacheKeepList.includes(key));
     await Promise.all(cachesToDelete.map(deleteCache));
@@ -210,7 +209,6 @@ self.addEventListener("activate", (event) => {
 
 // -------------------------------------------------------------------- fetch
 self.addEventListener('fetch', (event) => {
-        // console.log('fetch', event);
     if (event.request.method !== "GET") {
         return;
     }

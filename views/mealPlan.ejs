@@ -30,11 +30,6 @@
     <title>Meal Plan</title>
 </head>
 <body>
-        <!-- loader -->
-        <!-- <div class="loader">
-            <img src="/images/loader.gif" alt="">
-        </div> -->
-
    <!-- message  -->
    <% if (msg != '') { %>
     <div class="message">
@@ -42,9 +37,7 @@
         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
     </div>
 <% } %>   
-   <!-- guest header -->
    <%- include('./partials/userNav'); %>
-   <%#- include('./partials/guestNav'); %>
 
         <div class="userMealPlan">
             <a href="/" class="back-btn"><span class="rec-back">Home</span></a>
@@ -53,18 +46,16 @@
                 <!-- header part -->
                 <div class="mp-header">
                     <span class="mp-title">Meal Plan</span>
-                    <!-- <p><%= title %></p> -->
-
                     <!-- plus button -->
                     <div class="plus-cont">
                         <div id="plus-btn" class="plus-btn"></div>
                     </div>
 
                     <!-- button option section -->
-                    <!-- yung whole part-->
+                    <!-- whole part-->
                     <div class="addfrom">
 
-                        <!-- yung bawat option -->
+                        <!-- each option -->
                         <div class="btn-flex">
                             <div class="userAdd">
                                 <!-- add recipes from saved recipe page -->
@@ -108,7 +99,6 @@
             <span class="meal-line"></span>
 
             <!-- week header -->
-            <!--id="weekViewInp" name="weekViewInp"-->
             <div class="weekly-title">
                 <div class="past-week">
                     <form action="/mealPlan/past" method="post">
@@ -541,7 +531,6 @@
 
         //close the modal
         cls.onclick = function() {
-            // searchModal.style.display = "none";
             document.getElementsByClassName('userSearch').style.display = "none";
         }
 
@@ -557,7 +546,6 @@
 
         document.querySelector('#plus-btn').onclick = () =>{
             addfrom.classList.toggle('active');
-            // navbar.classList.remove('active');
         }
 
         window.onscroll = () =>{
